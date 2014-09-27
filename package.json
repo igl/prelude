@@ -1,0 +1,11 @@
+{
+  "name": "prelude",
+  "version": "0.0.1",
+  "description": "Utility set for Javascript",
+  "author": "Richard Keil",
+  "main": "lib/prelude.js",
+  "license": "MIT",
+  "devDependencies": {
+    "LiveScript": "^1.2.0"
+  }
+}
