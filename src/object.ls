@@ -1,5 +1,7 @@
 'use strict'
 
+{ isType } = require 'prelude'
+
 # empty :: object -> boolean
 export empty = (obj) ->
     for x of object then return false
@@ -33,6 +35,32 @@ export partition = (f, object) -->
     for k, x of object
         (if f x then passed else failed)[k] = x
     [passed, failed]
+
+# mix :: object -> object -> object
+mix = (dest, src) ->
+    for key, val of src then
+        dest[key] = val
+    dest
+
+# deepMix :: object -> object -> object
+deepMix = (dest, src) ->
+    for key, val of src then
+        if (isType 'Object' dest[key]) and (isType 'Object' src[key])
+        then dest[key] = deepMix dest[key], src[key]
+        else dest[key] = val
+    dest
+
+# mixin :: object -> ...object -> object
+export mixin = (dest = {}, ...sources) ->
+    for src in sources then
+        mix dest, src
+    dest
+
+# mixin :: object -> ...object -> object
+export deepMixin = (dest = {}, ...sources) ->
+    for src in sources then
+        deepMix dest, src
+    dest
 
 # keyOf :: any -> object -> string
 export keyOf = (elem, obj) -->

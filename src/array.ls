@@ -1,6 +1,6 @@
 'use strict'
 
-_toString = Object.prototype.toString
+{ isType } = require 'prelude'
 
 # empty :: array -> boolean
 export empty = (xs) ->
@@ -47,7 +47,7 @@ export uniqueBy = (f, xs) -->
 export flatten = (xs) -->
     result = []
     for x in xs then
-        if (_toString.call x .slice 8, -1) is 'Array'
+        if isType 'Array', x
         then result.push flatten x
         else result.push x
     result
