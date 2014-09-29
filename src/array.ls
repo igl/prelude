@@ -1,6 +1,6 @@
 'use strict'
 
-{ isType } = require './prelude'
+{ isType } = require './type'
 { curry }  = require './func'
 
 # empty :: array -> boolean

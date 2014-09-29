@@ -78,3 +78,8 @@ Includes a lot of common helpers for primitive transformations and control flow.
 - apply
 - chain
 - tryCatch
+
+### Types
+
+- getType
+- isType

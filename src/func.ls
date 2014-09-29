@@ -1,6 +1,6 @@
 'use strict'
 
-{ isType } = require './prelude'
+{ isType } = require './type'
 
 cloneArray = (xs) -> [x for x in xs]
 
