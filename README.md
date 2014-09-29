@@ -31,7 +31,7 @@ Includes a lot of common helpers for primitive transformations and control flow.
 - camelize
 - dasherize
 
-### Lists
+### Arrays
 
 - empty
 - clone
