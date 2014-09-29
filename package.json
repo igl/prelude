@@ -1,11 +1,14 @@
 {
-  "name": "prelude",
+  "name": "prelude.js",
   "version": "0.0.1",
   "description": "Utility set for Javascript",
   "author": "Richard Keil",
-  "main": "lib/prelude.js",
+  "main": "dist/prelude.js",
   "license": "MIT",
   "devDependencies": {
-    "LiveScript": "^1.2.0"
+    "LiveScript": "^1.2.0",
+    "browserify": "^5.12.1",
+    "expect.js": "^0.3.1",
+    "mocha": "^1.21.4"
   }
 }
