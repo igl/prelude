@@ -10,10 +10,13 @@ MOCHA  = node_modules/".bin"/mocha
 BRSIFY = node_modules/".bin"/browserify
 MKDIRP = node_modules/".bin"/mkdirp
 
-SRC  = $(shell find src/ -maxdepth 1 -name "*.ls" -type f | sort)
+SRC  = $(shell find src -maxdepth 1 -name "*.ls" -type f | sort)
 DIST = $(SRC:src/%.ls=dist/%.js)
 
 build: dist browser $(DIST) browser/prelude.js
+
+install:
+	@npm install .
 
 dist:
 	$(MKDIRP) dist
@@ -35,4 +38,4 @@ dist/%.js: src/%.ls
 browser/%.js: dist/%.js
 	$(BRSIFY) -o "$@" -e "$<"
 
-.PHONY: build dist browser test clean
+.PHONY: install build dist browser test clean

@@ -1,7 +1,6 @@
 'use strict'
 
-{ isType } = require './type'
-
+# circular ugliness
 cloneArray = (xs) -> [x for x in xs]
 
 # applyNoContext :: function -> array
