@@ -1,10 +1,14 @@
 {
-  "name": "prelude.js",
+  "name": "prelude",
   "version": "0.0.1",
   "description": "Utility set for Javascript",
   "author": "Richard Keil",
   "main": "dist/prelude.js",
   "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:igl/prelude.js"
+  },
   "devDependencies": {
     "LiveScript": "^1.2.0",
     "browserify": "^5.12.1",
