@@ -1,5 +1,7 @@
 'use strict'
 
+{ curry }  = require './func'
+
 # repeat :: string -> string
 export repeat = curry (n, str) ->
     result = ''

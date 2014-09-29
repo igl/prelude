@@ -1,6 +1,7 @@
 'use strict'
 
 { isType } = require './prelude'
+{ curry }  = require './func'
 
 # empty :: object -> boolean
 export empty = (obj) ->

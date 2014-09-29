@@ -57,23 +57,25 @@ export curry = (n, fn) ->
 
     _curry []
 
-
 # chain :: ...function, function -> void
 export chain = (...fns, cb) !->
     link = (e, ...args) !->
         if e or (fns.length is 0)
         then cb ... &
         else
-            res = tryCatch (applyNoContext fns.shift!, (args ++ link))
-            if res instanceof Error
-            then cb res
+            try applyNoContext fns.shift!, (args ++ link)
+            catch then cb e
     # init chain & catch first possible error outside of link
     try fns.shift! link
     catch => cb e
 
-# Isolated try .. catch
+# Isolated try .. catch with callback interface
 # tryCatch :: function -> any
-export tryCatch = (fn, cb) ->
-    try fn!
+export tryCatch = (fn, cb) !->
+    err = null
+    res = null
+    try res := fn!
     catch e
-        if e instanceof Error then e else new Error e
+        err := if e instanceof Error then e else new Error e
+    if cb then cb err, res
+    err or res
