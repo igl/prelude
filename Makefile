@@ -12,21 +12,13 @@ UGLIFY = node_modules/'.bin'/uglifyjs
 MKDIRP = node_modules/".bin"/mkdirp
 
 SRC  = $(shell find src -maxdepth 1 -name "*.ls" -type f | sort)
-DIST = $(SRC:src/%.ls=dist/%.js)
-BREL = browser/prelude.js browser/prelude.min.js
+DIST = dist $(SRC:src/%.ls=dist/%.js)
+BREL = browser browser/prelude.js browser/prelude.min.js
 
-build: dist $(DIST) browser
+build: $(DIST) $(BREL)
 
 install:
 	@npm install .
-
-dist:
-	$(MKDIRP) dist
-
-browser:
-	$(MKDIRP) browser
-	$(BRSIFY) -r "./dist/prelude.js:prelude" > "browser/prelude.js"
-	$(UGLIFY) "browser/prelude.js" --mangle --comments "none" > "browser/prelude.min.js"
 
 test: build
 	@$(MOCHA) tests -u tdd -R spec -t 5000 --compilers ls:$(LS) -r "./test-runner.js" -c -S -b --recursive --check-leaks --inline-diffs
@@ -34,9 +26,18 @@ test: build
 clean:
 	@rm -rf dist
 	@rm -rf browser
-	@sleep .2
+	@sleep .1 # wait for editor to refresh the file tree.......
+
+.PHONY: build install test clean
+
+%:
+	@$(MKDIRP) $@
 
 dist/%.js: src/%.ls
 	$(LSC) --bare -o "$(shell dirname $@)" -c "$<"
 
-.PHONY: install build dist browser browser-minify test clean
+browser/%.js: dist/%.js
+	$(BRSIFY) -r "./$<:prelude" > "$@"
+
+browser/%.min.js: browser/%.js
+	$(UGLIFY) "./$<" --mangle --comments "none" > "$@"
