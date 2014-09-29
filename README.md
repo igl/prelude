@@ -1,5 +1,4 @@
-Prelude
--------
+#Prelude
 
 Utility set for <strike>Java</strike>ECMAScript.
 Includes a lot of common helpers for primitive transformations and control flow. Most functions are curried for a smooth integration with your API.
@@ -11,18 +10,13 @@ Includes a lot of common helpers for primitive transformations and control flow.
 <a href="https://github.com/codemix/fast.js">fast.fs</a>.
 - JS-orientated (does NOT includes abstractions for trivial things like head, tail, chars, now)
 
-# Install:
+### Install:
 
     npm install prelude
 
-# Method Index:
+### Method Index:
 
-### Commons
-
-- getType
-- isType
-
-### Strings
+**Strings** `prelude.string.<method>`
 
 - repeat
 - reverse
@@ -31,7 +25,7 @@ Includes a lot of common helpers for primitive transformations and control flow.
 - camelize
 - dasherize
 
-### Arrays
+**Arrays** `prelude.array.<method>`
 
 - empty
 - clone
@@ -55,7 +49,7 @@ Includes a lot of common helpers for primitive transformations and control flow.
 - findIndices
 - range
 
-### Objects
+**Objects** `prelude.object.<method>`
 
 - empty
 - clone
@@ -72,14 +66,14 @@ Includes a lot of common helpers for primitive transformations and control flow.
 - fromPairs
 - toPairs
 
-### Functions
+**Functions** `prelude.func.<method>`
 
 - curry
 - apply
 - chain
 - tryCatch
 
-### Types
+**Types** `prelude.type.<method>`
 
 - getType
 - isType

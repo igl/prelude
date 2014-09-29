@@ -62,9 +62,8 @@ export chain = (...fns, cb) !->
     link = (e, ...args) !->
         if e or (fns.length is 0)
         then cb ... &
-        else
-            try applyNoContext fns.shift!, (args ++ link)
-            catch then cb e
+        else try applyNoContext fns.shift!, (args ++ link)
+             catch => cb e
     # init chain & catch first possible error outside of link
     try fns.shift! link
     catch => cb e
