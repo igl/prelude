@@ -34,12 +34,6 @@ function applyWithContext (context, f, args)
     | 9 => f.call context, args[0], args[1], args[2], args[3], args[4], args[5], args[6], args[7], args[8]
     | _ => f.apply context, args
 
-# apply :: object -> function -> array
-export apply = (f, args, context) ->
-    if context?
-    then applyWithContext context, f, args
-    else applyNoContext f, args
-
 # curry :: function -> number? -> function
 export curry = (n, fn) ->
     if typeof n is 'function'
@@ -56,6 +50,12 @@ export curry = (n, fn) ->
             else applyNoContext fn, params
 
     _curry []
+
+# apply :: object -> function -> array
+export apply = curry 2 (f, args, context) ->
+    if context?
+    then applyWithContext context, f, args
+    else applyNoContext f, args
 
 # chain :: ...function, function -> void
 export chain = (...fns, cb) !->

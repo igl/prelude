@@ -50,7 +50,7 @@ Includes a lot of common helpers for primitive transformations and control flow.
 - sortBy
 - splitAt
 - indexOf
-- indexOf
+- IndicesOf
 - findIndex
 - findIndices
 - range
@@ -74,7 +74,7 @@ Includes a lot of common helpers for primitive transformations and control flow.
 
 ### Functions
 
-- apply
 - curry
+- apply
 - chain
 - tryCatch

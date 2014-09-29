@@ -126,7 +126,7 @@ export indexOf = curry (elem, xs) ->
         return i
     void
 
-# indexOf :: any -> array -> number
+# IndicesOf :: any -> array -> [number]
 export IndicesOf = curry (elem, xs) ->
     [i for x, i in xs when x is elem]
 
@@ -140,7 +140,7 @@ export findIndex = curry (f, xs) ->
 export findIndices = curry (f, xs) ->
     [i for x, i in xs when f x]
 
-# range :: number -> number -> number -> array
+# range :: number -> number -> number? -> array
 export range = curry 2 (a, b, inc = 1) ->
     if &.length is 1
         b = a or 0
