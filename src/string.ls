@@ -1,10 +1,9 @@
 'use strict'
 
 # repeat :: string -> string
-export repeat = (n, str) -->
+export repeat = curry (n, str) ->
     result = ''
-    for til n
-        result += str
+    for til n then result += str
     result
 
 # reverse :: string -> string
@@ -27,7 +26,12 @@ export camelize = (str) ->
 export dasherize = (str) ->
     str
         .replace /([^-A-Z])([A-Z]+)/g, (, lower, upper) ->
-            upper = if upper.length > 1 then upper else upper.to-lower-case!
+            upper =
+                if upper.length > 1
+                then upper
+                else upper.to-lower-case!
             lower + '-' + upper
         .replace /^([A-Z]+)/, (, upper) ->
-            if upper.length > 1 then "#upper-" else upper.to-lower-case!
+            if upper.length > 1
+            then upper + '-'
+            else upper.to-lower-case!

@@ -1,26 +1,30 @@
 'use strict'
 
-{ isType } = require 'prelude'
+{ isType } = require './prelude'
+{ curry }  = require './func'
 
 # empty :: array -> boolean
 export empty = (xs) ->
     xs.length is 0
 
+export clone = (xs) ->
+    [x for x in xs]
+
 # each :: function -> array -> array
-export each = (f, xs) -->
+export each = curry (f, xs) ->
     for x, i in xs then (f x, i)
     xs
 
 # map :: function -> array -> array
-export map = (f, list) -->
+export map = curry (f, xs) ->
     [f x, i for x, i in xs]
 
 # filter :: function -> array -> array
-export filter = (f, xs) -->
+export filter = curry (f, xs) ->
     [x for x, i in xs when f x, i]
 
 # partition :: function -> array -> [array, array]
-export partition = (f, xs) -->
+export partition = curry (f, xs) ->
     passed = []
     failed = []
     for x in xs then
@@ -35,7 +39,7 @@ export unique = (xs) ->
     result
 
 # uniqueBy :: function -> array -> array
-export uniqueBy = (f, xs) -->
+export uniqueBy = curry (f, xs) ->
     seen = []
     for x in xs then
         val = f x
@@ -44,7 +48,7 @@ export uniqueBy = (f, xs) -->
         x
 
 # flatten :: array -> array
-export flatten = (xs) -->
+export flatten = curry (xs) ->
     result = []
     for x in xs then
         if isType 'Array', x
@@ -80,7 +84,7 @@ export union = (...xss) ->
 
 
 # countBy :: function -> array -> array
-export countBy = (f, xs) -->
+export countBy = curry (f, xs) ->
     result = {}
     for x in xs
         key = f x
@@ -91,7 +95,7 @@ export countBy = (f, xs) -->
     result
 
 # groupBy :: function -> array -> object
-export groupBy = (f, xs) -->
+export groupBy = curry (f, xs) ->
     result = {}
     for x in xs
         key = f x
@@ -102,7 +106,7 @@ export groupBy = (f, xs) -->
     result
 
 # sortBy :: function -> array -> array
-export sortBy = (f, xs) -->
+export sortBy = curry (f, xs) ->
     xs.concat!.sort (x, y) ->
         a = f x
         b = f y
@@ -111,33 +115,33 @@ export sortBy = (f, xs) -->
         else                  0
 
 # splitAt :: number -> array - [array]
-export splitAt = (n, xs) -->
+export splitAt = curry (n, xs) ->
     n = 0 if n < 0
     [(xs.slice 0, n), (xs.slice n)]
 
 # indexOf :: any -> array -> number
-export indexOf = (elem, xs) -->
+export indexOf = curry (elem, xs) ->
     for x, i in xs
     when x is elem
         return i
     void
 
 # indexOf :: any -> array -> number
-export IndicesOf = (elem, xs) -->
+export IndicesOf = curry (elem, xs) ->
     [i for x, i in xs when x is elem]
 
 # findIndex :: function -> array -> number
-export findIndex = (f, xs) -->
+export findIndex = curry (f, xs) ->
     for x, i in xs when f x
         return i
     void
 
 # findIndices :: function -> array -> [number]
-export findIndices = (f, xs) -->
+export findIndices = curry (f, xs) ->
     [i for x, i in xs when f x]
 
 # range :: number -> number -> number -> array
-export range = (a, b, inc = 1) ->
+export range = curry 2 (a, b, inc = 1) ->
     if &.length is 1
         b = a or 0
         a = 0
