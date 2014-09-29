@@ -1,7 +1,8 @@
 Prelude
 -------
 
-Utility set for dealing with <strike>Java</strike>ECMAScript primitives.
+Utility set for <strike>Java</strike>ECMAScript.
+Includes a lot of common helpers for primitive transformations and control flow. Most functions are curried for a smooth integration with your API.
 
 - Written in <a href="http://www.livescript.net">LiveScript</a>, because Javascript.
 - Inspired by
@@ -9,6 +10,12 @@ Utility set for dealing with <strike>Java</strike>ECMAScript primitives.
 <a href="http://underscorejs.org/">underscore</a> and
 <a href="https://github.com/codemix/fast.js">fast.fs</a>.
 - JS-orientated (does NOT includes abstractions for trivial things like head, tail, chars, now)
+
+# Install:
+
+    npm install prelude
+
+# Method Index:
 
 ### Commons
 
@@ -67,5 +74,7 @@ Utility set for dealing with <strike>Java</strike>ECMAScript primitives.
 
 ### Functions
 
-- chain
+- apply
 - curry
+- chain
+- tryCatch
