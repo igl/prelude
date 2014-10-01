@@ -1,8 +1,7 @@
 'use strict'
 
-# export all modules
-export string = require './string'
-export array  = require './array'
-export object = require './object'
-export func   = require './func'
-export type   = require './type'
+export strings = require './strings'
+export arrays  = require './arrays'
+export objects = require './objects'
+export funcs   = require './funcs'
+export types   = require './types'

@@ -2,10 +2,10 @@
 
 prelude = require '../'
 
-suite 'array' !->
+suite 'prelude.arrayss' !->
 
     suite 'empty()' !->
-        { empty } = prelude.array
+        { empty } = prelude.arrays
 
         test 'exists' !->
             expect empty .to.be.a 'function'
@@ -15,7 +15,7 @@ suite 'array' !->
             expect empty [1] .to.be false
 
     suite 'clone()' !->
-        { clone } = prelude.array
+        { clone } = prelude.arrays
 
         test 'exists' !->
             expect clone .to.be.a 'function'
@@ -34,7 +34,7 @@ suite 'array' !->
             expect copy.2 .to.be 'foo'
 
     suite 'each()' !->
-        { each } = prelude.array
+        { each } = prelude.arrays
 
         test 'exists' !->
             expect each .to.be.a 'function'
@@ -64,7 +64,7 @@ suite 'array' !->
                     expect value .to.be 'qaz'
 
     suite 'map()' !->
-        { map } = prelude.array
+        { map } = prelude.arrays
 
         test 'exists' !->
             expect map .to.be.a 'function'
@@ -101,7 +101,7 @@ suite 'array' !->
             expect result.3 .to.be void
 
     suite 'filter()' !->
-        { filter } = prelude.array
+        { filter } = prelude.arrays
 
         test 'exists' !->
             expect filter .to.be.a 'function'
@@ -139,7 +139,7 @@ suite 'array' !->
             expect result.3 .to.be void
 
     suite 'partition()' !->
-        { partition } = prelude.array
+        { partition } = prelude.arrays
 
         test 'exists' !->
             expect partition .to.be.a 'function'

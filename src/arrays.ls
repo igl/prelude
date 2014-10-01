@@ -1,7 +1,7 @@
 'use strict'
 
-{ isType } = require './type'
-{ curry }  = require './func'
+{ isType } = require './types'
+{ curry }  = require './funcs'
 
 # empty :: array -> boolean
 export empty = (xs) ->

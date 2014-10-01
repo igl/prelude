@@ -16,7 +16,7 @@ Includes a lot of common helpers for primitive transformations and control flow.
 
 ### Method Index:
 
-**Strings** `prelude.string.<method>`
+**Strings** `prelude.strings.<method>`
 
 - repeat
 - reverse
@@ -25,7 +25,7 @@ Includes a lot of common helpers for primitive transformations and control flow.
 - camelize
 - dasherize
 
-**Arrays** `prelude.array.<method>`
+**Arrays** `prelude.arrays.<method>`
 
 - empty
 - clone
@@ -49,7 +49,7 @@ Includes a lot of common helpers for primitive transformations and control flow.
 - findIndices
 - range
 
-**Objects** `prelude.object.<method>`
+**Objects** `prelude.objects.<method>`
 
 - empty
 - clone
@@ -65,15 +65,23 @@ Includes a lot of common helpers for primitive transformations and control flow.
 - findKeys
 - fromPairs
 - toPairs
+- hasOwnProperty
+- mixin
+- deepMixin
+- freeze
+- deepFreeze
+- toString
+- parseString
+- fromString
 
-**Functions** `prelude.func.<method>`
+**Functions** `prelude.funcs.<method>`
 
 - curry
 - apply
 - chain
 - tryCatch
 
-**Types** `prelude.type.<method>`
+**Types** `prelude.types.<method>`
 
 - getType
 - isType
