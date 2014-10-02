@@ -2,6 +2,7 @@
 
 { isType } = require './types'
 { curry }  = require './funcs'
+{ random } = require './numbers'
 
 # empty :: array -> boolean
 export empty = (xs) ->
@@ -22,6 +23,32 @@ export map = curry (f, xs) ->
 # filter :: function -> array -> array
 export filter = curry (f, xs) ->
     [x for x, i in xs when f x, i]
+
+# flatten :: array -> array
+export flatten = curry (xs) ->
+    result = []
+    for x in xs then
+        if isType 'Array', x
+        then result.push flatten x
+        else result.push x
+    result
+
+# shuffle :: array -> array
+export shuffle = (xs) ->
+    result = new Array xs.length
+    for x, i in xs
+        r = random i
+        result[i] = result[r] if r isnt i
+        result[r] = xs[i]
+    result
+
+export reverse = (xs) ->
+    result = []
+    i = 0
+    len = xs.length
+    until len is 0
+        result[--len] = xs[i++]
+    result
 
 # partition :: function -> array -> [array, array]
 export partition = curry (f, xs) ->
@@ -46,15 +73,6 @@ export uniqueBy = curry (f, xs) ->
         continue if val in seen
         seen.push val
         x
-
-# flatten :: array -> array
-export flatten = curry (xs) ->
-    result = []
-    for x in xs then
-        if isType 'Array', x
-        then result.push flatten x
-        else result.push x
-    result
 
 # difference :: array -> ...array -> array
 export difference = (xs, ...yss) ->
@@ -139,10 +157,3 @@ export findIndex = curry (f, xs) ->
 # findIndices :: function -> array -> [number]
 export findIndices = curry (f, xs) ->
     [i for x, i in xs when f x]
-
-# range :: number -> number -> number? -> array
-export range = curry 2 (a, b, inc = 1) ->
-    if &.length is 1
-        b = a or 0
-        a = 0
-    [x for x from a til b by inc]

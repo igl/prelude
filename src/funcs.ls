@@ -1,7 +1,16 @@
 'use strict'
 
-# circular ugliness
-cloneArray = (xs) -> [x for x in xs]
+# circular ugliness helper
+function cloneArray (xs)
+    [x for x in xs]
+
+function reverseArray (xs)
+    result = []
+    i = 0
+    len = xs.length
+    until len is 0
+        result[--len] = xs[i++]
+    result
 
 # applyNoContext :: function -> array
 function applyNoContext (f, args)
@@ -75,5 +84,8 @@ export tryCatch = (fn, cb) !->
     try res := fn!
     catch e
         err := if e instanceof Error then e else new Error e
-    if cb then cb err, res
+    cb err, res if cb
     err or res
+
+export flip = curry 2 (f, ...xs) ->
+    applyNoContext f, (reverseArray xs)

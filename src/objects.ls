@@ -7,7 +7,7 @@ _hasOwnProperty = Object.prototype.hasOwnProperty
 
 # empty :: object -> boolean
 export empty = (obj) ->
-    for v of obj then return false
+    for k of obj then return false
     true
 
 # clone :: object -> object
@@ -86,10 +86,28 @@ export mixin = (dest = {}, ...sources) ->
 # deepMixin :: object -> ...object -> object
 export deepMixin = (dest = {}, ...sources) ->
     for src in sources then
-        for key, val of src then
-            if (isType 'Object' dest[key]) and (isType 'Object' src[key])
-            then dest[key] = deepMixin dest[key], src[key]
-            else dest[key] = val
+        for k, v of src then
+            if (isType 'Object' dest[k]) and (isType 'Object' v)
+            then dest[k] = deepMixin dest[k], v
+            else dest[k] = v
+    dest
+
+# fill :: object -> ...object -> object
+export fill = (dest, ...sources) ->
+    for src in sources
+        for k, v of src
+        when dest[k] is void
+            dest[k] = v
+    dest
+
+# deepFill :: object -> ...object -> object
+export deepFill = (dest, ...sources) ->
+    for src in sources then
+        for k, v of src
+        when dest[k] is void
+            if (isType 'Object' dest[key]) and (isType 'Object' v)
+            then dest[k] = deepFill dest[k], v
+            else dest[k] = v
     dest
 
 # freeze :: object -> object
@@ -112,4 +130,3 @@ export parseString = curry (n, f, obj) -> JSON.stringify obj, f, 2
 
 # fromString :: string -> object
 export fromString = (obj) -> JSON.parse obj
-
