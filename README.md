@@ -25,6 +25,15 @@ Includes a lot of common helpers for primitive transformations and control flow.
 - camelize
 - dasherize
 
+**Numbers** `prelude.numbers.<method>`
+
+- even
+- odd
+- random
+- range
+- gcd
+- lcm
+
 **Arrays** `prelude.arrays.<method>`
 
 - empty
@@ -32,10 +41,12 @@ Includes a lot of common helpers for primitive transformations and control flow.
 - each
 - map
 - filter
+- flatten
+- shuffle
+- reverse
 - partition
 - unique
 - uniqueBy
-- flatten
 - difference
 - intersection
 - union
@@ -47,7 +58,6 @@ Includes a lot of common helpers for primitive transformations and control flow.
 - IndicesOf
 - findIndex
 - findIndices
-- range
 
 **Objects** `prelude.objects.<method>`
 
@@ -68,18 +78,21 @@ Includes a lot of common helpers for primitive transformations and control flow.
 - hasOwnProperty
 - mixin
 - deepMixin
+- fill
+- deepFill
 - freeze
 - deepFreeze
 - toString
 - parseString
 - fromString
 
-**Functions** `prelude.funcs.<method>`
+**Funcs** `prelude.funcs.<method>`
 
 - curry
 - apply
 - chain
 - tryCatch
+- flip
 
 **Types** `prelude.types.<method>`
 
