@@ -53,7 +53,7 @@ export curry = (n, fn) ->
         then fn
         else ->
             params = cloneArray args
-            if (params.push.apply params, arguments) < n
+            if (params.push.apply params, &) < n and &.length
             then _curry params
             else applyNoContext fn, params
 
@@ -64,6 +64,10 @@ export apply = curry 2 (f, args, context) ->
     if context?
     then applyWithContext context, f, args
     else applyNoContext f, args
+
+# flip :: function -> ...any -> any
+export flip = curry 2 (f, ...xs) ->
+    applyNoContext f, (reverseArray xs)
 
 # chain :: ...function, function -> void
 export chain = (...fns, cb) !->
@@ -87,5 +91,3 @@ export tryCatch = (fn, cb) !->
     cb err, res if cb
     err or res
 
-export flip = curry 2 (f, ...xs) ->
-    applyNoContext f, (reverseArray xs)
