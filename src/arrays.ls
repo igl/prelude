@@ -1,7 +1,7 @@
 'use strict'
 
 { isType } = require './types'
-{ curry }  = require './funcs'
+{ curry, apply } = require './funcs'
 { random } = require './numbers'
 
 # empty :: array -> boolean
@@ -49,6 +49,20 @@ export reverse = (xs) ->
     until len is 0
         result[--len] = xs[i++]
     result
+
+# zip :: array -> ...array -> array
+export zip = curry 2 (...args) ->
+    min-length = 9e9
+    for xs in args
+        min-length <?= xs.length
+    [[xs[i] for xs in args] for i til min-length]
+
+# zip :: array -> ...array -> array
+export zipWith = curry 3 (f, ...args) ->
+    min-length = 9e9
+    for xs in args
+        min-length <?= xs.length
+    [(apply f, [xs[i] for xs in args]) for i til min-length]
 
 # partition :: function -> array -> [array, array]
 export partition = curry (f, xs) ->
