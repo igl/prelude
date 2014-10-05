@@ -29,7 +29,7 @@ export flatten = curry (xs) ->
     result = []
     for x in xs then
         if isType 'Array', x
-        then result.push flatten x
+        then result.push (flatten x)
         else result.push x
     result
 
@@ -42,6 +42,7 @@ export shuffle = (xs) ->
         result[r] = xs[i]
     result
 
+# reverse :: array -> array
 export reverse = (xs) ->
     result = []
     i = 0
@@ -114,6 +115,14 @@ export union = (...xss) ->
             result.push x
     result
 
+# sortBy :: function -> array -> array
+export sortBy = curry (f, xs) ->
+    xs.concat!.sort (x, y) ->
+        a = f x
+        b = f y
+        if a > b        then  1
+        else if a < b   then -1
+        else                  0
 
 # countBy :: function -> array -> array
 export countBy = curry (f, xs) ->
@@ -136,15 +145,6 @@ export groupBy = curry (f, xs) ->
         else
             result[key] = [x]
     result
-
-# sortBy :: function -> array -> array
-export sortBy = curry (f, xs) ->
-    xs.concat!.sort (x, y) ->
-        a = f x
-        b = f y
-        if a > b        then  1
-        else if a < b   then -1
-        else                  0
 
 # splitAt :: number -> array - [array]
 export splitAt = curry (n, xs) ->
