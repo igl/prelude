@@ -7,9 +7,12 @@ endif
 LS     = node_modules/LiveScript
 LSC    = node_modules/".bin"/lsc
 MOCHA  = node_modules/".bin"/mocha
+MOCHA2 = node_modules/".bin"/_mocha
 BRSIFY = node_modules/".bin"/browserify
 UGLIFY = node_modules/'.bin'/uglifyjs
 MKDIRP = node_modules/".bin"/mkdirp
+ISTNBL = node_modules/".bin"/istanbul
+MOCHAF = -u tdd -R spec -t 5000 --compilers ls:$(LS) -r "./test-runner.js" -c -S -b --recursive --check-leaks --inline-diffs
 
 SRC  = $(shell find src -maxdepth 1 -name "*.ls" -type f | sort)
 DIST = dist $(SRC:src/%.ls=dist/%.js)
@@ -21,14 +24,17 @@ install:
 	@npm install .
 
 test: build
-	@$(MOCHA) tests -u tdd -R spec -t 5000 --compilers ls:$(LS) -r "./test-runner.js" -c -S -b --recursive --check-leaks --inline-diffs
+	@$(MOCHA) $(MOCHAF)
+
+cov: build
+	@$(ISTNBL) cover $(MOCHA2) -- $(MOCHAF)
 
 clean:
 	@rm -rf dist
 	@rm -rf browser
 	@sleep .1 # wait for editor to refresh the file tree.......
 
-.PHONY: build install test clean
+.PHONY: build install test cov clean
 
 %:
 	@$(MKDIRP) $@

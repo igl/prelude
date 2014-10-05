@@ -2,23 +2,17 @@
 
 prelude = require '../'
 
-suite 'prelude.arrayss' !->
+suite 'prelude.arrays' !->
 
     suite 'empty()' !->
         { empty } = prelude.arrays
 
-        test 'exists' !->
-            expect empty .to.be.a 'function'
-
-        test 'returns correctly on valid inputs' !->
+        test 'returns correctly with valid inputs' !->
             expect empty [] .to.be true
             expect empty [1] .to.be false
 
     suite 'clone()' !->
         { clone } = prelude.arrays
-
-        test 'exists' !->
-            expect clone .to.be.a 'function'
 
         test 'returns the same as input' !->
             expect (clone [1 2 3])0 .to.be 1
@@ -36,12 +30,7 @@ suite 'prelude.arrayss' !->
     suite 'each()' !->
         { each } = prelude.arrays
 
-        test 'exists' !->
-            expect each .to.be.a 'function'
-
         test 'curries' !->
-            noop = each!
-            expect noop .to.be.a 'function'
             noop = each (->)
             expect noop .to.be.a 'function'
             noop = noop [1 2 3]
@@ -66,12 +55,7 @@ suite 'prelude.arrayss' !->
     suite 'map()' !->
         { map } = prelude.arrays
 
-        test 'exists' !->
-            expect map .to.be.a 'function'
-
         test 'curries' !->
-            noop = map
-            expect noop .to.be.a 'function'
             noop = map (->)
             expect noop .to.be.a 'function'
             noop = noop [1 2 3]
@@ -103,12 +87,7 @@ suite 'prelude.arrayss' !->
     suite 'filter()' !->
         { filter } = prelude.arrays
 
-        test 'exists' !->
-            expect filter .to.be.a 'function'
-
         test 'curries' !->
-            noop = filter
-            expect noop .to.be.a 'function'
             noop = filter (->)
             expect noop .to.be.a 'function'
             noop = noop [1 2 3]
@@ -141,12 +120,7 @@ suite 'prelude.arrayss' !->
     suite 'partition()' !->
         { partition } = prelude.arrays
 
-        test 'exists' !->
-            expect partition .to.be.a 'function'
-
         test 'curries' !->
-            noop = partition
-            expect noop .to.be.a 'function'
             noop = partition (->)
             expect noop .to.be.a 'function'
             noop = noop [1 2 3]

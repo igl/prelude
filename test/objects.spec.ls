@@ -7,10 +7,7 @@ suite 'prelude.objects' !->
     suite 'empty()' !->
         { empty } = prelude.objects
 
-        test 'exists' !->
-            expect empty .to.be.a 'function'
-
-        test 'returns correctly on valid inputs' !->
+        test 'returns correctly with valid inputs' !->
             expect empty {} .to.be true
             expect empty { a: 1 } .to.be false
 
@@ -33,12 +30,7 @@ suite 'prelude.objects' !->
     suite 'each()' !->
         { each } = prelude.objects
 
-        test 'exists' !->
-            expect each .to.be.a 'function'
-
         test 'curries' !->
-            noop = each!
-            expect noop .to.be.a 'function'
             noop = each (->)
             expect noop .to.be.a 'function'
             noop = noop { a:1, b:2, c:3 }
@@ -63,12 +55,7 @@ suite 'prelude.objects' !->
     suite 'map()' !->
         { map } = prelude.objects
 
-        test 'exists' !->
-            expect map .to.be.a 'function'
-
         test 'curries' !->
-            noop = map
-            expect noop .to.be.a 'function'
             noop = map (->)
             expect noop .to.be.a 'function'
             noop = noop { a:1, b:2, c:3 }
@@ -100,12 +87,7 @@ suite 'prelude.objects' !->
     suite 'filter()' !->
         { filter } = prelude.objects
 
-        test 'exists' !->
-            expect filter .to.be.a 'function'
-
         test 'curries' !->
-            noop = filter
-            expect noop .to.be.a 'function'
             noop = filter (->)
             expect noop .to.be.a 'function'
             noop = noop { a:0, b:1, c:2 }

@@ -9,10 +9,21 @@
     "type": "git",
     "url": "git://github.com/igl/prelude.js.git"
   },
+  "directories": {
+    "browser": "./browser",
+    "dist": "./dist"
+  },
+  "files": [
+    "browser",
+    "dist",
+    "README.md",
+    "LICENSE"
+  ],
   "devDependencies": {
     "LiveScript": "^1.2.0",
     "browserify": "^5.12.1",
     "expect.js": "^0.3.1",
+    "istanbul": "^0.3.2",
     "mkdirp": "^0.5.0",
     "mocha": "^1.21.4",
     "uglify-js": "^2.4.15"
