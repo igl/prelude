@@ -77,14 +77,14 @@ export hasOwnProperty = curry (key, obj) ->
     _hasOwnProperty.call obj, key
 
 # mixin :: object -> ...object -> object
-export mixin = (dest = {}, ...sources) ->
+export mixin = curry 2 (dest = {}, ...sources) ->
     for src in sources then
         for key, val of src then
             dest[key] = val
     dest
 
 # deepMixin :: object -> ...object -> object
-export deepMixin = (dest = {}, ...sources) ->
+export deepMixin = curry 2 (dest = {}, ...sources) ->
     for src in sources then
         for k, v of src then
             if (isType 'Object' dest[k]) and (isType 'Object' v)
@@ -93,7 +93,7 @@ export deepMixin = (dest = {}, ...sources) ->
     dest
 
 # fill :: object -> ...object -> object
-export fill = (dest, ...sources) ->
+export fill = curry 2 (dest, ...sources) ->
     for src in sources
         for k, v of src
         when dest[k] is void
@@ -101,7 +101,7 @@ export fill = (dest, ...sources) ->
     dest
 
 # deepFill :: object -> ...object -> object
-export deepFill = (dest, ...sources) ->
+export deepFill = curry 2 (dest, ...sources) ->
     for src in sources then
         for k, v of src
         when dest[k] is void
