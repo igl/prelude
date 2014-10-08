@@ -1,5 +1,7 @@
 'use strict'
 
+_hasOwnProperty = Object.prototype.hasOwnProperty
+
 # circular ugliness helper
 function cloneArray (xs)
     [x for x in xs]
@@ -12,35 +14,11 @@ function reverseArray (xs)
         result[--len] = xs[i++]
     result
 
-# applyNoContext :: function -> array
-function applyNoContext (f, args)
-    switch args.length
-    | 0 => f!
-    | 1 => f args[0]
-    | 2 => f args[0], args[1]
-    | 3 => f args[0], args[1], args[2]
-    | 4 => f args[0], args[1], args[2], args[3]
-    | 5 => f args[0], args[1], args[2], args[3], args[4]
-    | 6 => f args[0], args[1], args[2], args[3], args[4], args[5]
-    | 7 => f args[0], args[1], args[2], args[3], args[4], args[5], args[6]
-    | 8 => f args[0], args[1], args[2], args[3], args[4], args[5], args[6], args[7]
-    | 9 => f args[0], args[1], args[2], args[3], args[4], args[5], args[6], args[7], args[8]
-    | _ => f.apply void, args
-
-# applyWithContext :: function -> array
-function applyWithContext (context, f, args)
-    switch args.length
-    | 0 => f.call context
-    | 1 => f.call context, args[0]
-    | 2 => f.call context, args[0], args[1]
-    | 3 => f.call context, args[0], args[1], args[2]
-    | 4 => f.call context, args[0], args[1], args[2], args[3]
-    | 5 => f.call context, args[0], args[1], args[2], args[3], args[4]
-    | 6 => f.call context, args[0], args[1], args[2], args[3], args[4], args[5]
-    | 7 => f.call context, args[0], args[1], args[2], args[3], args[4], args[5], args[6]
-    | 8 => f.call context, args[0], args[1], args[2], args[3], args[4], args[5], args[6], args[7]
-    | 9 => f.call context, args[0], args[1], args[2], args[3], args[4], args[5], args[6], args[7], args[8]
-    | _ => f.apply context, args
+function mixin (dest = {}, ...sources)
+    for src in sources then
+        for key, val of src then
+            dest[key] = val
+    dest
 
 # curry :: function -> number? -> function
 export curry = (n, fn) ->
@@ -60,10 +38,33 @@ export curry = (n, fn) ->
     _curry []
 
 # apply :: object -> function -> array
-export apply = curry 2 (f, args, context) ->
-    if context?
-    then applyWithContext context, f, args
-    else applyNoContext f, args
+export apply = (f, xs) ->
+    switch xs.length
+    | 0 => f!
+    | 1 => f xs[0]
+    | 2 => f xs[0], xs[1]
+    | 3 => f xs[0], xs[1], xs[2]
+    | 4 => f xs[0], xs[1], xs[2], xs[3]
+    | 5 => f xs[0], xs[1], xs[2], xs[3], xs[4]
+    | 6 => f xs[0], xs[1], xs[2], xs[3], xs[4], xs[5]
+    | 7 => f xs[0], xs[1], xs[2], xs[3], xs[4], xs[5], xs[6]
+    | 8 => f xs[0], xs[1], xs[2], xs[3], xs[4], xs[5], xs[6], xs[7]
+    | 9 => f xs[0], xs[1], xs[2], xs[3], xs[4], xs[5], xs[6], xs[7], xs[8]
+    | _ => f.apply void, xs
+
+export applyTo = (f, xs) ->
+    switch xs.length
+    | 0 => f.call context
+    | 1 => f.call context, xs[0]
+    | 2 => f.call context, xs[0], xs[1]
+    | 3 => f.call context, xs[0], xs[1], xs[2]
+    | 4 => f.call context, xs[0], xs[1], xs[2], xs[3]
+    | 5 => f.call context, xs[0], xs[1], xs[2], xs[3], xs[4]
+    | 6 => f.call context, xs[0], xs[1], xs[2], xs[3], xs[4], xs[5]
+    | 7 => f.call context, xs[0], xs[1], xs[2], xs[3], xs[4], xs[5], xs[6]
+    | 8 => f.call context, xs[0], xs[1], xs[2], xs[3], xs[4], xs[5], xs[6], xs[7]
+    | 9 => f.call context, xs[0], xs[1], xs[2], xs[3], xs[4], xs[5], xs[6], xs[7], xs[8]
+    | _ => f.apply context, xs
 
 # flip :: function -> ...any -> any
 export flip = curry 2 (f, ...xs) ->
@@ -91,3 +92,26 @@ export tryCatch = (fn, cb) !->
     cb err, res if cb
     err or res
 
+
+# crockfordic object inheritance
+function BaseClass
+
+BaseClass.extend = (proto, static) ->
+    parent = this
+    child =
+        if proto and _hasOwnProperty proto, 'constructor'
+        then proto.constructor
+        else -> apply parent, &, this
+
+    mixin child, parent, static
+
+    Surrogate = -> this.constructor = child
+    Surrogate.prototype = parent.prototype
+    child.prototype = new Surrogate
+
+    mixin(child.prototype, proto) if proto
+    child
+
+# extend :: object -> object -> function
+export Base = (proto, static) ->
+    BaseClass.extend proto, static
