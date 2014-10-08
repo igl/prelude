@@ -33,7 +33,7 @@ export curry = (n, fn) ->
             params = cloneArray args
             if (params.push.apply params, &) < n and &.length
             then _curry params
-            else applyNoContext fn, params
+            else apply fn, params
 
     _curry []
 
@@ -95,15 +95,16 @@ export tryCatch = (fn, cb) !->
 
 # crockfordic object inheritance
 function BaseClass
+    return
 
-BaseClass.extend = (proto, static) ->
+BaseClass.extend = (proto, props) ->
     parent = this
     child =
         if proto and _hasOwnProperty proto, 'constructor'
         then proto.constructor
         else -> apply parent, &, this
 
-    mixin child, parent, static
+    mixin child, parent, props
 
     Surrogate = -> this.constructor = child
     Surrogate.prototype = parent.prototype
@@ -113,5 +114,5 @@ BaseClass.extend = (proto, static) ->
     child
 
 # extend :: object -> object -> function
-export Base = (proto, static) ->
-    BaseClass.extend proto, static
+export Base = (proto, props) ->
+    BaseClass.extend proto, props
