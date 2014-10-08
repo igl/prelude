@@ -68,60 +68,96 @@ suite 'prelude.arrays' !->
 
         test 'iterator receives index and value' !->
             ['foo' 'bar' 'qaz'] |> map (value, index) ->
-                expect value .to.be.a 'string'
-                expect index .to.be.a 'number'
-                if index is 0
-                    expect value .to.be 'foo'
-                if index is 1
-                    expect value .to.be 'bar'
-                if index is 2
-                    expect value .to.be 'qaz'
+                typeEqual 'String' value
+                typeEqual 'Number' index
+                if index is 0 then strictEqual 'foo' value
+                if index is 1 then strictEqual 'bar' value
+                if index is 2 then strictEqual 'qaz' value
 
         test 'remap values' !->
-            result = map (-> it + 1), [0 1 2]
-            expect result.0 .to.be 1
-            expect result.1 .to.be 2
-            expect result.2 .to.be 3
-            expect result.3 .to.be void
+            deepEqual do
+                [0 1 2] |> map (-> it + 1)
+                [1 2 3]
 
     suite 'filter()' !->
         { filter } = prelude.arrays
 
         test 'curries' !->
-            noop = filter (->)
-            expect noop .to.be.a 'function'
-            noop = noop [1 2 3]
-            expect noop .to.be.a 'array'
+            typeEqual 'Function' filter (->)
+            typeEqual 'Array'    filter (->), [1 2 3]
 
         test 'iterates over the complete array' !->
             count = 0
             filter (-> ++count), [1 2 3]
-            expect count .to.be 3
+            strictEqual 3 count
 
         test 'iterator receives index and value' !->
             ['foo' 'bar' 'qaz'] |> filter (value, index) ->
-                expect value .to.be.a 'string'
-                expect index .to.be.a 'number'
-                if index is 0
-                    expect value .to.be 'foo'
-                if index is 1
-                    expect value .to.be 'bar'
-                if index is 2
-                    expect value .to.be 'qaz'
-                true
+                typeEqual 'String' value
+                typeEqual 'Number' index
+                if index is 0 then strictEqual 'foo' value
+                if index is 1 then strictEqual 'bar' value
+                if index is 2 then strictEqual 'qaz' value
 
         test 'filters values' !->
-            result = filter (-> typeof it isnt 'string'), [1 'foo' 2]
-            expect result.length .to.be 2
-            expect result.0 .to.be 1
-            expect result.1 .to.be 2
-            expect result.3 .to.be void
+            deepEqual do
+                filter (-> typeof it isnt 'string'), [1 'foo' 2]
+                [1 2]
+
+    suite 'zip()' !->
+        { zip } = prelude.arrays
+
+        test 'zips array' ->
+            deepEqual do
+                zip [1 2] [3 4]
+                [[1 3], [2 4]]
+
+        test 'zip with uneven array length (1)' ->
+            deepEqual do
+                zip [1 2 9] [3 4]
+                [[1 3], [2 4]]
+
+        test 'zip with uneven array length (2)' ->
+            deepEqual do
+                zip [1 2] [3 4 9]
+                [[1 3], [2 4]]
+
+    suite 'zipWith()' !->
+        { zipWith } = prelude.arrays
+
+        test 'curries' !->
+            typeEqual 'Function' zipWith (->)
+            typeEqual 'Function' zipWith (->), [1 2 3]
+            typeEqual 'Array'    zipWith (->), [1 2 3] [1 2 3]
+
+        test 'zips array' ->
+            deepEqual do
+                zipWith (-> &0 + &1), [1 2] [3 4]
+                [4 6]
+
+        test 'zips multible arrays' ->
+            deepEqual do
+                zipWith (-> &0 + &1 + &2), [1 2] [2 1] [10 20]
+                [13 23]
+
+        test 'zip with uneven array length (1)' ->
+            deepEqual do
+                zipWith (-> &0 + &1), [1 2 9] [3 4]
+                [4 6]
+
+        test 'zip with uneven array length (2)' ->
+            deepEqual do
+                zipWith (-> &0 + &1), [1 2] [3 4 9]
+                [4 6]
 
     suite 'partition()' !->
         { partition } = prelude.arrays
 
         test 'curries' !->
-            noop = partition (->)
-            expect noop .to.be.a 'function'
-            noop = noop [1 2 3]
-            expect noop .to.be.a 'array'
+            typeEqual 'Function' partition (->)
+            typeEqual 'Array'    partition (->), [1 2 3]
+
+        test 'partitions array' !->
+            deepEqual do
+                partition (-> it is 2), [1 2 3 4]
+                [[2], [1 3 4]]
