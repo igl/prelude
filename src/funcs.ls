@@ -52,19 +52,19 @@ export apply = (f, xs) ->
     | 9 => f xs[0], xs[1], xs[2], xs[3], xs[4], xs[5], xs[6], xs[7], xs[8]
     | _ => f.apply void, xs
 
-export applyTo = (f, xs) ->
+export applyTo = (ctx, f, xs) ->
     switch xs.length
-    | 0 => f.call context
-    | 1 => f.call context, xs[0]
-    | 2 => f.call context, xs[0], xs[1]
-    | 3 => f.call context, xs[0], xs[1], xs[2]
-    | 4 => f.call context, xs[0], xs[1], xs[2], xs[3]
-    | 5 => f.call context, xs[0], xs[1], xs[2], xs[3], xs[4]
-    | 6 => f.call context, xs[0], xs[1], xs[2], xs[3], xs[4], xs[5]
-    | 7 => f.call context, xs[0], xs[1], xs[2], xs[3], xs[4], xs[5], xs[6]
-    | 8 => f.call context, xs[0], xs[1], xs[2], xs[3], xs[4], xs[5], xs[6], xs[7]
-    | 9 => f.call context, xs[0], xs[1], xs[2], xs[3], xs[4], xs[5], xs[6], xs[7], xs[8]
-    | _ => f.apply context, xs
+    | 0 => f.call ctx
+    | 1 => f.call ctx, xs[0]
+    | 2 => f.call ctx, xs[0], xs[1]
+    | 3 => f.call ctx, xs[0], xs[1], xs[2]
+    | 4 => f.call ctx, xs[0], xs[1], xs[2], xs[3]
+    | 5 => f.call ctx, xs[0], xs[1], xs[2], xs[3], xs[4]
+    | 6 => f.call ctx, xs[0], xs[1], xs[2], xs[3], xs[4], xs[5]
+    | 7 => f.call ctx, xs[0], xs[1], xs[2], xs[3], xs[4], xs[5], xs[6]
+    | 8 => f.call ctx, xs[0], xs[1], xs[2], xs[3], xs[4], xs[5], xs[6], xs[7]
+    | 9 => f.call ctx, xs[0], xs[1], xs[2], xs[3], xs[4], xs[5], xs[6], xs[7], xs[8]
+    | _ => f.apply ctx, xs
 
 # flip :: function -> ...any -> any
 export flip = curry 2 (f, ...xs) ->
@@ -92,17 +92,19 @@ export tryCatch = (fn, cb) !->
     cb err, res if cb
     err or res
 
+# Crockfordic object inheritance
+# Empty Base to extend from
+function Base =>
 
-# crockfordic object inheritance
-function BaseClass
-    return
+Base.prototype = Object.create null if typeof Object.create is 'function'
 
-BaseClass.extend = (proto, props) ->
+# Base.extend :: object -> object? -> function
+Base.extend = (proto, props) ->
     parent = this
     child =
-        if proto and _hasOwnProperty proto, 'constructor'
+        if proto and _hasOwnProperty.call proto, 'constructor'
         then proto.constructor
-        else -> apply parent, &, this
+        else -> applyTo this, parent, &
 
     mixin child, parent, props
 
@@ -113,6 +115,4 @@ BaseClass.extend = (proto, props) ->
     mixin(child.prototype, proto) if proto
     child
 
-# extend :: object -> object -> function
-export Base = (proto, props) ->
-    BaseClass.extend proto, props
+export Base
