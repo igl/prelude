@@ -8,8 +8,22 @@
 export empty = (xs) ->
     xs.length is 0
 
+# clone :: array -> array
 export clone = (xs) ->
     [x for x in xs]
+
+# head :: array -> any
+export head = (xs) -> xs.0
+
+# tail :: array -> any
+export tail = (xs) ->
+    [x for x, i in xs when i > 0]
+
+# initial :: array -> array
+export initial = (xs) ->
+    return unless (init = xs.length)
+    --init
+    [x for x, i in xs when i < init]
 
 # each :: function -> array -> array
 export each = curry (f, xs) ->
