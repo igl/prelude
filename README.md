@@ -1,15 +1,14 @@
 #Prelude
 
-Utility set for <strike>Java</strike>ECMAScript.
-Includes a lot of common helpers for primitive transformations and control flow. All functions with 2 or more arguments are curried for a smooth integration with your API.
+Utility set for ECMAScript.
+Includes a lot of common helpers for primitive transformations, control flow and inheritance.
+All functions with 2 or more arguments are curried for a smooth integration with your API.
 
 - Written in <a href="http://www.livescript.net">LiveScript</a>, because Javascript.
 - Inspired by
-<a href="http://www.haskell.org/">Haskell</a>,
 <a href="http://www.preludels.com/">prelude-ls</a>,
 <a href="http://underscorejs.org/">underscore</a> and
 <a href="https://github.com/codemix/fast.js">fast.fs</a>.
-- JS-orientated (does NOT includes abstractions for trivial things like head, tail, chars, now)
 
 ### Install:
 
@@ -39,6 +38,9 @@ Includes a lot of common helpers for primitive transformations and control flow.
 
 - empty
 - clone
+- head
+- tail
+- initial
 - each
 - map
 - filter
@@ -93,9 +95,11 @@ Includes a lot of common helpers for primitive transformations and control flow.
 
 - curry
 - apply
+- applyTo
 - flip
 - chain
 - tryCatch
+- Base
 
 **Types** `prelude.types.<method>`
 

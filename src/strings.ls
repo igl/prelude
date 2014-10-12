@@ -1,6 +1,7 @@
 'use strict'
 
 { curry }  = require './funcs'
+arrays = require './arrays'
 
 # repeat :: string -> string
 export repeat = curry (n, str) ->
@@ -10,7 +11,7 @@ export repeat = curry (n, str) ->
 
 # reverse :: string -> string
 export reverse = (str) ->
-    str.split '' .reverse!.join ''
+    (arrays.reverse str).join ''
 
 # capitalize :: string -> string
 export capitalize = (str) ->

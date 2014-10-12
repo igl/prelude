@@ -124,7 +124,7 @@ out$.toPairs = toPairs = function(obj){
 out$.hasOwnProperty = hasOwnProperty = curry(function(key, obj){
   return _hasOwnProperty.call(obj, key);
 });
-out$.mixin = mixin = function(dest){
+out$.mixin = mixin = curry(2, function(dest){
   var sources, i$, len$, src, key, val;
   dest == null && (dest = {});
   sources = slice$.call(arguments, 1);
@@ -136,8 +136,8 @@ out$.mixin = mixin = function(dest){
     }
   }
   return dest;
-};
-out$.deepMixin = deepMixin = function(dest){
+});
+out$.deepMixin = deepMixin = curry(2, function(dest){
   var sources, i$, len$, src, k, v;
   dest == null && (dest = {});
   sources = slice$.call(arguments, 1);
@@ -153,8 +153,8 @@ out$.deepMixin = deepMixin = function(dest){
     }
   }
   return dest;
-};
-out$.fill = fill = function(dest){
+});
+out$.fill = fill = curry(2, function(dest){
   var sources, i$, len$, src, k, v;
   sources = slice$.call(arguments, 1);
   for (i$ = 0, len$ = sources.length; i$ < len$; ++i$) {
@@ -167,8 +167,8 @@ out$.fill = fill = function(dest){
     }
   }
   return dest;
-};
-out$.deepFill = deepFill = function(dest){
+});
+out$.deepFill = deepFill = curry(2, function(dest){
   var sources, i$, len$, src, k, v;
   sources = slice$.call(arguments, 1);
   for (i$ = 0, len$ = sources.length; i$ < len$; ++i$) {
@@ -185,7 +185,7 @@ out$.deepFill = deepFill = function(dest){
     }
   }
   return dest;
-};
+});
 out$.freeze = freeze = function(obj){
   return Object.freeze(obj);
 };
