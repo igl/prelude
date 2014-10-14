@@ -94,12 +94,12 @@ export tryCatch = (fn, cb) !->
 
 # Crockfordic object inheritance
 # Empty Base to extend from
-function Base =>
+function Class =>
 
-Base.prototype = Object.create null if typeof Object.create is 'function'
+Class.prototype = Object.create null if typeof Object.create is 'function'
 
-# Base.extend :: object -> object? -> function
-Base.extend = (proto, props) ->
+# Class.extend :: object -> object? -> function
+Class.extend = (proto, props) ->
     parent = this
     child =
         if proto and _hasOwnProperty.call proto, 'constructor'
@@ -115,4 +115,4 @@ Base.extend = (proto, props) ->
     mixin(child.prototype, proto) if proto
     child
 
-export Base
+export Class
