@@ -95,19 +95,17 @@ export deepMixin = curry 2 (dest = {}, ...sources) ->
 # fill :: object -> ...object -> object
 export fill = curry 2 (dest, ...sources) ->
     for src in sources
-        for k, v of src
-        when dest[k] is void
-            dest[k] = v
+        for k of dest when src[k]?
+            dest[k] = src[k]
     dest
 
 # deepFill :: object -> ...object -> object
 export deepFill = curry 2 (dest, ...sources) ->
     for src in sources then
-        for k, v of src
-        when dest[k] is void
+        for k of dest when dest[k]?
             if (isType 'Object' dest[key]) and (isType 'Object' v)
-            then dest[k] = deepFill dest[k], v
-            else dest[k] = v
+            then dest[k] = deepFill dest[k], src[k]
+            else dest[k] = src[k]
     dest
 
 # freeze :: object -> object
