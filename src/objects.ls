@@ -130,3 +130,43 @@ export parseString = curry (n, f, obj) -> JSON.stringify obj, f, 2
 
 # fromString :: string -> object
 export fromString = (obj) -> JSON.parse obj
+
+# definePublic :: object -> string|object -> maybe any -> object
+export definePublic = curry (obj, key, value) ->
+    if isType 'Object' key
+        for k, v of key => definePublic obj, k, v
+        obj
+    else
+        Object.defineProperty obj, key {
+            value, +enumerable, +writable, +configurable
+        }
+
+# definePrivate :: object -> string|object -> maybe any -> object
+export definePrivate = curry (obj, key, value) ->
+    if isType 'Object' key
+        for k, v of key => definePrivate obj, k, v
+        obj
+    else
+        Object.defineProperty obj, key {
+            value, -enumerable, +writable, +configurable
+        }
+
+# defineStatic :: object -> string|object -> maybe any -> object
+export defineStatic = curry (obj, key, value) ->
+    if isType 'Object' key
+        for k, v of key => defineStatic obj, k, v
+        obj
+    else
+        Object.defineProperty obj, key {
+            value, +enumerable, -writable, -configurable
+        }
+
+# defineMeta :: object -> string|object -> maybe any -> object
+export defineMeta = curry (obj, key, value) ->
+    if isType 'Object' key
+        for k, v of key => defineMeta obj, k, v
+        obj
+    else
+        Object.defineProperty obj, key {
+            value, -enumerable, -writable, -configurable
+        }
