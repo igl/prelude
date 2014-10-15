@@ -19,6 +19,9 @@ export head = (xs) -> xs.0
 export tail = (xs) ->
     [x for x, i in xs when i > 0]
 
+# last :: array -> any
+export last = (xs) -> xs[*-1]
+
 # initial :: array -> array
 export initial = (xs) ->
     return unless (init = xs.length)
@@ -27,6 +30,12 @@ export initial = (xs) ->
 
 # each :: function -> array -> array
 export each = curry (f, xs) ->
+    for x, i in xs then (f x, i)
+    xs
+
+# slice :: number -> number -> array -> array
+export slice = curry (a, b, xs) ->
+    if b < 0 then (b := xs.length - 1) + b
     for x, i in xs then (f x, i)
     xs
 
