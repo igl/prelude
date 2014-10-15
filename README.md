@@ -40,8 +40,10 @@ All functions with 2 or more arguments are curried for a smooth integration with
 - clone
 - head
 - tail
+- last
 - initial
 - each
+- slice
 - map
 - filter
 - flatten
@@ -90,6 +92,10 @@ All functions with 2 or more arguments are curried for a smooth integration with
 - toString
 - parseString
 - fromString
+- definePublic
+- definePrivate
+- defineStatic
+- defineMeta
 
 **Funcs** `prelude.funcs.<method>`
 
@@ -99,7 +105,7 @@ All functions with 2 or more arguments are curried for a smooth integration with
 - flip
 - chain
 - tryCatch
-- Base
+- Class
 
 **Types** `prelude.types.<method>`
 

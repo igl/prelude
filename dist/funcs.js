@@ -154,11 +154,11 @@ out$.tryCatch = tryCatch = function(fn, cb){
   }
   err || res;
 };
-function Base(){}
+function Class(){}
 if (typeof Object.create === 'function') {
-  Base.prototype = Object.create(null);
+  Class.prototype = Object.create(null);
 }
-Base.extend = function(proto, props){
+Class.extend = function(proto, props){
   var parent, child, Surrogate;
   parent = this;
   child = proto && _hasOwnProperty.call(proto, 'constructor')
@@ -177,4 +177,4 @@ Base.extend = function(proto, props){
   }
   return child;
 };
-out$.Base = Base;
+out$.Class = Class;
