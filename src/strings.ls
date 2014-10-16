@@ -17,6 +17,10 @@ export reverse = (str) ->
 export capitalize = (str) ->
   (str.char-at 0).to-upper-case! + str.slice 1
 
+# decapitalize :: string -> string
+export decapitalize = (str) ->
+  (str.char-at 0).to-lower-case! + str.slice 1
+
 # capitalizeSentence :: string -> string
 export capitalizeSentence = (str) ->
     str.replace /(^.|\s.)/g, (, c) -> (c ? '').to-upper-case!
