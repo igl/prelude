@@ -21,6 +21,7 @@ All functions with 2 or more arguments are curried for a smooth integration with
 - repeat
 - reverse
 - capitalize
+- decapitalize
 - capitalizeSentence
 - camelize
 - dasherize
