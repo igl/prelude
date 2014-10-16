@@ -135,7 +135,7 @@ export definePublic = curry (obj, key, value) ->
         for k, v of key => definePublic obj, k, v
         obj
     else
-        Object.defineProperty obj, key {
+        Object.defineProperty obj, key, {
             value, +enumerable, +writable, +configurable
         }
 
@@ -145,7 +145,7 @@ export definePrivate = curry (obj, key, value) ->
         for k, v of key => definePrivate obj, k, v
         obj
     else
-        Object.defineProperty obj, key {
+        Object.defineProperty obj, key, {
             value, -enumerable, +writable, +configurable
         }
 
@@ -155,7 +155,7 @@ export defineStatic = curry (obj, key, value) ->
         for k, v of key => defineStatic obj, k, v
         obj
     else
-        Object.defineProperty obj, key {
+        Object.defineProperty obj, key, {
             value, +enumerable, -writable, -configurable
         }
 
@@ -165,6 +165,6 @@ export defineMeta = curry (obj, key, value) ->
         for k, v of key => defineMeta obj, k, v
         obj
     else
-        Object.defineProperty obj, key {
+        Object.defineProperty obj, key, {
             value, -enumerable, -writable, -configurable
         }
