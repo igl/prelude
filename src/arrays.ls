@@ -15,12 +15,15 @@ export clone = (xs) ->
 # head :: array -> any
 export head = (xs) -> xs.0
 
-# tail :: array -> any
-export tail = (xs) ->
-    [x for x, i in xs when i > 0]
+# head :: array -> any
+export first = head
 
 # last :: array -> any
 export last = (xs) -> xs[*-1]
+
+# tail :: array -> any
+export tail = (xs) ->
+    [x for x, i in xs when i > 0]
 
 # initial :: array -> array
 export initial = (xs) ->
@@ -35,9 +38,7 @@ export each = curry (f, xs) ->
 
 # slice :: number -> number -> array -> array
 export slice = curry (a, b, xs) ->
-    if b < 0 then (b := xs.length - 1) + b
-    for x, i in xs then (f x, i)
-    xs
+    xs.slice a, b
 
 # map :: function -> array -> array
 export map = curry (f, xs) ->
@@ -174,15 +175,15 @@ export splitAt = curry (n, xs) ->
     n = 0 if n < 0
     [(xs.slice 0, n), (xs.slice n)]
 
-# indexOf :: any -> array -> number
-export indexOf = curry (elem, xs) ->
+# index :: any -> array -> number
+export index = curry (elem, xs) ->
     for x, i in xs
     when x is elem
         return i
     void
 
-# IndicesOf :: any -> array -> [number]
-export IndicesOf = curry (elem, xs) ->
+# indicesOf :: any -> array -> [number]
+export indices = curry (elem, xs) ->
     [i for x, i in xs when x is elem]
 
 # findIndex :: function -> array -> number
