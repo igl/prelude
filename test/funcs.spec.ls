@@ -4,8 +4,6 @@
 
 suite 'Class:' !->
 
-
-
 suite 'Class:' !->
     { Class } = prelude.funcs
 
@@ -28,36 +26,36 @@ suite 'Class:' !->
     Employee.staticEmployeeMethod = (->)
 
     test 'Class inherits static properties' !->
-        equalsFunction Class
-        equalsFunction Class.extend
-        equalsFunction Class.staticClassMethod
-        equalsObject new Class
+        assert.Function Class
+        assert.Function Class.extend
+        assert.Function Class.staticClassMethod
+        assert.Object new Class
 
     test 'Person extends Class' !->
 
     test 'Person inherits static properties' !->
-        equalsFunction Person
-        equalsFunction Person.extend
-        equalsFunction Person.staticClassMethod
+        assert.Function Person
+        assert.Function Person.extend
+        assert.Function Person.staticClassMethod
 
     test 'Person saves own properties' !->
         someone = new Person 'Hans', 'Wurst'
 
-        equalsObject someone
-        strictEqual someone.walk!, 'walking'
-        strictEqual someone.firstname, 'Hans'
-        strictEqual someone.lastname,  'Wurst'
+        assert.Object someone
+        assert.strictEqual someone.walk!, 'walking'
+        assert.strictEqual someone.firstname, 'Hans'
+        assert.strictEqual someone.lastname,  'Wurst'
 
     test 'Employee extends Person' !->
         someone = new Employee 'Hans', 'Wurst'
 
-        equalsFunction Employee
-        equalsFunction Employee.extend
-        equalsFunction Employee.staticClassMethod
+        assert.Function Employee
+        assert.Function Employee.extend
+        assert.Function Employee.staticClassMethod
 
-        equalsObject someone
-        strictEqual someone.walk!, 'walking'
-        strictEqual someone.work!, 'working'
-        strictEqual someone.firstname, 'Hans'
-        strictEqual someone.lastname,  'Wurst'
+        assert.Object someone
+        assert.strictEqual someone.walk!, 'walking'
+        assert.strictEqual someone.work!, 'working'
+        assert.strictEqual someone.firstname, 'Hans'
+        assert.strictEqual someone.lastname,  'Wurst'
 

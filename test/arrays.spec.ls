@@ -68,14 +68,14 @@ suite 'prelude.arrays' !->
 
         test 'iterator receives index and value' !->
             ['foo' 'bar' 'qaz'] |> map (value, index) ->
-                typeEqual 'String' value
-                typeEqual 'Number' index
-                if index is 0 then strictEqual 'foo' value
-                if index is 1 then strictEqual 'bar' value
-                if index is 2 then strictEqual 'qaz' value
+                assert.String value
+                assert.Number index
+                if index is 0 then assert.strictEqual 'foo' value
+                if index is 1 then assert.strictEqual 'bar' value
+                if index is 2 then assert.strictEqual 'qaz' value
 
         test 'remap values' !->
-            deepEqual do
+            assert.deepEqual do
                 [0 1 2] |> map (-> it + 1)
                 [1 2 3]
 
@@ -83,24 +83,24 @@ suite 'prelude.arrays' !->
         { filter } = prelude.arrays
 
         test 'curries' !->
-            typeEqual 'Function' filter (->)
-            typeEqual 'Array'    filter (->), [1 2 3]
+            assert.Function filter (->)
+            assert.Array    filter (->), [1 2 3]
 
         test 'iterates over the complete array' !->
             count = 0
             filter (-> ++count), [1 2 3]
-            strictEqual 3 count
+            assert.strictEqual 3 count
 
         test 'iterator receives index and value' !->
             ['foo' 'bar' 'qaz'] |> filter (value, index) ->
-                typeEqual 'String' value
-                typeEqual 'Number' index
-                if index is 0 then strictEqual 'foo' value
-                if index is 1 then strictEqual 'bar' value
-                if index is 2 then strictEqual 'qaz' value
+                assert.String value
+                assert.Number index
+                if index is 0 then assert.strictEqual 'foo' value
+                if index is 1 then assert.strictEqual 'bar' value
+                if index is 2 then assert.strictEqual 'qaz' value
 
         test 'filters values' !->
-            deepEqual do
+            assert.deepEqual do
                 filter (-> typeof it isnt 'string'), [1 'foo' 2]
                 [1 2]
 
@@ -108,17 +108,17 @@ suite 'prelude.arrays' !->
         { zip } = prelude.arrays
 
         test 'zips array' ->
-            deepEqual do
+            assert.deepEqual do
                 zip [1 2] [3 4]
                 [[1 3], [2 4]]
 
         test 'zip with uneven array length (1)' ->
-            deepEqual do
+            assert.deepEqual do
                 zip [1 2 9] [3 4]
                 [[1 3], [2 4]]
 
         test 'zip with uneven array length (2)' ->
-            deepEqual do
+            assert.deepEqual do
                 zip [1 2] [3 4 9]
                 [[1 3], [2 4]]
 
@@ -126,27 +126,27 @@ suite 'prelude.arrays' !->
         { zipWith } = prelude.arrays
 
         test 'curries' !->
-            typeEqual 'Function' zipWith (->)
-            typeEqual 'Function' zipWith (->), [1 2 3]
-            typeEqual 'Array'    zipWith (->), [1 2 3] [1 2 3]
+            assert.Function zipWith (->)
+            assert.Function zipWith (->), [1 2 3]
+            assert.Array    zipWith (->), [1 2 3] [1 2 3]
 
         test 'zips array' ->
-            deepEqual do
+            assert.deepEqual do
                 zipWith (-> &0 + &1), [1 2] [3 4]
                 [4 6]
 
         test 'zips multible arrays' ->
-            deepEqual do
+            assert.deepEqual do
                 zipWith (-> &0 + &1 + &2), [1 2] [2 1] [10 20]
                 [13 23]
 
         test 'zip with uneven array length (1)' ->
-            deepEqual do
+            assert.deepEqual do
                 zipWith (-> &0 + &1), [1 2 9] [3 4]
                 [4 6]
 
         test 'zip with uneven array length (2)' ->
-            deepEqual do
+            assert.deepEqual do
                 zipWith (-> &0 + &1), [1 2] [3 4 9]
                 [4 6]
 
@@ -154,10 +154,10 @@ suite 'prelude.arrays' !->
         { partition } = prelude.arrays
 
         test 'curries' !->
-            typeEqual 'Function' partition (->)
-            typeEqual 'Array'    partition (->), [1 2 3]
+            assert.Function partition (->)
+            assert.Array    partition (->), [1 2 3]
 
         test 'partitions array' !->
-            deepEqual do
+            assert.deepEqual do
                 partition (-> it is 2), [1 2 3 4]
                 [[2], [1 3 4]]
