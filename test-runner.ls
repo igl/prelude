@@ -1,7 +1,7 @@
 'use strict'
 
 require! {
-    assert : nativeAssert
+    assert
     './'   : prelude
 }
 
@@ -18,17 +18,16 @@ function assertType (expected)
             stackStartFunction: assertType
         }
 
-
-global.prelude = prelude
-
-global.expect = require 'expect.js'
-
-global.assert = mixin {}, nativeAssert, {
-    'String'   : assertType 'String'
-    'Number'   : assertType 'Number'
-    'Function' : assertType 'Function'
-    'Object'   : assertType 'Object'
-    'Array'    : assertType 'Array'
-    'RegExp'   : assertType 'RegExp'
-    'Error'    : assertType 'Error'
+# set global assert funcs
+mixin global, {
+    throws      : assert.throws
+    deepEqual   : assert.deepEqual
+    strictEqual : assert.strictEqual
+    isString    : assertType 'String'
+    isNumber    : assertType 'Number'
+    isFunction  : assertType 'Function'
+    isObject    : assertType 'Object'
+    isArray     : assertType 'Array'
+    isRegExp    : assertType 'RegExp'
+    isError     : assertType 'Error'
 }
