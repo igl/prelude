@@ -18,12 +18,12 @@ export head = (xs) -> xs.0
 # head :: array -> any
 export first = head
 
-# last :: array -> any
-export last = (xs) -> xs[*-1]
-
 # tail :: array -> any
 export tail = (xs) ->
     [x for x, i in xs when i > 0]
+
+# last :: array -> any
+export last = (xs) -> xs[*-1]
 
 # initial :: array -> array
 export initial = (xs) ->

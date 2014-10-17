@@ -40,6 +40,7 @@ All functions with 2 or more arguments are curried for a smooth integration with
 - empty
 - clone
 - head
+- first
 - tail
 - last
 - initial
@@ -62,8 +63,8 @@ All functions with 2 or more arguments are curried for a smooth integration with
 - countBy
 - groupBy
 - splitAt
-- indexOf
-- IndicesOf
+- index
+- indices
 - findIndex
 - findIndices
 
