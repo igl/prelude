@@ -92,19 +92,22 @@ export tryCatch = (fn, cb) !->
     cb err, res if cb
     err or res
 
-# Crockfordic object inheritance
-# Empty Base to extend from
-function Class =>
+# Crockfordic backbonian object inheritance
+# Empty Base Class to extend from
+export function Class =>
+    this.initialize.apply this, arguments
 
-Class.prototype = Object.create null if typeof Object.create is 'function'
+Class.prototype = { initialize: (->) }
 
 # Class.extend :: object -> object? -> function
 Class.extend = (proto, props) ->
     parent = this
-    child =
-        if proto and _hasOwnProperty.call proto, 'constructor'
-        then proto.constructor
-        else -> applyTo this, parent, &
+    child  = void
+
+    # get child from proto or create empty constructor which calls parent constructor
+    if proto and _hasOwnProperty.call proto, 'constructor'
+    then child := proto.constructor
+    else child := -> applyTo this, parent, &
 
     mixin child, parent, props
 
@@ -112,7 +115,6 @@ Class.extend = (proto, props) ->
     Surrogate.prototype = parent.prototype
     child.prototype = new Surrogate
 
-    mixin(child.prototype, proto) if proto
-    child
+    if proto then mixin child.prototype, proto
 
-export Class
+    child
