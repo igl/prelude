@@ -1,7 +1,9 @@
 'use strict'
 
+curry = require './curry'
+
 { isType } = require './types'
-{ curry, apply } = require './funcs'
+{ apply } = require './funcs'
 { random } = require './numbers'
 
 # empty :: array -> boolean

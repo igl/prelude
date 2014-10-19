@@ -1,6 +1,6 @@
 'use strict'
 
-{ curry }  = require './funcs'
+curry  = require './curry'
 arrays = require './arrays'
 
 # repeat :: string -> string

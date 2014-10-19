@@ -1,6 +1,6 @@
 'use strict'
 
-{ curry } = require './funcs'
+curry = require './curry'
 
 # native methods
 _toString = Object.prototype.toString

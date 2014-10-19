@@ -1,8 +1,10 @@
 'use strict'
 
-{ isType } = require './types'
-{ curry }  = require './funcs'
+curry = require './curry'
 
+{ isType } = require './types'
+
+# native methods
 _hasOwnProperty = Object.prototype.hasOwnProperty
 
 # empty :: object -> boolean

@@ -1,5 +1,8 @@
 'use strict'
 
+curry = require './curry'
+
+# native methods
 _hasOwnProperty = Object.prototype.hasOwnProperty
 
 # circular ugliness helper
@@ -21,21 +24,7 @@ function mixin (dest = {}, ...sources)
     dest
 
 # curry :: function -> number? -> function
-export curry = (n, fn) ->
-    if typeof n is 'function'
-        fn = n
-        n = fn.length
-
-    _curry = (args) ->
-        unless n > 1
-        then fn
-        else ->
-            params = cloneArray args
-            if (params.push.apply params, &) < n and &.length
-            then _curry params
-            else apply fn, params
-
-    _curry []
+export curry
 
 # apply :: object -> function -> array
 export apply = (f, xs) ->

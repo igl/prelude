@@ -1,6 +1,6 @@
 'use strict'
 
-{ curry }  = require './funcs'
+curry = require './curry'
 
 # even :: number -> boolean
 export even = (x) -> x % 2 == 0
