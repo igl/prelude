@@ -23,11 +23,14 @@ function mixin (dest = {}, ...sources)
             dest[key] = val
     dest
 
+# noop :: any -> any
+exports.noop = -> it
+
 # curry :: function -> number? -> function
-export curry
+exports.curry = curry
 
 # apply :: object -> function -> array
-export apply = (f, xs) ->
+exports.apply = curry (f, xs) ->
     switch xs.length
     | 0 => f!
     | 1 => f xs[0]
@@ -41,7 +44,7 @@ export apply = (f, xs) ->
     | 9 => f xs[0], xs[1], xs[2], xs[3], xs[4], xs[5], xs[6], xs[7], xs[8]
     | _ => f.apply void, xs
 
-export applyTo = (ctx, f, xs) ->
+exports.applyTo = curry (ctx, f, xs) ->
     switch xs.length
     | 0 => f.call ctx
     | 1 => f.call ctx, xs[0]
@@ -55,16 +58,33 @@ export applyTo = (ctx, f, xs) ->
     | 9 => f.call ctx, xs[0], xs[1], xs[2], xs[3], xs[4], xs[5], xs[6], xs[7], xs[8]
     | _ => f.apply ctx, xs
 
+exports.applyNew = curry (F, xs) ->
+    switch xs.length
+    | 0 => new F
+    | 1 => new F xs[0]
+    | 2 => new F xs[0], xs[1]
+    | 3 => new F xs[0], xs[1], xs[2]
+    | 4 => new F xs[0], xs[1], xs[2], xs[3]
+    | 5 => new F xs[0], xs[1], xs[2], xs[3], xs[4]
+    | 6 => new F xs[0], xs[1], xs[2], xs[3], xs[4], xs[5]
+    | 7 => new F xs[0], xs[1], xs[2], xs[3], xs[4], xs[5], xs[6]
+    | 8 => new F xs[0], xs[1], xs[2], xs[3], xs[4], xs[5], xs[6], xs[7]
+    | 9 => new F xs[0], xs[1], xs[2], xs[3], xs[4], xs[5], xs[6], xs[7], xs[8]
+    | _ =>
+        Surrogate = !-> F.apply this, xs
+        Surrogate.prototype = F.prototype
+        return new Surrogate
+
 # flip :: function -> ...any -> any
-export flip = curry 2 (f, ...xs) ->
-    applyNoContext f, (reverseArray xs)
+exports.flip = curry 2 (f, ...xs) ->
+    -> apply f, (reverseArray xs)
 
 # chain :: ...function, function -> void
-export chain = (...fns, cb) !->
+exports.chain = (...fns, cb) !->
     link = (e, ...args) !->
         if e or (fns.length is 0)
         then cb ... &
-        else try applyNoContext fns.shift!, (args ++ link)
+        else try apply fns.shift!, (args ++ link)
              catch => cb e
     # init chain & catch first possible error outside of link
     try fns.shift! link
@@ -72,7 +92,7 @@ export chain = (...fns, cb) !->
 
 # Isolated try .. catch with callback interface
 # tryCatch :: function -> any
-export tryCatch = (fn, cb) !->
+exports.tryCatch = (fn, cb) !->
     err = null
     res = null
     try res := fn!
@@ -83,7 +103,7 @@ export tryCatch = (fn, cb) !->
 
 # Crockfordic backbonian object inheritance
 # Empty Base Class to extend from
-export function Class =>
+function Class =>
     this.initialize.apply this, arguments
 
 Class.prototype = { initialize: (->) }
@@ -91,19 +111,21 @@ Class.prototype = { initialize: (->) }
 # Class.extend :: object -> object? -> function
 Class.extend = (proto, props) ->
     parent = this
-    child  = void
 
     # get child from proto or create empty constructor which calls parent constructor
-    if proto and _hasOwnProperty.call proto, 'constructor'
-    then child := proto.constructor
-    else child := -> applyTo this, parent, &
+    child =
+        if proto and _hasOwnProperty.call proto, 'constructor'
+        then proto.constructor
+        else !-> applyTo this, parent, &
 
     mixin child, parent, props
 
-    Surrogate = -> this.constructor = child
+    Surrogate = !-> this.constructor = child
     Surrogate.prototype = parent.prototype
     child.prototype = new Surrogate
 
     if proto then mixin child.prototype, proto
 
-    child
+    return child
+
+exports.Class = Class

@@ -1,36 +1,43 @@
 'use strict'
 
-curry  = require './curry'
-arrays = require './arrays'
+curry = require './curry'
+array = require './arrays'
 
 # repeat :: string -> string
-export repeat = curry (n, str) ->
-    result = ''
-    for til n then result += str
-    result
+exports.repeat = curry (n, str) ->
+    [str for til n].join ''
 
 # reverse :: string -> string
-export reverse = (str) ->
-    (arrays.reverse str).join ''
+exports.reverse = (str) ->
+    i = 0
+    len = str.length
+    result = new Array len
+    until len is 0
+        result[--len] = str.char-at i++
+    result.join ''
 
 # capitalize :: string -> string
-export capitalize = (str) ->
+exports.capitalize = (str) ->
   (str.char-at 0).to-upper-case! + str.slice 1
 
-# decapitalize :: string -> string
-export decapitalize = (str) ->
-  (str.char-at 0).to-lower-case! + str.slice 1
-
 # capitalizeSentence :: string -> string
-export capitalizeSentence = (str) ->
+exports.capitalizeSentence = (str) ->
     str.replace /(^.|\s.)/g, (, c) -> (c ? '').to-upper-case!
 
+# decapitalize :: string -> string
+exports.decapitalize = (str) ->
+  (str.char-at 0).to-lower-case! + str.slice 1
+
+# decapitalize :: string -> string
+exports.decapitalizeSentence = (str) ->
+  str.replace /(^.|\s.)/g, (, c) -> (c ? '').to-lower-case!
+
 # camelize :: string -> string
-export camelize = (str) ->
+exports.camelize = (str) ->
     str.replace /[-_]+(.)?/g, (, c) -> (c ? '').to-upper-case!
 
 # dasherize :: string -> string
-export dasherize = (str) ->
+exports.dasherize = (str) ->
     str
         .replace /([^-A-Z])([A-Z]+)/g, (, lower, upper) ->
             upper =

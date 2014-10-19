@@ -7,60 +7,57 @@ curry = require './curry'
 { random } = require './numbers'
 
 # empty :: array -> boolean
-export empty = (xs) ->
+exports.empty = (xs) ->
     xs.length is 0
 
 # clone :: array -> array
-export clone = (xs) ->
+exports.clone = (xs) ->
     [x for x in xs]
 
 # head :: array -> any
-export head = (xs) -> xs.0
-
-# head :: array -> any
-export first = head
+exports.first = exports.head = (xs) -> xs.0
 
 # tail :: array -> any
-export tail = (xs) ->
+exports.tail = (xs) ->
     [x for x, i in xs when i > 0]
 
 # last :: array -> any
-export last = (xs) -> xs[*-1]
+exports.last = (xs) -> xs[*-1]
 
 # initial :: array -> array
-export initial = (xs) ->
+exports.initial = (xs) ->
     return unless (init = xs.length)
     --init
     [x for x, i in xs when i < init]
 
-# each :: function -> array -> array
-export each = curry (f, xs) ->
-    for x, i in xs then (f x, i)
-    xs
-
 # slice :: number -> number -> array -> array
-export slice = curry (a, b, xs) ->
+exports.slice = curry (a, b, xs) ->
     xs.slice a, b
 
-# map :: function -> array -> array
-export map = curry (f, xs) ->
-    [f x, i for x, i in xs]
-
-# filter :: function -> array -> array
-export filter = curry (f, xs) ->
-    [x for x, i in xs when f x, i]
-
 # flatten :: array -> array
-export flatten = curry (xs) ->
+exports.flatten = :flatten (xs) ->
     result = []
-    for x in xs then
-        if isType 'Array', x
-        then result.push (flatten x)
+    for x in xs
+        if typeof! x is 'Array'
+        then result.push.apply result, flatten x
         else result.push x
     result
 
+# each :: function -> array -> array
+exports.each = curry (f, xs) ->
+    for x, i in xs then (f x, i)
+    xs
+
+# map :: function -> array -> array
+exports.map = curry (f, xs) ->
+    [f x, i for x, i in xs]
+
+# filter :: function -> array -> array
+exports.filter = curry (f, xs) ->
+    [x for x, i in xs when f x, i]
+
 # shuffle :: array -> array
-export shuffle = (xs) ->
+exports.shuffle = (xs) ->
     result = new Array xs.length
     for x, i in xs
         r = random i
@@ -69,63 +66,63 @@ export shuffle = (xs) ->
     result
 
 # reverse :: array -> array
-export reverse = (xs) ->
-    result = []
+exports.reverse = (xs) ->
     i = 0
     len = xs.length
+    result = new Array len
     until len is 0
         result[--len] = xs[i++]
     result
 
 # zip :: array -> ...array -> array
-export zip = curry 2 (...args) ->
+exports.zip = curry 2 (...args) ->
     min-length = 9e9
     for xs in args
         min-length <?= xs.length
     [[xs[i] for xs in args] for i til min-length]
 
 # zip :: array -> ...array -> array
-export zipWith = curry 3 (f, ...args) ->
+exports.zipWith = curry 3 (f, ...args) ->
     min-length = 9e9
     for xs in args
         min-length <?= xs.length
     [(apply f, [xs[i] for xs in args]) for i til min-length]
 
 # partition :: function -> array -> [array, array]
-export partition = curry (f, xs) ->
+exports.partition = curry (f, xs) ->
     passed = []
     failed = []
-    for x in xs then
+    for x in xs
         (if f x then passed else failed).push x
     [passed, failed]
 
 # unique :: array -> array
-export unique = (xs) ->
+exports.unique = (xs) ->
     result = []
-    for x in xs when x not in result then
+    for x in xs when x not in result
         result.push x
     result
 
 # uniqueBy :: function -> array -> array
-export uniqueBy = curry (f, xs) ->
+exports.uniqueBy = curry (f, xs) ->
     seen = []
-    for x in xs then
+    for x in xs
         val = f x
         continue if val in seen
         seen.push val
         x
 
 # difference :: array -> ...array -> array
-export difference = (xs, ...yss) ->
+exports.difference = curry 2 (xs, ...yss) ->
     result = []
-    :outer for x in xs
+    :diff for x in xs
         for ys in yss when x in ys
-            continue outer
+            continue diff
         result.push x
     result
 
 # intersection :: array -> ...array -> array
-export intersection = (xs, ...yss) ->
+exports.intersection = curry 2 (xs, ...yss) ->
     result = []
     :outer for x in xs
         for ys in yss when not (x in ys)
@@ -134,15 +131,15 @@ export intersection = (xs, ...yss) ->
     result
 
 # union :: ...array -> array
-export union = (...xss) ->
+exports.union = curry 2 (...xss) ->
     result = []
     for xs in xss
-        for x in xs when not x in result
+        for x in xs when x not in result
             result.push x
     result
 
 # sortBy :: function -> array -> array
-export sortBy = curry (f, xs) ->
+exports.sortBy = curry (f, xs) ->
     xs.concat!.sort (x, y) ->
         a = f x
         b = f y
@@ -151,7 +148,7 @@ export sortBy = curry (f, xs) ->
         else                  0
 
 # countBy :: function -> array -> array
-export countBy = curry (f, xs) ->
+exports.countBy = curry (f, xs) ->
     result = {}
     for x in xs
         key = f x
@@ -162,7 +159,7 @@ export countBy = curry (f, xs) ->
     result
 
 # groupBy :: function -> array -> object
-export groupBy = curry (f, xs) ->
+exports.groupBy = curry (f, xs) ->
     result = {}
     for x in xs
         key = f x
@@ -173,27 +170,27 @@ export groupBy = curry (f, xs) ->
     result
 
 # splitAt :: number -> array - [array]
-export splitAt = curry (n, xs) ->
+exports.splitAt = curry (n, xs) ->
     n = 0 if n < 0
     [(xs.slice 0, n), (xs.slice n)]
 
 # index :: any -> array -> number
-export index = curry (elem, xs) ->
+exports.index = curry (elem, xs) ->
     for x, i in xs
     when x is elem
         return i
     void
 
 # indicesOf :: any -> array -> [number]
-export indices = curry (elem, xs) ->
+exports.indices = curry (elem, xs) ->
     [i for x, i in xs when x is elem]
 
 # findIndex :: function -> array -> number
-export findIndex = curry (f, xs) ->
+exports.findIndex = curry (f, xs) ->
     for x, i in xs when f x
         return i
     void
 
 # findIndices :: function -> array -> [number]
-export findIndices = curry (f, xs) ->
+exports.findIndices = curry (f, xs) ->
     [i for x, i in xs when f x]
