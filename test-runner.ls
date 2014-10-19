@@ -30,5 +30,7 @@ mixin global, {
     isObject    : assertType 'Object'
     isArray     : assertType 'Array'
     isRegExp    : assertType 'RegExp'
+    isDate      : assertType 'Date'
     isError     : assertType 'Error'
+    isArguments : assertType 'Arguments'
 }
