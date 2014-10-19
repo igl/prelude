@@ -8,74 +8,67 @@ suite 'prelude.arrays' !->
         { empty } = prelude.arrays
 
         test 'returns correctly with valid inputs' !->
-            expect empty [] .to.be true
-            expect empty [1] .to.be false
+            strictEqual (empty []), true
+            strictEqual (empty [1]), false
 
     suite 'clone()' !->
         { clone } = prelude.arrays
 
         test 'returns the same as input' !->
-            expect (clone [1 2 3])0 .to.be 1
-            expect (clone [1 2 3])1 .to.be 2
-            expect (clone [1 2 3])2 .to.be 3
-            expect (clone [1 2 3])3 .to.be void
+            deepEqual do
+                (clone [1 2 3])
+                [1 2 3]
 
         test 'returns a copy' !->
-            xs = [1 2 3 4 5]
-            copy = clone xs
-            copy.2 = 'foo'
-            expect xs.2 .to.be 3
-            expect copy.2 .to.be 'foo'
+            original = [1 2 3 4 5]
+            copy     = clone original
+            copy.2   = 'foo'
+
+            strictEqual original.2, 3
+            strictEqual copy.2, 'foo'
 
     suite 'each()' !->
         { each } = prelude.arrays
 
         test 'curries' !->
-            noop = each (->)
-            expect noop .to.be.a 'function'
-            noop = noop [1 2 3]
-            expect noop .to.be.a 'array'
+            isFunction each (->)
+            isArray each (->), [1 2 3]
 
         test 'iterates over the complete array' !->
             count = 0
             each (-> count += 1), [1 2 3 4]
-            expect count .to.be 4
+            strictEqual count, 4
 
         test 'iterator receives index and value' !->
             ['foo' 'bar' 'qaz'] |> each (value, index) ->
-                expect value .to.be.a 'string'
-                expect index .to.be.a 'number'
-                if index is 0
-                    expect value .to.be 'foo'
-                if index is 1
-                    expect value .to.be 'bar'
-                if index is 2
-                    expect value .to.be 'qaz'
+                isString value
+                isNumber index
+                if index is 0 then strictEqual value, 'foo'
+                if index is 1 then strictEqual value, 'bar'
+                if index is 2 then strictEqual value, 'qaz'
 
     suite 'map()' !->
         { map } = prelude.arrays
 
         test 'curries' !->
-            noop = map (->)
-            expect noop .to.be.a 'function'
-            noop = noop [1 2 3]
-            expect noop .to.be.a 'array'
+            isFunction map (->)
+            isArray map (->), [1 2 3]
 
         test 'iterates over the complete array' !->
             count = 0
             map (-> ++count), [1 2 3]
-            expect count .to.be 3
+            strictEqual count, 3
 
         test 'iterator receives index and value' !->
             ['foo' 'bar' 'qaz'] |> map (value, index) ->
-                assert.String value
-                assert.Number index
-                if index is 0 then assert.strictEqual 'foo' value
-                if index is 1 then assert.strictEqual 'bar' value
-                if index is 2 then assert.strictEqual 'qaz' value
+                isString value
+                isNumber index
+                if index is 0 then strictEqual value, 'foo'
+                if index is 1 then strictEqual value, 'bar'
+                if index is 2 then strictEqual value, 'qaz'
 
         test 'remap values' !->
-            assert.deepEqual do
+            deepEqual do
                 [0 1 2] |> map (-> it + 1)
                 [1 2 3]
 
@@ -83,24 +76,24 @@ suite 'prelude.arrays' !->
         { filter } = prelude.arrays
 
         test 'curries' !->
-            assert.Function filter (->)
-            assert.Array    filter (->), [1 2 3]
+            isFunction filter (->)
+            isArray    filter (->), [1 2 3]
 
         test 'iterates over the complete array' !->
             count = 0
             filter (-> ++count), [1 2 3]
-            assert.strictEqual 3 count
+            strictEqual count, 3
 
         test 'iterator receives index and value' !->
             ['foo' 'bar' 'qaz'] |> filter (value, index) ->
-                assert.String value
-                assert.Number index
-                if index is 0 then assert.strictEqual 'foo' value
-                if index is 1 then assert.strictEqual 'bar' value
-                if index is 2 then assert.strictEqual 'qaz' value
+                isString value
+                isNumber index
+                if index is 0 then strictEqual value, 'foo'
+                if index is 1 then strictEqual value, 'bar'
+                if index is 2 then strictEqual value, 'qaz'
 
         test 'filters values' !->
-            assert.deepEqual do
+            deepEqual do
                 filter (-> typeof it isnt 'string'), [1 'foo' 2]
                 [1 2]
 
@@ -108,17 +101,17 @@ suite 'prelude.arrays' !->
         { zip } = prelude.arrays
 
         test 'zips array' ->
-            assert.deepEqual do
+            deepEqual do
                 zip [1 2] [3 4]
                 [[1 3], [2 4]]
 
         test 'zip with uneven array length (1)' ->
-            assert.deepEqual do
+            deepEqual do
                 zip [1 2 9] [3 4]
                 [[1 3], [2 4]]
 
         test 'zip with uneven array length (2)' ->
-            assert.deepEqual do
+            deepEqual do
                 zip [1 2] [3 4 9]
                 [[1 3], [2 4]]
 
@@ -126,27 +119,27 @@ suite 'prelude.arrays' !->
         { zipWith } = prelude.arrays
 
         test 'curries' !->
-            assert.Function zipWith (->)
-            assert.Function zipWith (->), [1 2 3]
-            assert.Array    zipWith (->), [1 2 3] [1 2 3]
+            isFunction zipWith (->)
+            isFunction zipWith (->), [1 2 3]
+            isArray    zipWith (->), [1 2 3] [1 2 3]
 
         test 'zips array' ->
-            assert.deepEqual do
+            deepEqual do
                 zipWith (-> &0 + &1), [1 2] [3 4]
                 [4 6]
 
         test 'zips multible arrays' ->
-            assert.deepEqual do
+            deepEqual do
                 zipWith (-> &0 + &1 + &2), [1 2] [2 1] [10 20]
                 [13 23]
 
         test 'zip with uneven array length (1)' ->
-            assert.deepEqual do
+            deepEqual do
                 zipWith (-> &0 + &1), [1 2 9] [3 4]
                 [4 6]
 
         test 'zip with uneven array length (2)' ->
-            assert.deepEqual do
+            deepEqual do
                 zipWith (-> &0 + &1), [1 2] [3 4 9]
                 [4 6]
 
@@ -154,10 +147,10 @@ suite 'prelude.arrays' !->
         { partition } = prelude.arrays
 
         test 'curries' !->
-            assert.Function partition (->)
-            assert.Array    partition (->), [1 2 3]
+            isFunction partition (->)
+            isArray    partition (->), [1 2 3]
 
         test 'partitions array' !->
-            assert.deepEqual do
+            deepEqual do
                 partition (-> it is 2), [1 2 3 4]
                 [[2], [1 3 4]]

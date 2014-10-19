@@ -8,110 +8,91 @@ suite 'prelude.objects' !->
         { empty } = prelude.objects
 
         test 'returns correctly with valid inputs' !->
-            expect empty {} .to.be true
-            expect empty { a: 1 } .to.be false
+            strictEqual (empty {}), true
+            strictEqual (empty { a: 1 }), false
 
     suite 'clone()' !->
         { clone } = prelude.objects
 
-        test 'exists' !->
-            expect clone .to.be.a 'function'
-
         test 'returns the same as input' !->
-            expect (clone { a: 12 }).a .to.be 12
+            deepEqual do
+                clone { a: 12 }
+                { a: 12 }
 
         test 'returns a copy' !->
-            obj = { a:0, b:1, c:2 }
-            copy = clone obj
-            copy.a = 'foo'
-            expect obj.a  .to.be 0
-            expect copy.a .to.be 'foo'
+            original = { a:0, b:1, c:2 }
+            copy     = clone original
+            copy.a   = 'foo'
+
+            strictEqual original.a, 0
+            strictEqual copy.a, 'foo'
 
     suite 'each()' !->
         { each } = prelude.objects
 
         test 'curries' !->
-            noop = each (->)
-            expect noop .to.be.a 'function'
-            noop = noop { a:1, b:2, c:3 }
-            expect noop .to.be.a 'object'
+            isFunction each (->)
+            isObject each (->), { a:1, b:2, c:3 }
 
         test 'iterates over the complete object' !->
             count = 0
-            each (-> count += 1), { a:1, b:2, c:3 }
-            expect count .to.be 3
+            each (-> ++count), { a:1, b:2, c:3 }
+            strictEqual count, 3
 
         test 'iterator receives key and value' !->
-            { a:1, b:2, c:3 } |> each (value, key) ->
-                expect value .to.be.a 'number'
-                expect key .to.be.a 'string'
-                if key is 'a'
-                    expect value .to.be 1
-                if key is 'b'
-                    expect value .to.be 2
-                if key is 'c'
-                    expect value .to.be 3
+            { a:1, b:2, c:3 } |> each (value, key) !->
+                isNumber value
+                isString key
+                if key is 'a' then strictEqual value, 1
+                if key is 'b' then strictEqual value, 2
+                if key is 'c' then strictEqual value, 3
 
     suite 'map()' !->
         { map } = prelude.objects
 
         test 'curries' !->
-            noop = map (->)
-            expect noop .to.be.a 'function'
-            noop = noop { a:1, b:2, c:3 }
-            expect noop .to.be.a 'object'
+            isFunction map (->)
+            isObject   map (->), { a:1, b:2, c:3 }
 
         test 'iterates over the complete object' !->
             count = 0
             map (-> ++count), { a:1, b:2, c:3 }
-            expect count .to.be 3
+            strictEqual count, 3
 
         test 'iterator receives key and value' !->
-            { a:0, b:1, c:2 } |> map (value, key) ->
-                expect value .to.be.a 'number'
-                expect key .to.be.a 'string'
-                if key is 'a'
-                    expect value .to.be 0
-                if key is 'b'
-                    expect value .to.be 1
-                if key is 'c'
-                    expect value .to.be 2
+            { a:0, b:1, c:2 } |> map (value, key) !->
+                isNumber value
+                isString key
+                if key is 'a' then strictEqual value, 0
+                if key is 'b' then strictEqual value, 1
+                if key is 'c' then strictEqual value, 2
 
         test 'remap values' !->
-            result = map (-> it + 1), { a:0, b:1, c:2 }
-            expect result.a .to.be 1
-            expect result.b .to.be 2
-            expect result.c .to.be 3
-            expect result.d .to.be void
+            deepEqual do
+                map (-> it + 1), { a:0, b:1, c:2 }
+                { a:1, b:2, c:3 }
 
     suite 'filter()' !->
         { filter } = prelude.objects
 
         test 'curries' !->
-            noop = filter (->)
-            expect noop .to.be.a 'function'
-            noop = noop { a:0, b:1, c:2 }
-            expect noop .to.be.a 'object'
+            isFunction filter (->)
+            isObject filter (->), { a:0, b:1, c:2 }
 
         test 'iterates over the complete object' !->
             count = 0
             filter (-> ++count), { a:0, b:1, c:2 }
-            expect count .to.be 3
+            strictEqual count, 3
 
         test 'iterator receives key and value' !->
             { a:0, b:1, c:2 } |> filter (value, key) ->
-                expect value .to.be.a 'number'
-                expect key .to.be.a 'string'
-                if key is 'a'
-                    expect value .to.be 0
-                if key is 'b'
-                    expect value .to.be 1
-                if key is 'c'
-                    expect value .to.be 2
+                isNumber value
+                isString key
+                if key is 'a' then strictEqual value, 0
+                if key is 'b' then strictEqual value, 1
+                if key is 'c' then strictEqual value, 2
 
         test 'filters values' !->
-            result = filter (-> typeof it isnt 'string'), { a:0, b:'foo', c:2 }
-            expect (Object.keys result)length .to.be 2
-            expect result.a .to.be 0
-            expect result.c .to.be 2
-            expect result.b .to.be void
+            deepEqual do
+                filter (-> typeof it isnt 'string'), { a:0, b:'foo', c:2 }
+                { a:0, c:2 }
