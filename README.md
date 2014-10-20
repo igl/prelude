@@ -16,25 +16,6 @@ All functions with 2 or more arguments are curried for a smooth integration with
 
 ### Method Index:
 
-**Strings** `prelude.strings.<method>`
-
-- repeat
-- reverse
-- capitalize
-- decapitalize
-- capitalizeSentence
-- camelize
-- dasherize
-
-**Numbers** `prelude.numbers.<method>`
-
-- even
-- odd
-- random
-- range
-- gcd
-- lcm
-
 **Arrays** `prelude.arrays.<method>`
 
 - empty
@@ -44,11 +25,11 @@ All functions with 2 or more arguments are curried for a smooth integration with
 - tail
 - last
 - initial
-- each
 - slice
+- flatten
+- each
 - map
 - filter
-- flatten
 - shuffle
 - reverse
 - zip
@@ -71,9 +52,9 @@ All functions with 2 or more arguments are curried for a smooth integration with
 **Objects** `prelude.objects.<method>`
 
 - empty
-- clone
 - keys
 - values
+- clone
 - each
 - map
 - filter
@@ -101,15 +82,46 @@ All functions with 2 or more arguments are curried for a smooth integration with
 
 **Funcs** `prelude.funcs.<method>`
 
+- noop
 - curry
 - apply
 - applyTo
+- applyNew
 - flip
 - chain
 - tryCatch
 - Class
 
+**Strings** `prelude.strings.<method>`
+
+- repeat
+- reverse
+- capitalize
+- capitalizeSentence
+- decapitalize
+- decapitalizeSentence
+- camelize
+- dasherize
+
+**Numbers** `prelude.numbers.<method>`
+
+- even
+- odd
+- random
+- range
+- gcd
+- lcm
+
 **Types** `prelude.types.<method>`
 
 - getType
 - isType
+- isFunction
+- isObject
+- isArray
+- isString
+- isNumber
+- isDate
+- isRegExp
+- isArguments
+- isError
