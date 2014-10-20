@@ -105,7 +105,7 @@ exports.fill = curry 2 (dest, ...sources) ->
 exports.deepFill = curry 2 (dest, ...sources) ->
     for src in sources then
         for key, value of dest when value?
-            if (isType 'Object' src[key]) and (isType 'Object', value)
+            if (isType 'Object' src[key], value)
                 dest[key] = exports.deepFill value, src[key]
             else
                 dest[key] = src[key]
