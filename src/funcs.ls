@@ -83,22 +83,35 @@ exports.flip = curry 2 (f, ...xs) ->
 exports.chain = (...fns, cb) !->
     link = (e, ...args) !->
         if e or (fns.length is 0)
-        then cb ... &
-        else try apply fns.shift!, (args ++ link)
-             catch => cb e
-    # init chain & catch first possible error outside of link
-    try fns.shift! link
-    catch => cb e
+        then exports.apply cb, &
+        else try exports.apply fns.shift!, (args ++ link)
+             catch then cb e
+
+    try (fns.shift! link)
+    catch then cb e
+
+exports.concurrent = (...fns, cb) !->
+    len = fns.length
+    errors  = new Array len
+    results = new Array len
+
+    link = (i) -> (err, ...args) !->
+        errors[i]  = e
+        results[i] = args
+        cb errors, results if --len is 0
+
+    for fn, i in fns
+        try (fn link i)
+        catch then errors[i] = e
 
 # Isolated try .. catch with callback interface
 # tryCatch :: function -> any
-exports.tryCatch = (fn, cb) !->
-    err = null
-    res = null
-    try res := fn!
-    catch e
-        err := if e instanceof Error then e else new Error e
-    cb err, res if cb
+exports.tryCatch = (fn, cb) ->
+    try
+        res = fn!
+    catch
+        err = if e instanceof Error then e else new Error e
+    cb err, res if typeof cb is 'function'
     err or res
 
 # Crockfordic backbonian object inheritance
