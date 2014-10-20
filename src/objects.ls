@@ -104,10 +104,11 @@ exports.fill = curry 2 (dest, ...sources) ->
 # deepFill :: object -> ...object -> object
 exports.deepFill = curry 2 (dest, ...sources) ->
     for src in sources then
-        for k of dest when dest[k]?
-            if (isType 'Object' dest[k]) and (isType 'Object', dest[k])
-            then dest[k] = exports.deepFill dest[k], src[k]
-            else dest[k] = src[k]
+        for key, value of dest when value?
+            if (isType 'Object' src[key]) and (isType 'Object', value)
+                dest[k] = exports.deepFill value, src[k]
+            else
+                dest[k] = src[k]
     dest
 
 # freeze :: object -> object
