@@ -1,6 +1,6 @@
 src/
 test/
-generate-readme.ls
-test-runner.ls
+*.ls
+**/*.ls
 .npmignore
 Makefile

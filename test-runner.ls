@@ -21,6 +21,7 @@ function assertType (expected)
 # set global assert funcs
 mixin global, {
     prelude     : prelude
+    ok          : assert.ok
     throws      : assert.throws
     deepEqual   : assert.deepEqual
     strictEqual : assert.strictEqual
