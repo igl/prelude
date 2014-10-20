@@ -89,7 +89,7 @@ exports.mixin = curry 2 (dest = {}, ...sources) ->
 exports.deepMixin = curry 2 (dest = {}, ...sources) ->
     for src in sources then
         for k, v of src then
-            if (isType 'Object' dest[k]) and (isType 'Object' v)
+            if (isType 'Object' dest[k]) and (isType 'Object', v)
             then dest[k] = exports.deepMixin dest[k], v
             else dest[k] = v
     dest
@@ -105,7 +105,7 @@ exports.fill = curry 2 (dest, ...sources) ->
 exports.deepFill = curry 2 (dest, ...sources) ->
     for src in sources then
         for k of dest when dest[k]?
-            if (isType 'Object' dest[key]) and (isType 'Object' v)
+            if (isType 'Object' dest[k]) and (isType 'Object', dest[k])
             then dest[k] = exports.deepFill dest[k], src[k]
             else dest[k] = src[k]
     dest
@@ -118,8 +118,8 @@ exports.freeze = (obj) ->
 exports.deepFreeze = (obj) ->
     Object.freeze obj unless Object.isFrozen obj
     for key, value of obj
-    when (hasOwnProperty key, obj) and (isType value) is 'Object'
-        deepFreeze value
+    when (_hasOwnProperty.call obj, key) and (isType 'Object', value)
+        exports.deepFreeze value
     obj
 
 # toString :: object -> string
@@ -134,7 +134,7 @@ exports.fromString = (obj) -> JSON.parse obj
 # definePublic :: object -> string|object -> maybe any -> object
 exports.definePublic = curry (obj, key, value) ->
     if isType 'Object' key
-        for k, v of key => definePublic obj, k, v
+        for k, v of key => exports.definePublic obj, k, v
         obj
     else
         Object.defineProperty obj, key, {
@@ -144,7 +144,7 @@ exports.definePublic = curry (obj, key, value) ->
 # definePrivate :: object -> string|object -> maybe any -> object
 exports.definePrivate = curry (obj, key, value) ->
     if isType 'Object' key
-        for k, v of key => definePrivate obj, k, v
+        for k, v of key => exports.definePrivate obj, k, v
         obj
     else
         Object.defineProperty obj, key, {
@@ -154,7 +154,7 @@ exports.definePrivate = curry (obj, key, value) ->
 # defineStatic :: object -> string|object -> maybe any -> object
 exports.defineStatic = curry (obj, key, value) ->
     if isType 'Object' key
-        for k, v of key => defineStatic obj, k, v
+        for k, v of key => exports.defineStatic obj, k, v
         obj
     else
         Object.defineProperty obj, key, {
@@ -164,7 +164,7 @@ exports.defineStatic = curry (obj, key, value) ->
 # defineMeta :: object -> string|object -> maybe any -> object
 exports.defineMeta = curry (obj, key, value) ->
     if isType 'Object' key
-        for k, v of key => defineMeta obj, k, v
+        for k, v of key => exports.defineMeta obj, k, v
         obj
     else
         Object.defineProperty obj, key, {
