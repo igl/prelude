@@ -80,18 +80,6 @@ All functions with 2 or more arguments are curried for a smooth integration with
 - defineStatic
 - defineMeta
 
-**Funcs** `prelude.funcs.<method>`
-
-- noop
-- curry
-- apply
-- applyTo
-- applyNew
-- flip
-- chain
-- tryCatch
-- Class
-
 **Strings** `prelude.strings.<method>`
 
 - repeat
@@ -111,6 +99,19 @@ All functions with 2 or more arguments are curried for a smooth integration with
 - range
 - gcd
 - lcm
+
+**Funcs** `prelude.funcs.<method>`
+
+- noop
+- curry
+- apply
+- applyTo
+- applyNew
+- flip
+- chain
+- concurrent
+- tryCatch
+- Class
 
 **Types** `prelude.types.<method>`
 
