@@ -66,14 +66,13 @@ All functions with 2 or more arguments are curried for a smooth integration with
 - fromPairs
 - toPairs
 - hasOwnProperty
-- mixin
-- deepMixin
 - fill
 - deepFill
+- mixin
+- deepMixin
 - freeze
 - deepFreeze
 - toString
-- parseString
 - fromString
 - definePublic
 - definePrivate

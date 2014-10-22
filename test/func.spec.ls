@@ -34,10 +34,10 @@ suite 'applyTo()' !->
 
 suite 'applyNew()' !->
     test 'apply array as arguments to constructor' !->
-        Ctor = (a, b) ->
-            this.a = a
-            this.b = b
-        deepEqual (applyNew Ctor, [1 2]), { a:1, b:2 }
+        Ctor = (name, age) ->
+            this.name = name
+            this.age  = age
+        deepEqual (applyNew Ctor, ['hans' 24]), { name:'hans', age:24 }
 
 suite 'flip()' !->
     test 'flip arguments' !->
