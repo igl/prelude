@@ -129,7 +129,7 @@ Class.extend = (proto, props) ->
     child =
         if proto and _hasOwnProperty.call proto, 'constructor'
         then proto.constructor
-        else !-> applyTo this, parent, &
+        else !-> exports.applyTo this, parent, &
 
     mixin child, parent, props
 
