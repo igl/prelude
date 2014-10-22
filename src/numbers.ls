@@ -20,7 +20,7 @@ exports.range = curry 2 (a, b, inc = 1) ->
     if &.length is 1
         b = a or 0
         a = 0
-    [x for x from a til b by inc]
+    [x for x from a til (b + 1) by inc]
 
 exports.gcd = (x, y) -->
     x = Math.abs x
@@ -32,4 +32,4 @@ exports.gcd = (x, y) -->
     x
 
 exports.lcm = (x, y) -->
-    Math.abs Math.floor (x / (gcd x, y) * y)
+    Math.abs Math.floor (x / (exports.gcd x, y) * y)

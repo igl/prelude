@@ -54,17 +54,16 @@ exports.keyOf = curry (elem, obj) ->
 
 # keysOf :: any -> object -> string
 exports.keysOf = curry (elem, obj) ->
-    [k for k, v in obj when v is elem]
+    [k for k, v of obj when v is elem]
 
 # findKey :: function -> object -> string
 exports.findKey = curry (f, obj) ->
-    for k, v of obj when (f v, k)
-        return k
+    for k, v of obj when (f v, k) then return k
     void
 
 # findKeys :: function -> object -> [string]
 exports.findKeys = curry (f, obj) ->
-    [k for k, v in obj when (f v, k)]
+    [k for k, v of obj when (f v, k)]
 
 # fromPairs :: array -> object
 exports.fromPairs = (xs) ->
@@ -77,22 +76,6 @@ exports.toPairs = (obj) ->
 # hasOwnProperty :: string -> object -> boolean
 exports.hasOwnProperty = curry (key, obj) ->
     _hasOwnProperty.call obj, key
-
-# mixin :: object -> ...object -> object
-exports.mixin = curry 2 (dest = {}, ...sources) ->
-    for src in sources then
-        for key, val of src then
-            dest[key] = val
-    dest
-
-# deepMixin :: object -> ...object -> object
-exports.deepMixin = curry 2 (dest = {}, ...sources) ->
-    for src in sources then
-        for k, v of src then
-            if (isType 'Object' dest[k]) and (isType 'Object', v)
-            then dest[k] = exports.deepMixin dest[k], v
-            else dest[k] = v
-    dest
 
 # fill :: object -> ...object -> object
 exports.fill = curry 2 (dest, ...sources) ->
@@ -111,6 +94,22 @@ exports.deepFill = curry 2 (dest, ...sources) ->
                 dest[key] = src[key]
     dest
 
+# mixin :: object -> ...object -> object
+exports.mixin = curry 2 (dest = {}, ...sources) ->
+    for src in sources then
+        for key, val of src then
+            dest[key] = val
+    dest
+
+# deepMixin :: object -> ...object -> object
+exports.deepMixin = curry 2 (dest = {}, ...sources) ->
+    for src in sources then
+        for k, v of src then
+            if (isType 'Object' dest[k]) and (isType 'Object', v)
+            then dest[k] = exports.deepMixin dest[k], v
+            else dest[k] = v
+    dest
+
 # freeze :: object -> object
 exports.freeze = (obj) ->
     Object.freeze obj
@@ -124,10 +123,7 @@ exports.deepFreeze = (obj) ->
     obj
 
 # toString :: object -> string
-exports.toString = (obj) -> JSON.stringify obj
-
-# parseString :: object -> string
-exports.parseString = curry (n, f, obj) -> JSON.stringify obj, f, 2
+exports.toString = (obj) -> JSON.stringify obj, null, 2
 
 # fromString :: string -> object
 exports.fromString = (obj) -> JSON.parse obj
@@ -159,7 +155,7 @@ exports.defineStatic = curry (obj, key, value) ->
         obj
     else
         Object.defineProperty obj, key, {
-            value, +enumerable, -writable, -configurable
+            value, +enumerable, -writable, +configurable
         }
 
 # defineMeta :: object -> string|object -> maybe any -> object
@@ -169,5 +165,5 @@ exports.defineMeta = curry (obj, key, value) ->
         obj
     else
         Object.defineProperty obj, key, {
-            value, -enumerable, -writable, -configurable
+            value, -enumerable, -writable, +configurable
         }
