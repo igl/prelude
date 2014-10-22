@@ -2,16 +2,19 @@
 
 <-! suite 'prelude.array'
 
-suite 'empty()' !->
-    { empty } = prelude.arrays
+{
+    empty, clone, head, first, tail, last, initial, slice, flatten, each, map,
+    filter, shuffle, reverse, zip, zipWith, partition, unique, uniqueBy,
+    difference, intersection, union, sortBy, countBy, groupBy, splitAt, index,
+    indices, findIndex, findIndices
+} = prelude.arrays
 
+suite 'empty()' !->
     test 'returns correctly with valid inputs' !->
         strictEqual (empty []), true
         strictEqual (empty [1]), false
 
 suite 'clone()' !->
-    { clone } = prelude.arrays
-
     test 'returns the same as input' !->
         deepEqual do
             (clone [1 2 3])
@@ -26,38 +29,26 @@ suite 'clone()' !->
         strictEqual copy.2, 'foo'
 
 suite 'head()' !->
-    { head } = prelude.arrays
-
     test 'return first element' !->
         strictEqual (head [1 2 3]), 1
 
 suite 'first()' !->
-    { first } = prelude.arrays
-
     test 'return first element' !->
         strictEqual (first [1 2 3]), 1
 
 suite 'tail()' !->
-    { tail } = prelude.arrays
-
     test 'return tail' !->
         deepEqual (tail [1 2 3]), [2 3]
 
 suite 'last()' !->
-    { last } = prelude.arrays
-
     test 'return first element' !->
         strictEqual (last [1 2 3]), 3
 
 suite 'initial()' !->
-    { initial } = prelude.arrays
-
     test 'return all elements but the last' !->
         deepEqual (initial [1 2 3 4]), [1 2 3]
 
 suite 'slice()' !->
-    { slice } = prelude.arrays
-
     test 'slice array' !->
         deepEqual (slice 0, 3 [1 2 3 4]), [1 2 3]
 
@@ -65,15 +56,12 @@ suite 'slice()' !->
         deepEqual (slice 0, -1 [1 2 3 4]), [1 2 3]
 
 suite 'flatten()' !->
-    { flatten } = prelude.arrays
     test 'flatten array' !->
         deepEqual do
             flatten [[1 2], [3 4]]
             [1 2 3 4]
 
 suite 'each()' !->
-    { each } = prelude.arrays
-
     test 'curries' !->
         isFunction each (->)
         isArray each (->), [1 2 3]
@@ -92,8 +80,6 @@ suite 'each()' !->
             if index is 2 then strictEqual value, 'qaz'
 
 suite 'map()' !->
-    { map } = prelude.arrays
-
     test 'curries' !->
         isFunction map (->)
         isArray map (->), [1 2 3]
@@ -117,8 +103,6 @@ suite 'map()' !->
             [1 2 3]
 
 suite 'filter()' !->
-    { filter } = prelude.arrays
-
     test 'curries' !->
         isFunction filter (->)
         isArray    filter (->), [1 2 3]
@@ -142,8 +126,6 @@ suite 'filter()' !->
             [1 2]
 
 suite 'shuffle()' !->
-    { shuffle } = prelude.arrays
-
     test 'shuffles array' !->
         i = 100
         while --i
@@ -152,16 +134,12 @@ suite 'shuffle()' !->
                 -> true
 
 suite 'reverse()' !->
-    { reverse } = prelude.arrays
-
     test 'reverses array' !->
         deepEqual do
             reverse [1 2 3]
             [3 2 1]
 
 suite 'zip()' !->
-    { zip } = prelude.arrays
-
     test 'zips array' ->
         deepEqual do
             zip [1 2] [3 4]
@@ -178,8 +156,6 @@ suite 'zip()' !->
             [[1 3], [2 4]]
 
 suite 'zipWith()' !->
-    { zipWith } = prelude.arrays
-
     test 'curries' !->
         isFunction zipWith (->)
         isFunction zipWith (->), [1 2 3]
@@ -206,8 +182,6 @@ suite 'zipWith()' !->
             [4 6]
 
 suite 'partition()' !->
-    { partition } = prelude.arrays
-
     test 'curries' !->
         isFunction partition (->)
         isArray    partition (->), [1 2 3]
@@ -218,16 +192,12 @@ suite 'partition()' !->
             [[2], [1 3 4]]
 
 suite 'unique()' !->
-    { unique } = prelude.arrays
-
     test 'return unique items' !->
         deepEqual do
             unique [1 1 2 3 3 4 5]
             [1 2 3 4 5]
 
 suite 'uniqueBy()' !->
-    { uniqueBy } = prelude.arrays
-
     test 'curries' !->
         deepEqual do
             <[fo fo foo fooo fooo]> |> uniqueBy (.length)
@@ -239,24 +209,18 @@ suite 'uniqueBy()' !->
             <[fo foo fooo]>
 
 suite 'difference()' !->
-    { difference } = prelude.arrays
-
     test 'return difference' !->
         deepEqual do
             difference [1 2 3], [1 4 5]
             [2 3]
 
 suite 'intersection()' !->
-    { intersection } = prelude.arrays
-
     test 'return intersecting' !->
         deepEqual do
             intersection [1 2 3], [1 2 5]
             [1 2]
 
 suite 'union()' !->
-    { union } = prelude.arrays
-
     test 'curries' !->
         deepEqual do
             [1 3 4] |> union [1 2]
