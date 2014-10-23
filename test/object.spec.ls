@@ -4,8 +4,8 @@
 
 {
     empty, keys, values, clone, each, map, filter, partition, keyOf, keysOf,
-    findKey, findKeys, fromPairs, toPairs, has, fill, deepFill,
-    mixin, deepMixin, freeze, deepFreeze, toString, fromString,
+    findKey, findKeys, fromPairs, toPairs, has, getPath, hasPath, fill,
+    deepFill, mixin, deepMixin, freeze, deepFreeze, toString, fromString,
     definePublic, definePrivate, defineStatic, defineMeta
 } = prelude.objects
 
@@ -24,6 +24,16 @@ suite 'has()' !->
         strictEqual do
             has 'd', { a:1, b:2, c:3 }
             false
+
+# suite 'hasPath()' !->
+#     obj = { a: { b: { c: 'foo'}}}
+#     test 'properties exists' !->
+#         strictEqual true, true
+
+# suite 'getPath()' !->
+#     obj = { a:{ b:{ c:'foo' } } }
+#     test 'gets property' !->
+#         strictEqual (getPath obj, 'a.b.c'), 'foo'
 
 suite 'keys()' !->
     test 'return keys' !->
