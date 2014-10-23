@@ -4,7 +4,7 @@
 
 {
     empty, keys, values, clone, each, map, filter, partition, keyOf, keysOf,
-    findKey, findKeys, fromPairs, toPairs, hasOwnProperty, fill, deepFill,
+    findKey, findKeys, fromPairs, toPairs, has, fill, deepFill,
     mixin, deepMixin, freeze, deepFreeze, toString, fromString,
     definePublic, definePrivate, defineStatic, defineMeta
 } = prelude.objects
@@ -13,6 +13,17 @@ suite 'empty()' !->
     test 'returns correctly with valid inputs' !->
         strictEqual (empty {}), true
         strictEqual (empty { a: 1 }), false
+
+suite 'has()' !->
+    test 'has property' !->
+        strictEqual do
+            has 'a', { a:1, b:2, c:3 }
+            true
+
+    test 'does not have property' !->
+        strictEqual do
+            has 'd', { a:1, b:2, c:3 }
+            false
 
 suite 'keys()' !->
     test 'return keys' !->
@@ -164,17 +175,6 @@ suite 'toPairs()' !->
         deepEqual do
             toPairs { a:1, b:2 }
             [['a',1],['b',2]]
-
-suite 'hasOwnProperty()' !->
-    test 'has property' !->
-        strictEqual do
-            hasOwnProperty 'a', { a:1, b:2, c:3 }
-            true
-
-    test 'does not have property' !->
-        strictEqual do
-            hasOwnProperty 'd', { a:1, b:2, c:3 }
-            false
 
 suite 'fill()' !->
     test 'curries' !->

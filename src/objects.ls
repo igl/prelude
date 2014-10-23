@@ -12,6 +12,10 @@ exports.empty = (obj) ->
     for k of obj then return false
     true
 
+# has :: string -> object -> boolean
+exports.has = curry (key, obj) ->
+    _hasOwnProperty.call obj, key
+
 # keys :: object -> [string]
 exports.keys = (obj) ->
     [k for k of obj]
@@ -72,10 +76,6 @@ exports.fromPairs = (xs) ->
 # toPairs :: object -> array
 exports.toPairs = (obj) ->
     [[key, value] for key, value of obj]
-
-# hasOwnProperty :: string -> object -> boolean
-exports.hasOwnProperty = curry (key, obj) ->
-    _hasOwnProperty.call obj, key
 
 # fill :: object -> ...object -> object
 exports.fill = curry 2 (dest, ...sources) ->
