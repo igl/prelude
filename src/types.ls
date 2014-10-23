@@ -5,6 +5,7 @@ curry = require './curry'
 # native methods
 _toString = Object.prototype.toString
 
+rx_isJSON = /^\s*[\[\{].*[\]\}]\s*/
 
 # getType :: any -> string
 exports.getType = (o) ->
@@ -13,10 +14,16 @@ exports.getType = (o) ->
 # isType :: string -> any -> boolean
 exports.isType = isType = curry 2 (t, ...xs) ->
     for x in xs
+        # do instanceof on function type
         if typeof t is 'function'
             return false unless (x instanceof t)
-        else if t is 'Number'
-            return false if (t isnt _toString.call x .slice 8, -1) or (isNaN x)
+        # match type strings
+        else switch t
+        | 'JSON'
+            return false if (typeof x isnt 'string') or (x ~= null) or (not rx_isJSON.test x)
+            try (JSON.parse x) catch then return false
+        | 'Number'
+            return false if (t isnt _toString.call x .slice 8, -1) or (isNaN x) or (not isFinite x)
         else
             return false if (t isnt _toString.call x .slice 8, -1)
     true
@@ -30,3 +37,5 @@ exports.isDate      = isType 'Date'
 exports.isRegExp    = isType 'RegExp'
 exports.isArguments = isType 'Arguments'
 exports.isError     = isType 'Error'
+
+exports.isJSON      = isType 'JSON'
