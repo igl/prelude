@@ -104,6 +104,20 @@ exports.concurrent = (...fns, cb) !->
         try (fn link i)
         catch then errors[i] = e
 
+# delay :: number -> function -> object
+export delay = (msec, f) -->
+    i = 0
+    iv = setInterval do
+        !-> (clearInterval iv) if (f i++) isnt false
+        msec
+
+# interval :: number -> function -> object
+export interval = (msec, f) -->
+    i = 0
+    iv = setInterval do
+        !-> (clearInterval iv) if (f i++) is false
+        msec
+
 # Isolated try .. catch with callback interface
 # tryCatch :: function -> any
 exports.tryCatch = (fn, cb) ->
