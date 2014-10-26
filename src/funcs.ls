@@ -130,10 +130,10 @@ exports.tryCatch = (fn, cb) ->
 
 # Crockfordic backbonian object inheritance
 # Empty Base Class to extend from
-function Class =>
+!function Class
     this.initialize.apply this, arguments
 
-Class.prototype = { initialize: (->) }
+Class.prototype = { initialize: !-> }
 
 # Class.extend :: object -> object? -> function
 Class.extend = (proto, props) ->

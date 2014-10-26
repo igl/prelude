@@ -34,6 +34,13 @@ exports.initial = (xs) ->
 exports.slice = curry (a, b, xs) ->
     xs.slice a, b
 
+# concat :: number -> number -> array -> array
+exports.concat = curry 2 (...xxs) ->
+    result = []
+    for xs in xxs then for x in xs
+        result.push x
+    result
+
 # flatten :: array -> array
 exports.flatten = :flatten (xs) ->
     result = []

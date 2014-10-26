@@ -4,7 +4,7 @@
 
 {
     getType, isType, isFunction, isObject, isArray, isString,
-    isNumber, isDate, isRegExp, isArguments, isError
+    isNumber, isDate, isRegExp, isArguments, isError, isJSON
 } = prelude.types
 
 suite 'getType()' !->
@@ -95,19 +95,35 @@ suite 'RegExp' !->
         strictEqual (isRegExp []), false
 
 suite 'Arguments' !->
-    test 'isType' !->
-        strictEqual (isType 'Arguments' &), true
-        strictEqual (& |> isType 'Arguments'), true
-
-    test 'isArguments()' !->
-        strictEqual (isArguments &), true
-        strictEqual (isArguments []), false
+    strictEqual (isType 'Arguments' &), true
+    strictEqual (& |> isType 'Arguments'), true
+    strictEqual (isArguments &), true
+    strictEqual (isArguments []), false
 
 suite 'Error' !->
-    test 'isType' !->
-        strictEqual (isType 'Error' new Error), true
+    test 'is Error' !->
         strictEqual (new Error |> isType 'Error'), true
-
-    test 'isError()' !->
+        strictEqual (isType 'Error' new Error, new Error, new Error), true
         strictEqual (isError new Error), true
+        strictEqual (isError new Error), true
+    test 'isnt Error' !->
         strictEqual (isError {}), false
+        strictEqual (isType 'Error' new Error, new Error, []), false
+
+
+suite 'JSON' !->
+    test 'isnt String' !->
+        strictEqual (isType 'JSON' null), false
+        strictEqual (isType 'JSON' 0), false
+        strictEqual (isType 'JSON' /foo/), false
+        strictEqual (isJSON {}), false
+    test 'isnt "{}" or "[]"' !->
+        strictEqual (isType 'JSON' 'foo'), false
+        strictEqual (isType 'JSON' '"a":1'), false
+        strictEqual (isType 'JSON' '["a":1'), false
+        strictEqual (isJSON '{"a":1'), false
+    test 'is valid' !->
+        deepEqual (isType 'JSON' '{ "a":1 }'), true
+        deepEqual (isType 'JSON' '[{ "a":1 }]'), true
+        deepEqual (isJSON '[1,2,3]'), true
+        deepEqual (isJSON JSON.stringify process.env), true

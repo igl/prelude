@@ -3,10 +3,10 @@
 <-! suite 'prelude.array'
 
 {
-    empty, clone, head, first, tail, last, initial, slice, flatten, each, map,
-    filter, shuffle, reverse, zip, zipWith, partition, unique, uniqueBy,
-    difference, intersection, union, sortBy, countBy, groupBy, splitAt, index,
-    indices, findIndex, findIndices
+    empty, clone, head, first, tail, last, initial, slice, concat, flatten,
+    each, map, filter, shuffle, reverse, zip, zipWith, partition, unique,
+    uniqueBy, difference, intersection, union, sortBy, countBy, groupBy,
+    splitAt, index, indices, findIndex, findIndices
 } = prelude.arrays
 
 suite 'empty()' !->
@@ -54,6 +54,17 @@ suite 'slice()' !->
 
     test 'slice with negative index' !->
         deepEqual (slice 0, -1 [1 2 3 4]), [1 2 3]
+
+suite 'concat()' !->
+    test 'curries' !->
+        isFunction concat [1 2]
+        isArray ([3 4] |> concat [1 2])
+
+    test 'concat 2' !->
+        deepEqual (concat [1 2] [3 4]), [1 2 3 4]
+
+    test 'concat more' !->
+        deepEqual (concat [1 2] [3] [4 5] [6 7 8 9]), [1 2 3 4 5 6 7 8 9]
 
 suite 'flatten()' !->
     test 'flatten array' !->
@@ -142,8 +153,12 @@ suite 'reverse()' !->
 suite 'zip()' !->
     test 'zips array' ->
         deepEqual do
-            zip [1 2] [3 4]
-            [[1 3], [2 4]]
+            zip [1 2 3] [4 5 6]
+            [[1 4], [2 5], [3 6]]
+
+    test 'curries' ->
+        isFunction zip [1 2 3]
+        isArray ([4 5 6] |> zip [1 2 3] )
 
     test 'zip with uneven array length (1)' ->
         deepEqual do
