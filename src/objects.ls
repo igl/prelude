@@ -2,7 +2,7 @@
 
 curry = require './curry'
 
-{ isType } = require './types'
+{ isType, isObject } = require './types'
 
 # native methods
 _hasOwnProperty = Object.prototype.hasOwnProperty
@@ -135,7 +135,7 @@ exports.fill = curry 2 (dest, ...sources) ->
 exports.deepFill = curry 2 (dest, ...sources) ->
     for src in sources then
         for key, value of dest when value?
-            if (isType 'Object' src[key], value)
+            if (isObject src[key], value)
                 dest[key] = exports.deepFill value, src[key]
             else
                 dest[key] = src[key]
@@ -152,7 +152,21 @@ exports.mixin = curry 2 (dest = {}, ...sources) ->
 exports.deepMixin = curry 2 (dest = {}, ...sources) ->
     for src in sources then
         for k, v of src then
-            if (isType 'Object' dest[k]) and (isType 'Object', v)
+            if (isObject dest[k]) and (isType 'Object', v)
+            then dest[k] = exports.deepMixin dest[k], v
+            else dest[k] = v
+    dest
+
+
+exports.merge = curry 3 (options, dest, ...sources) ->
+    unless isObject options
+        options = {}
+
+    options = exports.fill { -strings, -numbers, +arrays, +objects }, options
+
+    for src in sources then
+        for k, v of src then
+            if (isObject dest[k]) and (isType 'Object', v)
             then dest[k] = exports.deepMixin dest[k], v
             else dest[k] = v
     dest
