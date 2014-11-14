@@ -28,6 +28,7 @@ exports.isType = isType = curry 2 (t, ...xs) ->
             return false if (t isnt _toString.call x .slice 8, -1)
     true
 
+exports.isBoolean   = isType 'Boolean'
 exports.isFunction  = isType 'Function'
 exports.isObject    = isType 'Object'
 exports.isArray     = isType 'Array'
@@ -37,5 +38,4 @@ exports.isDate      = isType 'Date'
 exports.isRegExp    = isType 'RegExp'
 exports.isArguments = isType 'Arguments'
 exports.isError     = isType 'Error'
-
 exports.isJSON      = isType 'JSON'
