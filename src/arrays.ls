@@ -10,6 +10,10 @@ curry = require './curry'
 exports.empty = (xs) ->
     xs.length is 0
 
+# contains :: array -> boolean
+exports.contains = (x, xs) ->
+    (xs.indexOf x) isnt -1
+
 # clone :: array -> array
 exports.clone = (xs) ->
     [x for x in xs]
