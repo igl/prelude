@@ -54,31 +54,34 @@ suite 'chain()' !->
             (prev, next) !-> next null, ++prev
             (prev, next) !-> next null, ++prev
             (err, res)   !->
-                ok (not err)
+                ok (not err), 'error should be falsy'
                 strictEqual res, 3
-                strictEqual done, false; done := true
+                strictEqual done, false
+                done := true
 
-    test 'stops on generated error' !->
+    test 'stops on passed error' !->
         done = false
         chain do
             (next) !-> next!
             (next) !-> next (new Error 'Stop')
-            (next) !-> ok false, 'Should not execute'
+            (next) !-> ok false, 'should not execute'
             (err, res) !->
-                isError err
-                ok not res
-                strictEqual done, false; done := true
+                ok ('Error' is typeof! err), 'error should be passed'
+                ok (not res)
+                strictEqual done, false
+                done := true
 
     test 'stops on thrown error' !->
         done = false
         chain do
             (next) !-> next!
             (next) !-> throw new Error 'Stop'
-            (next) !-> ok false, 'Should not execute'
+            (next) !-> ok false, 'should not execute'
             (err, res) !->
-                isError err
-                ok not res
-                strictEqual done, false; done := true
+                ok ('Error' is typeof! err), 'error should be passed'
+                ok (not res)
+                strictEqual done, false
+                done := true
 
 suite 'concurrent()' !->
     e = new Error 'Error!'
