@@ -3,16 +3,32 @@
 <-! suite 'prelude.array'
 
 {
-    empty, clone, head, first, tail, last, initial, slice, concat, flatten,
-    each, map, filter, shuffle, reverse, zip, zipWith, partition, unique,
-    uniqueBy, difference, intersection, union, sortBy, countBy, groupBy,
-    splitAt, index, indices, findIndex, findIndices
+    empty, has, contains, clone, head, first, tail, last, initial, slice,
+    concat, flatten, each, map, filter, shuffle, reverse, zip, zipWith,
+    partition, unique, uniqueBy, difference, intersection, union, sortBy,
+    countBy, groupBy, splitAt, index, indices, findIndex, findIndices
 } = prelude.arrays
 
 suite 'empty()' !->
     test 'returns correctly with valid inputs' !->
         strictEqual (empty []), true
         strictEqual (empty [1]), false
+
+suite 'has()' !->
+    test 'returns correctly with valid inputs' !->
+        strictEqual ( has 0 [1 1] ), true
+        strictEqual ( has 1 [1 2] ), true
+        strictEqual ( has 2 [1 2] ), false
+        strictEqual ( has 0 []    ), false
+
+suite 'contains()' !->
+    test 'returns correctly with valid inputs' !->
+        strictEqual (contains 1 [1 2 3]), true
+        strictEqual (contains 2 [1 2 3]), true
+        strictEqual (contains 3 [1 2 3]), true
+        strictEqual (contains 4 [1 2 3]), false
+        strictEqual (contains 0 [1 2 3]), false
+        strictEqual (contains '1' [1 2 3]), false
 
 suite 'clone()' !->
     test 'returns the same as input' !->
