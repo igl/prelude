@@ -12,7 +12,7 @@ BRSIFY = node_modules/".bin"/browserify
 UGLIFY = node_modules/'.bin'/uglifyjs
 MKDIRP = node_modules/".bin"/mkdirp
 ISTNBL = node_modules/".bin"/istanbul
-MOCHAF = -u tdd -R nyan -t 5000 --compilers ls:$(LS) -r "./test-runner.ls" -c -S -b --recursive --check-leaks --inline-diffs
+MOCHAF = -u tdd -R min -t 5000 --compilers ls:$(LS) -r "./test-runner.ls" -c -S -b --recursive --check-leaks --inline-diffs
 
 SRC  = $(shell find src -maxdepth 1 -name "*.ls" -type f | sort)
 DIST = dist $(SRC:src/%.ls=dist/%.js)
