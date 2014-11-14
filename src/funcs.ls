@@ -80,21 +80,28 @@ exports.flip = curry 2 (f, ...xs) ->
     -> apply f, (reverseArray xs)
 
 function doubleCallback
-    throw new Error
+    throw new Error 'chain() callback called twice!'
 
 # chain :: ...function, function -> void
 exports.chain = (...fns, done) !->
+    # jump out of try-catch stack
+    # replace final call with func that throws
+    callback = (...args) !-> immediate !->
+        apply done, args
+        done := doubleCallback
+
     link = (err, ...args) !->
         if err or (fns.length is 0)
-            apply done, &
+            apply callback, &
             return
 
+        # try-catch next call
         try apply fns.shift!, (args ++ link)
-        catch => immediate -> done e
+        catch => callback e
 
+    # try-catch first call
     try fns.shift! link
-    catch =>
-        immediate -> done e
+    catch => callback e
 
 # concurrent :: ...function -> function
 exports.concurrent = (...fns, cb) !->
