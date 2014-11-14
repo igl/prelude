@@ -14,7 +14,7 @@ HEAD = '''
     - Inspired by
     <a href="http://www.preludels.com/">prelude-ls</a>,
     <a href="http://underscorejs.org/">underscore</a> and
-    <a href="https://github.com/codemix/fast.js">fast.fs</a>.
+    <a href="https://github.com/codemix/fast.js">fast.js</a>.
 
     ### Install:
 
