@@ -30,7 +30,7 @@ exports.noop = -> it
 exports.curry = curry
 
 # apply :: object -> function -> array
-exports.apply = curry (f, xs) ->
+apply = exports.apply = curry (f, xs) ->
     switch xs.length
     | 0 => f!
     | 1 => f xs.0
@@ -44,7 +44,7 @@ exports.apply = curry (f, xs) ->
     | 9 => f xs.0, xs.1, xs.2, xs.3, xs.4, xs.5, xs.6, xs.7, xs.8
     | _ => f.apply void, xs
 
-exports.applyTo = curry (ctx, f, xs) ->
+applyTo = exports.applyTo = curry (ctx, f, xs) ->
     switch xs.length
     | 0 => f.call ctx
     | 1 => f.call ctx, xs.0
@@ -79,19 +79,26 @@ exports.applyNew = curry (F, xs) ->
 exports.flip = curry 2 (f, ...xs) ->
     -> apply f, (reverseArray xs)
 
+function doubleCallback
+    throw new Error
+
 # chain :: ...function, function -> void
-exports.chain = (...fns, cb) !->
-    link = (e, ...args) !->
-        if e or (fns.length is 0)
-        then exports.apply cb, &
-        else try exports.apply fns.shift!, (args ++ link)
-             catch then cb e
+exports.chain = (...fns, done) !->
+    link = (err, ...args) !->
+        if err or (fns.length is 0)
+            apply done, &
+            return
 
-    try (fns.shift! link)
-    catch then cb e
+        try apply fns.shift!, (args ++ link)
+        catch => immediate -> done e
 
+    try fns.shift! link
+    catch =>
+        immediate -> done e
+
+# concurrent :: ...function -> function
 exports.concurrent = (...fns, cb) !->
-    len = fns.length
+    len     = fns.length
     errors  = new Array len
     results = new Array len
 
@@ -105,18 +112,27 @@ exports.concurrent = (...fns, cb) !->
         catch then errors[i] = e
 
 # delay :: number -> function -> object
-export delay = (msec, f) -->
+exports.delay = curry (msec, f) ->
     i = 0
     iv = setInterval do
         !-> (clearInterval iv) if (f i++) isnt false
         msec
 
 # interval :: number -> function -> object
-export interval = (msec, f) -->
+exports.interval = curry (msec, f) ->
     i = 0
     iv = setInterval do
         !-> (clearInterval iv) if (f i++) is false
         msec
+
+immediate = exports.immediate = (f) ->
+    if (typeof setImmediate === 'function')
+        setImmediate f
+    else if (typeof process !== 'undefined' and process.nextTick)
+        process.nextTick f
+    else
+        setTimeout f, 0
+
 
 # Isolated try .. catch with callback interface
 # tryCatch :: function -> any
@@ -143,7 +159,7 @@ Class.extend = (proto, props) ->
     child =
         if proto and _hasOwnProperty.call proto, 'constructor'
         then proto.constructor
-        else !-> exports.applyTo this, parent, &
+        else !-> applyTo this, parent, &
 
     mixin child, parent, props
 

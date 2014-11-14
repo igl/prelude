@@ -48,6 +48,7 @@ suite 'flip()' !->
 
 suite 'chain()' !->
     test 'passes arguments through the chain' !->
+        done = false
         chain do
             (next)       !-> next null, 1
             (prev, next) !-> next null, ++prev
@@ -55,8 +56,10 @@ suite 'chain()' !->
             (err, res)   !->
                 ok (not err)
                 strictEqual res, 3
+                strictEqual done, false; done := true
 
     test 'stops on generated error' !->
+        done = false
         chain do
             (next) !-> next!
             (next) !-> next (new Error 'Stop')
@@ -64,8 +67,10 @@ suite 'chain()' !->
             (err, res) !->
                 isError err
                 ok not res
+                strictEqual done, false; done := true
 
     test 'stops on thrown error' !->
+        done = false
         chain do
             (next) !-> next!
             (next) !-> throw new Error 'Stop'
@@ -73,10 +78,12 @@ suite 'chain()' !->
             (err, res) !->
                 isError err
                 ok not res
+                strictEqual done, false; done := true
 
 suite 'concurrent()' !->
     e = new Error 'Error!'
     test 'collects errors and arguments' !->
+        done = false
         concurrent do
             (next) !-> next e
             (next) !-> next null, 1
@@ -85,6 +92,7 @@ suite 'concurrent()' !->
             (errors, results) !->
                 deepEqual errors, [e, void, void]
                 deepEqual results, [void, 1, 2, 3]
+                strictEqual done, false; done := true
 
 suite 'tryCatch()' !->
     e = new Error 'Error!'
