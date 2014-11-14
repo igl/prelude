@@ -16,6 +16,12 @@ exports.empty = (obj) ->
 exports.has = curry (key, obj) ->
     _hasOwnProperty.call obj, key
 
+# contains :: string -> object -> boolean
+exports.contains = curry (value, obj) ->
+    for , v of obj when v is value
+        return true
+    false
+
 # keys :: object -> [string]
 exports.keys = (obj) ->
     [k for k of obj]
@@ -38,14 +44,14 @@ exports.map = curry (f, obj) ->
     {[k, (f v, k)] for k, v of obj}
 
 # filter :: function -> object -> object
-exports.filter = curry (f, object) ->
-    {[k, v] for k, v of object when (f v, k)}
+exports.filter = curry (f, obj) ->
+    {[k, v] for k, v of obj when (f v, k)}
 
 # partition :: function -> object -> [object]
-exports.partition = curry (f, object) ->
+exports.partition = curry (f, obj) ->
     passed = {}
     failed = {}
-    for k, v of object
+    for k, v of obj
         (if (f v, k) then passed else failed)[k] = v
     [passed, failed]
 

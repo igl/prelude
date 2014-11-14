@@ -3,8 +3,8 @@
 <-! suite 'prelude.object'
 
 {
-    empty, keys, values, clone, each, map, filter, partition, keyOf, keysOf,
-    findKey, findKeys, fromPairs, toPairs, has, getPath, hasPath, fill,
+    empty, has, contains, keys, values, clone, each, map, filter, partition,
+    keyOf, keysOf, findKey, findKeys, fromPairs, toPairs, fill,
     deepFill, mixin, deepMixin, freeze, deepFreeze, toString, fromString,
     definePublic, definePrivate, defineStatic, defineMeta
 } = prelude.objects
@@ -24,6 +24,19 @@ suite 'has()' !->
         strictEqual do
             has 'd', { a:1, b:2, c:3 }
             false
+
+suite 'contains()' !->
+    test 'does contain a value' !->
+        strictEqual do
+            contains 2, { a:1, b:2, c:3 }
+            true
+
+    test 'does not contain a value' !->
+        strictEqual do
+            contains 'foo', { a:1, b:2, c:3 }
+            false
+
+
 
 # suite 'hasPath()' !->
 #     obj = { a: { b: { c: 'foo'}}}
