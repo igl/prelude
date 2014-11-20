@@ -76,7 +76,7 @@ exports.applyNew = curry (F, xs) ->
         return new Surrogate
 
 # flip :: function -> ...any -> any
-exports.flip = curry 2 (f, ...xs) ->
+exports.flip = curry 1 (f, ...xs) ->
     -> apply f, (reverseArray xs)
 
 function doubleCallback

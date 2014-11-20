@@ -16,7 +16,7 @@ exports.random = (min, max) ->
     min + Math.floor (Math.random! * (max - min + 1))
 
 # range :: number -> number -> number? -> array
-exports.range = curry 2 (a, b, inc = 1) ->
+exports.range = curry 1 (a, b, inc = 1) ->
     if &.length is 1
         b = a or 0
         a = 0

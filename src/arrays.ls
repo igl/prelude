@@ -43,7 +43,7 @@ exports.slice = curry (a, b, xs) ->
     xs.slice a, b
 
 # concat :: number -> number -> array -> array
-exports.concat = curry 2 (...xxs) ->
+exports.concat = curry 1 (...xxs) ->
     result = []
     for xs in xxs then for x in xs
         result.push x
@@ -90,14 +90,14 @@ exports.reverse = (xs) ->
     result
 
 # zip :: array -> ...array -> array
-exports.zip = curry 2 (...args) ->
+exports.zip = curry 1 (...args) ->
     min-length = 9e9
     for xs in args
         min-length <?= xs.length
     [[xs[i] for xs in args] for i til min-length]
 
 # zip :: array -> ...array -> array
-exports.zipWith = curry 3 (f, ...args) ->
+exports.zipWith = curry 2 (f, ...args) ->
     min-length = 9e9
     for xs in args
         min-length <?= xs.length
@@ -128,7 +128,7 @@ exports.uniqueBy = curry (f, xs) ->
         x
 
 # difference :: array -> ...array -> array
-exports.difference = curry 2 (xs, ...yss) ->
+exports.difference = curry 1 (xs, ...yss) ->
     result = []
     :diff for x in xs
         for ys in yss when x in ys
@@ -137,7 +137,7 @@ exports.difference = curry 2 (xs, ...yss) ->
     result
 
 # intersection :: array -> ...array -> array
-exports.intersection = curry 2 (xs, ...yss) ->
+exports.intersection = curry 1 (xs, ...yss) ->
     result = []
     :outer for x in xs
         for ys in yss when not (x in ys)
@@ -146,7 +146,7 @@ exports.intersection = curry 2 (xs, ...yss) ->
     result
 
 # union :: ...array -> array
-exports.union = curry 2 (...xss) ->
+exports.union = curry 1 (...xss) ->
     result = []
     for xs in xss
         for x in xs when x not in result

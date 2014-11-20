@@ -9,7 +9,7 @@ suite 'noop()' !->
         strictEqual (noop 1), 1
 
 suite 'curry()' !->
-    fn = curry 3 (a, b, c) -> a + b + c
+    fn = curry 2 (a, b, c) -> a + b + c
     test 'curries' !->
         isFunction fn 1
         isFunction fn 1, 2

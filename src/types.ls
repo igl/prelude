@@ -12,7 +12,7 @@ exports.getType = (o) ->
     _toString.call o .slice 8, -1
 
 # isType :: string -> any -> boolean
-exports.isType = isType = curry 2 (t, ...xs) ->
+exports.isType = isType = curry 1 (t, ...xs) ->
     for x in xs
         # do instanceof on function type
         if typeof t is 'function'

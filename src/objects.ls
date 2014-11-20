@@ -84,14 +84,14 @@ exports.toPairs = (obj) ->
     [[key, value] for key, value of obj]
 
 # fill :: object -> ...object -> object
-exports.fill = curry 2 (dest, ...sources) ->
+exports.fill = curry 1 (dest, ...sources) ->
     for src in sources
         for k of dest when src[k]?
             dest[k] = src[k]
     dest
 
 # deepFill :: object -> ...object -> object
-exports.deepFill = curry 2 (dest, ...sources) ->
+exports.deepFill = curry 1 (dest, ...sources) ->
     for src in sources then
         for key, value of dest when value?
             if (isObject src[key], value)
@@ -101,14 +101,14 @@ exports.deepFill = curry 2 (dest, ...sources) ->
     dest
 
 # mixin :: object -> ...object -> object
-exports.mixin = curry 2 (dest = {}, ...sources) ->
+exports.mixin = curry 1 (dest = {}, ...sources) ->
     for src in sources then
         for key, val of src then
             dest[key] = val
     dest
 
 # deepMixin :: object -> ...object -> object
-exports.deepMixin = curry 2 (dest = {}, ...sources) ->
+exports.deepMixin = curry 1 (dest = {}, ...sources) ->
     for src in sources then
         for k, v of src then
             if (isObject dest[k]) and (isType 'Object', v)
@@ -117,7 +117,7 @@ exports.deepMixin = curry 2 (dest = {}, ...sources) ->
     dest
 
 
-exports.merge = curry 3 (options, dest, ...sources) ->
+exports.merge = curry 2 (options, dest, ...sources) ->
     unless isObject options
         options = {}
 
