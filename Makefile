@@ -28,6 +28,7 @@ test: build
 
 cov: build
 	@$(ISTNBL) cover $(MOCHA2) -- $(MOCHAF)
+	chromium-browser coverage/lcov-report/index.html
 
 clean:
 	@rm -rf dist
