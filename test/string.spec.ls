@@ -3,9 +3,19 @@
 <-! suite 'prelude.string'
 
 {
-    repeat, reverse, capitalize, capitalizeSentence,
+    empty, contains, repeat, reverse, capitalize, capitalizeSentence,
     decapitalize, decapitalizeSentence, camelize, dasherize
 } = prelude.strings
+
+suite 'empty()' !->
+    test 'is empty' !->
+        ok (empty '')
+        ok (not empty 'foo')
+
+suite 'contains()' !->
+    test 'contains character' !->
+        ok (contains 'b', 'foobar')
+        ok (not contains 'x', 'foobar')
 
 suite 'repeat()' !->
     test 'repeat string x times' !->

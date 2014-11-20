@@ -3,6 +3,16 @@
 curry = require './curry'
 array = require './arrays'
 
+# empty :: string -> boolean
+exports.empty = (str) ->
+    str.length is 0
+
+# contains :: string -> boolean
+exports.contains = (char, str) ->
+    for c in str when char is c
+        return true
+    false
+
 # repeat :: string -> string
 exports.repeat = curry (n, str) ->
     [str for til n].join ''
