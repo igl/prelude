@@ -2,7 +2,7 @@
 
 curry = require './curry'
 
-{ isType, isObject } = require './types'
+{ isType, isObject, isArray } = require './types'
 
 # native methods
 _hasOwnProperty = Object.prototype.hasOwnProperty
@@ -116,20 +116,6 @@ exports.deepMixin = curry 1 (dest = {}, ...sources) ->
             else dest[k] = v
     dest
 
-
-exports.merge = curry 2 (options, dest, ...sources) ->
-    unless isObject options
-        options = {}
-
-    options = exports.fill { -strings, -numbers, +arrays, +objects }, options
-
-    for src in sources then
-        for k, v of src then
-            if (isObject dest[k]) and (isType 'Object', v)
-            then dest[k] = exports.deepMixin dest[k], v
-            else dest[k] = v
-    dest
-
 # freeze :: object -> object
 exports.freeze = (obj) ->
     Object.freeze obj
@@ -138,7 +124,7 @@ exports.freeze = (obj) ->
 exports.deepFreeze = (obj) ->
     Object.freeze obj unless Object.isFrozen obj
     for key, value of obj
-    when (_hasOwnProperty.call obj, key) and (isType 'Object', value or isType 'Object', value)
+    when (_hasOwnProperty.call obj, key) and (isObject value)
         exports.deepFreeze value
     obj
 
