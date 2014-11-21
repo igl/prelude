@@ -7,8 +7,8 @@ HEAD = '''
     #Prelude
 
     Utility set for ECMAScript.
-    Includes a lot of common helpers for primitive transformations, control flow and inheritance.
-    All functions with 2 or more arguments are curried for a smooth integration with your API.
+    Includes a lot of common helpers for primitive transformation, control flow and inheritance.
+    All functions with 2 or more arguments are curried.
 
     - Written in <a href="http://www.livescript.net">LiveScript</a>, because Javascript.
     - Inspired by

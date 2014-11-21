@@ -1,8 +1,8 @@
 #Prelude
 
 Utility set for ECMAScript.
-Includes a lot of common helpers for primitive transformations, control flow and inheritance.
-All functions with 2 or more arguments are curried for a smooth integration with your API.
+Includes a lot of common helpers for primitive transformation, control flow and inheritance.
+All functions with 2 or more arguments are curried.
 
 - Written in <a href="http://www.livescript.net">LiveScript</a>, because Javascript.
 - Inspired by
@@ -19,6 +19,8 @@ All functions with 2 or more arguments are curried for a smooth integration with
 **Arrays** `prelude.arrays.<method>`
 
 - empty
+- has
+- contains
 - clone
 - head
 - first
@@ -26,6 +28,7 @@ All functions with 2 or more arguments are curried for a smooth integration with
 - last
 - initial
 - slice
+- concat
 - flatten
 - each
 - map
@@ -52,6 +55,8 @@ All functions with 2 or more arguments are curried for a smooth integration with
 **Objects** `prelude.objects.<method>`
 
 - empty
+- has
+- contains
 - keys
 - values
 - clone
@@ -65,7 +70,6 @@ All functions with 2 or more arguments are curried for a smooth integration with
 - findKeys
 - fromPairs
 - toPairs
-- hasOwnProperty
 - fill
 - deepFill
 - mixin
@@ -81,6 +85,8 @@ All functions with 2 or more arguments are curried for a smooth integration with
 
 **Strings** `prelude.strings.<method>`
 
+- empty
+- contains
 - repeat
 - reverse
 - capitalize
@@ -109,6 +115,9 @@ All functions with 2 or more arguments are curried for a smooth integration with
 - flip
 - chain
 - concurrent
+- delay
+- interval
+- immediate
 - tryCatch
 - Class
 
@@ -116,6 +125,7 @@ All functions with 2 or more arguments are curried for a smooth integration with
 
 - getType
 - isType
+- isBoolean
 - isFunction
 - isObject
 - isArray
@@ -125,3 +135,4 @@ All functions with 2 or more arguments are curried for a smooth integration with
 - isRegExp
 - isArguments
 - isError
+- isJSON
