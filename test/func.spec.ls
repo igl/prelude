@@ -84,17 +84,17 @@ suite 'chain()' !->
                 done := true
 
 suite 'concurrent()' !->
-    e = new Error 'Error!'
+    err = new Error 'Error!'
     test 'collects errors and arguments' !->
         done = false
         concurrent do
-            (next) !-> next e
+            (next) !-> next err
             (next) !-> next null, 1
             (next) !-> next null, 2
             (next) !-> next null, 3
             (errors, results) !->
-                deepEqual errors, [e, void, void]
-                deepEqual results, [void, 1, 2, 3]
+                deepEqual errors, [ err, void, void, void ]
+                deepEqual results, [ void, [1], [2], [3] ]
                 strictEqual done, false; done := true
 
 suite 'tryCatch()' !->

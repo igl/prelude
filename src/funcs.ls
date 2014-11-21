@@ -5,10 +5,7 @@ curry = require './curry'
 # native methods
 _hasOwnProperty = Object.prototype.hasOwnProperty
 
-# circular ugliness helper
-function cloneArray (xs)
-    [x for x in xs]
-
+# chicken and egg helper
 function reverseArray (xs)
     result = []
     i = 0
@@ -22,6 +19,9 @@ function mixin (dest = {}, ...sources)
         for key, val of src then
             dest[key] = val
     dest
+
+function doubleCallback
+    throw new Error 'chain() callback called twice!'
 
 # noop :: any -> any
 exports.noop = -> it
@@ -79,13 +79,9 @@ exports.applyNew = curry (F, xs) ->
 exports.flip = curry 1 (f, ...xs) ->
     -> apply f, (reverseArray xs)
 
-function doubleCallback
-    throw new Error 'chain() callback called twice!'
-
 # chain :: ...function, function -> void
 exports.chain = (...fns, done) !->
-    # jump out of try-catch stack
-    # replace final call with func that throws
+    # jump out of try-catch stack with immediate
     callback = (...args) !-> immediate !->
         apply done, args
         done := doubleCallback
@@ -103,43 +99,49 @@ exports.chain = (...fns, done) !->
     try fns.shift! link
     catch => callback e
 
-# concurrent :: ...function -> function
-exports.concurrent = (...fns, cb) !->
+# concurrent :: ...function -> function -> void
+exports.concurrent = (...fns, done) !->
     len     = fns.length
     errors  = new Array len
     results = new Array len
 
+    # jump out of try-catch stack with immediate
+    callback = (...args) !-> immediate !->
+        done errors, results
+        done := doubleCallback
+
     link = (i) -> (err, ...args) !->
-        errors[i]  = e
-        results[i] = args
-        cb errors, results if --len is 0
+        errors[i]  = if err then err else void
+        results[i] = if args.length then args else void
+        callback! if --len is 0
 
     for fn, i in fns
         try (fn link i)
         catch then errors[i] = e
 
 # delay :: number -> function -> object
-exports.delay = curry (msec, f) ->
+exports.delay = curry (msec, fn) ->
     i = 0
     iv = setInterval do
-        !-> (clearInterval iv) if (f i++) isnt false
+        !-> (clearInterval iv) if (fn i++) isnt false
         msec
 
 # interval :: number -> function -> object
-exports.interval = curry (msec, f) ->
+exports.interval = curry (msec, fn) ->
     i = 0
     iv = setInterval do
-        !-> (clearInterval iv) if (f i++) is false
+        !-> (clearInterval iv) if (fn i++) is false
         msec
 
-immediate = exports.immediate = (f) ->
-    if (typeof setImmediate === 'function')
-        setImmediate f
-    else if (typeof process !== 'undefined' and process.nextTick)
-        process.nextTick f
+# immediate :: function -> function
+immediate = exports.immediate = (fn) ->
+    if (typeof setImmediate is 'function')
+        setImmediate fn
+    else if process?.nextTick
+        process.nextTick fn
     else
-        setTimeout f, 0
-
+        setTimeout fn, 0
+    fn
 
 # Isolated try .. catch with callback interface
 # tryCatch :: function -> any
@@ -162,7 +164,7 @@ Class.prototype = { initialize: !-> }
 Class.extend = (proto, props) ->
     parent = this
 
-    # get child from proto or create empty constructor which calls parent constructor
+    # get child from proto or create a new constructor which calls parent constructor
     child =
         if proto and _hasOwnProperty.call proto, 'constructor'
         then proto.constructor
