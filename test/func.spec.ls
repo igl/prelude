@@ -2,7 +2,7 @@
 
 <-! suite 'prelude.func'
 
-{ noop, curry, apply, applyTo, applyNew, flip, chain, concurrent, tryCatch, Class } = prelude.funcs
+{ noop, curry, compose, apply, applyTo, applyNew, flip, chain, concurrent, tryCatch, Class } = prelude.funcs
 
 suite 'noop()' !->
     test 'returns input argument' !->
@@ -14,6 +14,17 @@ suite 'curry()' !->
         isFunction fn 1
         isFunction fn 1, 2
         isNumber   fn 1, 2, 3
+
+suite 'compose()' !->
+    addMul = compose do
+        -> it * 2
+        (a, b) -> a + b
+
+    test 'returns a function' !->
+        isFunction addMul
+
+    test 'returns correctly' !->
+        strictEqual (addMul 2, 2), 8
 
 suite 'apply()' !->
     test 'apply array as arguments' !->
