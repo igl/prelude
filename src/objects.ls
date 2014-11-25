@@ -111,7 +111,7 @@ exports.mixin = curry 1 (dest = {}, ...sources) ->
 exports.deepMixin = curry 1 (dest = {}, ...sources) ->
     for src in sources then
         for k, v of src then
-            if (isObject dest[k]) and (isType 'Object', v)
+            if (isObject dest[k]) and (isObject v)
             then dest[k] = exports.deepMixin dest[k], v
             else dest[k] = v
     dest
@@ -136,7 +136,7 @@ exports.fromString = (obj) -> JSON.parse obj
 
 # definePublic :: object -> string|object -> maybe any -> object
 exports.definePublic = curry (obj, key, value) ->
-    if isType 'Object' key
+    if isObject key
         for k, v of key => exports.definePublic obj, k, v
         obj
     else
@@ -146,7 +146,7 @@ exports.definePublic = curry (obj, key, value) ->
 
 # definePrivate :: object -> string|object -> maybe any -> object
 exports.definePrivate = curry (obj, key, value) ->
-    if isType 'Object' key
+    if isObject key
         for k, v of key => exports.definePrivate obj, k, v
         obj
     else
@@ -156,7 +156,7 @@ exports.definePrivate = curry (obj, key, value) ->
 
 # defineStatic :: object -> string|object -> maybe any -> object
 exports.defineStatic = curry (obj, key, value) ->
-    if isType 'Object' key
+    if isObject key
         for k, v of key => exports.defineStatic obj, k, v
         obj
     else
@@ -166,7 +166,7 @@ exports.defineStatic = curry (obj, key, value) ->
 
 # defineMeta :: object -> string|object -> maybe any -> object
 exports.defineMeta = curry (obj, key, value) ->
-    if isType 'Object' key
+    if isObject key
         for k, v of key => exports.defineMeta obj, k, v
         obj
     else

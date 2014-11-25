@@ -36,18 +36,6 @@ suite 'contains()' !->
             contains 'foo', { a:1, b:2, c:3 }
             false
 
-
-
-# suite 'hasPath()' !->
-#     obj = { a: { b: { c: 'foo'}}}
-#     test 'properties exists' !->
-#         strictEqual true, true
-
-# suite 'getPath()' !->
-#     obj = { a:{ b:{ c:'foo' } } }
-#     test 'gets property' !->
-#         strictEqual (getPath obj, 'a.b.c'), 'foo'
-
 suite 'keys()' !->
     test 'return keys' !->
         deepEqual do

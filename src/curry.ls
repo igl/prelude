@@ -8,8 +8,9 @@ module.exports = (n, fn) ->
     else
         n += 1
 
-    curry = (args) ->
-        unless n > 1 then fn
+    function curry (args)
+        unless n > 1
+        then fn
         else ->
             params = args.slice!
             if (params.push.apply params, &) < n and &.length

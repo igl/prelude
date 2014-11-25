@@ -24,10 +24,17 @@ function doubleCallback
     throw new Error 'chain() callback called twice!'
 
 # noop :: any -> any
-exports.noop = -> it
+exports.noop = (a) -> a
 
 # curry :: function -> number? -> function
 exports.curry = curry
+
+# compose :: function -> ...function -> any
+exports.compose = (...fns) -> ->
+    i      = fns.length
+    result = apply fns[--i], &
+    [result = fns[i] result while i--]
+    result
 
 # apply :: object -> function -> array
 apply = exports.apply = curry (f, xs) ->

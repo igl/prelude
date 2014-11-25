@@ -1,8 +1,7 @@
 'use strict'
 
 curry = require './curry'
-
-{ isType } = require './types'
+{ isArray } = require './types'
 { apply } = require './funcs'
 { random } = require './numbers'
 
@@ -53,8 +52,8 @@ exports.concat = curry 1 (...xxs) ->
 exports.flatten = :flatten (xs) ->
     result = []
     for x in xs
-        if typeof! x is 'Array'
-        then result.push.apply result, flatten x
+        if isArray x
+        then result.push.apply result, (flatten x)
         else result.push x
     result
 
