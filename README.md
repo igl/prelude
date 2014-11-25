@@ -109,6 +109,7 @@ All functions with 2 or more arguments are curried.
 
 - noop
 - curry
+- compose
 - apply
 - applyTo
 - applyNew
@@ -124,15 +125,14 @@ All functions with 2 or more arguments are curried.
 **Types** `prelude.types.<method>`
 
 - getType
-- isType
+- isNumber
+- isString
 - isBoolean
 - isFunction
-- isObject
 - isArray
-- isString
-- isNumber
-- isDate
-- isRegExp
+- isObject
 - isArguments
+- isDate
 - isError
+- isRegExp
 - isJSON
