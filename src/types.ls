@@ -1,15 +1,16 @@
 'use strict'
 
-RX_ISJSON = /^[\[\{].*[\]\}]$/
-
 # native methods
 ObjToString = Object.prototype.toString
 
-# getType :: any -> string
-exports.getType = (o) ->
-    ObjToString.call o .slice 8, -1
+# match valid JSON-string
+RX_ISJSON = /^[ ]*[\[\{].*[\]\}][ ]*$/
 
-# Basic Types
+# getType :: any -> string
+exports.getType = ->
+    ObjToString.call it .slice 8, -1
+
+# basic Types
 exports.isNumber = ->
     (typeof it is 'number') and (not isNaN it) and (isFinite it)
 
@@ -40,7 +41,7 @@ exports.isError = ->
 exports.isRegExp = ->
     (ObjToString.call it .slice 8, -1) is 'RegExp'
 
-# Advanced value checks
+# advanced value type checks
 exports.isJSON = ->
     if typeof it isnt 'string'
         return false
@@ -53,4 +54,8 @@ exports.isJSON = ->
         return false
     true
 
-exports.isInt
+exports.isInteger = ->
+    (not isNaN it) and (it % 1 is 0)
+
+exports.inRange = (from, to, it) ->
+    (from <= it) and (to >= it)
