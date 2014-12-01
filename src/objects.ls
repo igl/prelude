@@ -5,7 +5,7 @@ curry = require './curry'
 { isType, isObject, isArray } = require './types'
 
 # native methods
-_hasOwnProperty = Object.prototype.hasOwnProperty
+ObjHasOwnProperty = Object.prototype.hasOwnProperty
 
 # empty :: object -> boolean
 exports.empty = (obj) ->
@@ -14,7 +14,7 @@ exports.empty = (obj) ->
 
 # has :: string -> object -> boolean
 exports.has = curry (key, obj) ->
-    _hasOwnProperty.call obj, key
+    ObjHasOwnProperty.call obj, key
 
 # contains :: string -> object -> boolean
 exports.contains = curry (value, obj) ->
@@ -124,7 +124,7 @@ exports.freeze = (obj) ->
 exports.deepFreeze = (obj) ->
     Object.freeze obj unless Object.isFrozen obj
     for key, value of obj
-    when (_hasOwnProperty.call obj, key) and (isObject value)
+    when (ObjHasOwnProperty.call obj, key) and (isObject value)
         exports.deepFreeze value
     obj
 

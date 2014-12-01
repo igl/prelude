@@ -3,7 +3,7 @@
 curry = require './curry'
 
 # native methods
-_hasOwnProperty = Object.prototype.hasOwnProperty
+ObjHasOwnProperty = Object.prototype.hasOwnProperty
 
 # chicken and egg helper
 function reverseArray (xs)
@@ -173,7 +173,7 @@ Class.extend = (proto, props) ->
 
     # get child from proto or create a new constructor which calls parent constructor
     child =
-        if proto and _hasOwnProperty.call proto, 'constructor'
+        if proto and ObjHasOwnProperty.call proto, 'constructor'
         then proto.constructor
         else !-> applyTo this, parent, &
 
