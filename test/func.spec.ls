@@ -2,7 +2,7 @@
 
 <-! suite 'prelude.func'
 
-{ noop, curry, compose, apply, applyTo, applyNew, flip, chain, concurrent, tryCatch, Class } = prelude.funcs
+{ noop, curry, compose, apply, applyTo, applyNew, flip, chain, concurrent, tryCatch, Class } = prelude.fn
 
 suite 'noop()' !->
     test 'returns input argument' !->

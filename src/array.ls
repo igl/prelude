@@ -2,7 +2,7 @@
 
 curry = require './curry'
 { isArray } = require './type'
-{ apply } = require './func'
+{ apply } = require './fn'
 { random } = require './number'
 
 # empty :: array -> boolean

@@ -5,7 +5,7 @@ require! {
     './'   : prelude
 }
 
-{ mixin } = prelude.objects
+{ mixin } = prelude.object
 
 function assertType (expected)
     (actual, message) ->

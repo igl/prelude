@@ -7,7 +7,7 @@
     concat, flatten, each, map, filter, shuffle, reverse, zip, zipWith,
     partition, unique, uniqueBy, difference, intersection, union, sortBy,
     countBy, groupBy, splitAt, index, indices, findIndex, findIndices
-} = prelude.arrays
+} = prelude.array
 
 suite 'empty()' !->
     test 'returns correctly with valid inputs' !->

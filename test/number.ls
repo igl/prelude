@@ -2,7 +2,7 @@
 
 <-! suite 'prelude.numbers'
 
-{ even, odd, random, range, gcd, lcm } = prelude.numbers
+{ even, odd, random, range, gcd, lcm } = prelude.number
 
 suite 'even()' !->
     test 'validates even numbers' !->

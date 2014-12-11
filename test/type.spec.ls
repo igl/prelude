@@ -5,7 +5,7 @@
 {
     getType, isType, isFunction, isObject, isArray, isString,
     isNumber, isDate, isRegExp, isArguments, isError, isJSON
-} = prelude.types
+} = prelude.type
 
 suite 'getType()' !->
     test 'get types' !->
