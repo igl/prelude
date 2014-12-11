@@ -12,7 +12,7 @@ root = this
 
 # importAll :: object? -> object
 exports.importAll = (target) !->
-    { capitalize } = exports.strings
+    { capitalize } = exports.string
     unless target
         if typeof exports isnt 'undefined'
         and typeof module isnt 'undefined'
