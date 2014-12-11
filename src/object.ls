@@ -2,7 +2,7 @@
 
 curry = require './curry'
 
-{ isType, isObject, isArray } = require './types'
+{ isType, isObject, isArray } = require './type'
 
 # native methods
 ObjHasOwnProperty = Object.prototype.hasOwnProperty

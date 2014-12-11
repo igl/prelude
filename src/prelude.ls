@@ -1,8 +1,28 @@
 'use strict'
 
-exports.arrays  = require './arrays'
-exports.objects = require './objects'
-exports.strings = require './strings'
-exports.numbers = require './numbers'
-exports.funcs   = require './funcs'
-exports.types   = require './types'
+# export all
+exports.array  = require './array'
+exports.object = require './object'
+exports.string = require './string'
+exports.number = require './number'
+exports.fn     = require './fn'
+exports.type   = require './type'
+
+root = this
+
+# importAll :: object? -> object
+exports.importAll = (target) !->
+    { capitalize } = exports.strings
+    unless target
+        if typeof exports isnt 'undefined'
+        and typeof module isnt 'undefined'
+        and module.exports
+        and global
+            target = global
+        else
+            target = root
+
+    for typeName, type of exports => for methodName, method of type
+        target[typeName ++ (capitalize methodName)] = method
+
+    target

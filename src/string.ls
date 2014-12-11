@@ -1,7 +1,7 @@
 'use strict'
 
 curry = require './curry'
-array = require './arrays'
+array = require './array'
 
 # empty :: string -> boolean
 exports.empty = (str) ->
