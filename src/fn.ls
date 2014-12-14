@@ -2,13 +2,6 @@
 
 curry = require './curry'
 
-# chicken and egg helper
-function mixin (dest = {}, ...sources)
-    for src in sources then
-        for key, val of src then
-            dest[key] = val
-    dest
-
 function doubleCallback
     throw new Error 'chain() callback called twice!'
 
