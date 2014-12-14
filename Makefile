@@ -7,18 +7,17 @@ endif
 LS     = node_modules/LiveScript
 LSC    = node_modules/".bin"/lsc
 MOCHA  = node_modules/".bin"/mocha
-MOCHA2 = node_modules/".bin"/_mocha
+_MOCHA = node_modules/".bin"/_mocha
 BRSIFY = node_modules/".bin"/browserify
 UGLIFY = node_modules/'.bin'/uglifyjs
 MKDIRP = node_modules/".bin"/mkdirp
 ISTNBL = node_modules/".bin"/istanbul
 MOCHAF = -u tdd -R min -t 5000 --compilers ls:$(LS) -r "./test-runner.ls" -c -S -b --recursive --inline-diffs
 
-SRC  = $(shell find src -maxdepth 1 -name "*.ls" -type f | sort)
-DIST = dist $(SRC:src/%.ls=dist/%.js)
-BREL = browser browser/prelude.js browser/prelude.min.js
+SRC    = $(shell find src -maxdepth 1 -name "*.ls" -type f | sort)
+DIST   = dist $(SRC:src/%.ls=dist/%.js) browser browser/prelude.js browser/prelude.min.js
 
-build: $(DIST) $(BREL)
+build: $(DIST)
 
 install:
 	@npm install .
@@ -27,7 +26,7 @@ test: build
 	@$(MOCHA) $(MOCHAF)
 
 cov: build
-	@$(ISTNBL) cover $(MOCHA2) -- $(MOCHAF)
+	@$(ISTNBL) cover $(_MOCHA) -- $(MOCHAF)
 	chromium-browser coverage/lcov-report/index.html
 
 clean:
