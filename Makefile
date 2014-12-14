@@ -15,9 +15,12 @@ ISTNBL = node_modules/".bin"/istanbul
 MOCHAF = -u tdd -R min -t 5000 --compilers ls:$(LS) -r "./test-runner.ls" -c -S -b --recursive --inline-diffs
 
 SRC    = $(shell find src -maxdepth 1 -name "*.ls" -type f | sort)
-DIST   = dist $(SRC:src/%.ls=dist/%.js) browser browser/prelude.js browser/prelude.min.js
+DIST   = $(SRC:src/%.ls=dist/%.js) browser/prelude.js browser/prelude.min.js
 
-build: $(DIST)
+build: mkdir $(DIST)
+
+mkdir:
+	$(MKDIRP) dist browser
 
 install:
 	@npm install .
@@ -35,9 +38,6 @@ clean:
 	@sleep .1 # wait for editor to refresh the file tree.......
 
 .PHONY: build install test cov clean
-
-%:
-	@$(MKDIRP) $@
 
 dist/%.js: src/%.ls
 	$(LSC) --bare -o "$(shell dirname $@)" -c "$<"
