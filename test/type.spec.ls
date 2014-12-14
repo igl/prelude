@@ -3,11 +3,11 @@
 <-! suite 'prelude.type'
 
 {
-    getType, isType, isFunction, isObject, isArray, isString,
-    isNumber, isDate, isRegExp, isArguments, isError, isJSON
+    getType, isNumber, isString, isBoolean, isFunction, isObject, isArray,
+    isDate, isRegExp, isArguments, isError, isJSON, isInteger, inRange
 } = prelude.type
 
-suite 'getType()' !->
+suite 'getType' !->
     test 'get types' !->
         strictEqual (getType 100       ), 'Number'
         strictEqual (getType ''        ), 'String'
@@ -37,7 +37,17 @@ suite 'isString' !->
         strictEqual (isString []), false
         strictEqual (isString 10), false
 
-suite 'isFunction()' !->
+suite 'isBoolean' !->
+    test 'truthy' !->
+        strictEqual (isBoolean true), true
+        strictEqual (isBoolean false), true
+
+    test 'falsy' !->
+        strictEqual (isBoolean 1), false
+        strictEqual (isBoolean 0), false
+        strictEqual (isBoolean "true"), false
+
+suite 'isFunction' !->
     test 'truthy' !->
         strictEqual (isFunction ->), true
 
@@ -61,7 +71,7 @@ suite 'isObject' !->
         strictEqual (isObject []), false
         strictEqual (isObject 10), false
 
-suite 'Arguments' !->
+suite 'isArguments' !->
     test 'truthy' !->
         strictEqual (isArguments &), true
 
@@ -70,7 +80,7 @@ suite 'Arguments' !->
         strictEqual (isArguments {}), false
         strictEqual (isArguments new Date), false
 
-suite 'Date' !->
+suite 'isDate' !->
     test 'truthy' !->
         strictEqual (isDate new Date), true
 
@@ -78,7 +88,7 @@ suite 'Date' !->
         strictEqual (isDate {}), false
         strictEqual (isDate []), false
 
-suite 'Error' !->
+suite 'isError' !->
     test 'truthy' !->
         strictEqual (isError new Error 'fail'), true
 
@@ -86,7 +96,7 @@ suite 'Error' !->
         strictEqual (isError {}), false
         strictEqual (isError {}), false
 
-suite 'RegExp' !->
+suite 'isRegExp' !->
     test 'truthy' !->
         strictEqual (isRegExp /foo/), true
         strictEqual (isRegExp new RegExp 'foo'), true
@@ -95,22 +105,45 @@ suite 'RegExp' !->
         strictEqual (isRegExp ''), false
         strictEqual (isRegExp []), false
 
-suite 'JSON' !->
+suite 'isJSON' !->
     test 'truthy' !->
-        test 'is valid' !->
-            deepEqual (isType 'JSON' '{ "a":1 }'), true
-            deepEqual (isType 'JSON' '[{ "a":1 }]'), true
-            deepEqual (isJSON '[1,2,3]'), true
-            deepEqual (isJSON JSON.stringify process.env), true
+        deepEqual (isJSON '{ "a":1 }'), true
+        deepEqual (isJSON '[{ "b":2 }]'), true
+        deepEqual (isJSON '[1,2,3]'), true
+        deepEqual (isJSON JSON.stringify process.env), true
 
     test 'falsy' !->
-        test 'isnt String' !->
-            strictEqual (isType 'JSON' null), false
-            strictEqual (isType 'JSON' 0), false
-            strictEqual (isType 'JSON' /foo/), false
-            strictEqual (isJSON {}), false
-        test 'isnt "{}" or "[]"' !->
-            strictEqual (isType 'JSON' 'foo'), false
-            strictEqual (isType 'JSON' '"a":1'), false
-            strictEqual (isType 'JSON' '["a":1'), false
-            strictEqual (isJSON '{"a":1'), false
+        strictEqual (isJSON null), false
+        strictEqual (isJSON 0), false
+        strictEqual (isJSON /foo/), false
+        strictEqual (isJSON {}), false
+        strictEqual (isJSON 'foo'), false
+        strictEqual (isJSON '"a":1'), false
+        strictEqual (isJSON '{ "a":1, b:2 }'), false
+
+suite 'isInteger' !->
+    test 'truthy' !->
+        strictEqual (isInteger 1), true
+        strictEqual (isInteger 1.0), true
+        strictEqual (isInteger 1937892), true
+
+    test 'falsy' !->
+        strictEqual (isInteger 1.1), false
+        strictEqual (isInteger 99.937892), false
+
+suite 'inRange' !->
+    test 'curries' !->
+        isFunction (inRange 0, 5)
+        strictEqual do
+            1 |> inRange 0, 5
+            true
+
+    test 'truthy' !->
+        strictEqual (inRange 0, 5, 0), true
+        strictEqual (inRange 0, 5, 1), true
+        strictEqual (inRange 0, 5, 5), true
+
+    test 'falsy' !->
+        strictEqual (inRange 0, 5, 6), false
+        strictEqual (inRange 0, 5, -1), false
+        strictEqual (inRange 0, 5, null), false
