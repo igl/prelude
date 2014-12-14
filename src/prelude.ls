@@ -7,6 +7,7 @@ exports.string = require './string'
 exports.number = require './number'
 exports.fn     = require './fn'
 exports.type   = require './type'
+exports.Class  = require './class'
 
 root = this
 
