@@ -10,7 +10,7 @@ exports.odd = (x) -> x % 2 != 0
 
 # random :: number -> number -> number
 exports.random = (min, max) ->
-    if max ~= null
+    if max ~= void
         max = min
         min = 0
     min + Math.floor (Math.random! * (max - min + 1))

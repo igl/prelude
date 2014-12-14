@@ -15,6 +15,6 @@ module.exports = (n, fn) ->
             params = args.slice!
             if (params.push.apply params, &) < n and &.length
             then curry params
-            else fn.apply null, params
+            else fn.apply void, params
 
     curry []
