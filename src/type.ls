@@ -1,5 +1,7 @@
 'use strict'
 
+curry = require './curry'
+
 # native methods
 ObjToString = Object.prototype.toString
 
@@ -11,7 +13,7 @@ exports.getType = ->
     ObjToString.call it .slice 8, -1
 
 # basic Types
-exports.isNumber = ->
+exports.isNumber = isNumber = ->
     (typeof it is 'number') and (not isNaN it) and (isFinite it)
 
 exports.isString = ->
@@ -57,5 +59,5 @@ exports.isJSON = ->
 exports.isInteger = ->
     (not isNaN it) and (it % 1 is 0)
 
-exports.inRange = (from, to, it) ->
-    (from <= it) and (to >= it)
+exports.inRange = curry (from, to, it) ->
+    (isNumber it) and (from <= it) and (to >= it)
