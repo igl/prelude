@@ -12,7 +12,6 @@ suite 'modules' !->
         ok prelude.string
         ok prelude.type
         ok prelude.number
-        ok prelude.Class
 
 suite 'importAll' !->
     test 'exports all functions into a given object' !->

@@ -2,11 +2,11 @@
 
 <-! suite 'prelude.func'
 
-{ noop, curry, compose, apply, applyTo, applyNew, flip, tryCatch } = prelude.fn
+{ id, curry, compose, apply, applyTo, applyNew, flip, tryCatch } = prelude.fn
 
-suite 'noop()' !->
+suite 'id()' !->
     test 'returns input argument' !->
-        strictEqual (noop 1), 1
+        strictEqual (id 1), 1
 
 suite 'curry()' !->
     fn = curry 2 (a, b, c) -> a + b + c
