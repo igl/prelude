@@ -2,7 +2,7 @@
 
 <-! suite 'prelude.func'
 
-{ noop, curry, compose, apply, applyTo, applyNew, flip, chain, concurrent, tryCatch } = prelude.fn
+{ noop, curry, compose, apply, applyTo, applyNew, flip, tryCatch } = prelude.fn
 
 suite 'noop()' !->
     test 'returns input argument' !->
@@ -56,57 +56,6 @@ suite 'flip()' !->
             strictEqual a, 2
             strictEqual b, 1
         (flip fn) 1, 2
-
-suite 'chain()' !->
-    test 'passes arguments through the chain' !->
-        done = false
-        chain do
-            (next)       !-> next null, 1
-            (prev, next) !-> next null, ++prev
-            (prev, next) !-> next null, ++prev
-            (err, res)   !->
-                ok (not err), 'error should be falsy'
-                strictEqual res, 3
-                strictEqual done, false
-                done := true
-
-    test 'stops on passed error' !->
-        done = false
-        chain do
-            (next) !-> next!
-            (next) !-> next (new Error 'Stop')
-            (next) !-> ok false, 'should not execute'
-            (err, res) !->
-                ok ('Error' is typeof! err), 'error should be passed'
-                ok (not res)
-                strictEqual done, false
-                done := true
-
-    test 'stops on thrown error' !->
-        done = false
-        chain do
-            (next) !-> next!
-            (next) !-> throw new Error 'Stop'
-            (next) !-> ok false, 'should not execute'
-            (err, res) !->
-                ok ('Error' is typeof! err), 'error should be passed'
-                ok (not res)
-                strictEqual done, false
-                done := true
-
-suite 'concurrent()' !->
-    err = new Error 'Error!'
-    test 'collects errors and arguments' !->
-        done = false
-        concurrent do
-            (next) !-> next err
-            (next) !-> next null, 1
-            (next) !-> next null, 2
-            (next) !-> next null, 3
-            (errors, results) !->
-                deepEqual errors, [ err, void, void, void ]
-                deepEqual results, [ void, [1], [2], [3] ]
-                strictEqual done, false; done := true
 
 suite 'tryCatch()' !->
     e = new Error 'Error!'
