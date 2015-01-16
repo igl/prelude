@@ -12,7 +12,7 @@ exports.id = (a) -> a
 exports.curry = curry
 
 # compose :: function -> ...function -> any
-exports.compose = (...fns) -> ->
+exports.compose = (...fns) -> return ->
     i      = fns.length
     result = apply fns[--i], &
     [result = fns[i] result while i--]
