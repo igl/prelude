@@ -86,46 +86,6 @@ exports.applyNew = curry (F, xs) ->
 exports.flip = curry 1 (f, ...xs) ->
     -> apply f, (reverseArray xs)
 
-# chain :: ...function, function -> void
-exports.chain = (...fns, done) !->
-    # jump out of try-catch stack with immediate
-    callback = (...args) !-> immediate !->
-        apply done, args
-        done := doubleCallback
-
-    link = (err, ...args) !->
-        if err or (fns.length is 0)
-            apply callback, &
-            return
-
-        # try-catch next call
-        try apply fns.shift!, (args ++ link)
-        catch => callback e
-
-    # try-catch first call
-    try fns.shift! link
-    catch => callback e
-
-# concurrent :: ...function -> function -> void
-exports.concurrent = (...fns, done) !->
-    len     = fns.length
-    errors  = new Array len
-    results = new Array len
-
-    # jump out of try-catch stack with immediate
-    callback = (...args) !-> immediate !->
-        done errors, results
-        done := doubleCallback
-
-    link = (i) -> (err, ...args) !->
-        errors[i]  = if err then err else void
-        results[i] = if args.length then args else void
-        callback! if --len is 0
-
-    for fn, i in fns
-        try (fn link i)
-        catch then errors[i] = e
-
 # delay :: number -> function -> object
 exports.delay = curry (msec, fn) ->
     i = 0
@@ -141,7 +101,7 @@ exports.interval = curry (msec, fn) ->
         msec
 
 # immediate :: function -> function
-immediate = exports.immediate = (fn) ->
+exports.immediate = (fn) ->
     if (typeof setImmediate is 'function')
         setImmediate fn
     else if process?.nextTick
@@ -157,7 +117,10 @@ exports.tryCatch = (fn, cb) ->
         res = fn!
     catch
         err = if e instanceof Error then e else new Error e
-    cb err, res if typeof cb is 'function'
+
+    if typeof cb is 'function'
+        cb err, res
+
     err or res
 
 # Crockfordic backbonian object inheritance
