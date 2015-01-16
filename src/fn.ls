@@ -5,8 +5,8 @@ curry = require './curry'
 function doubleCallback
     throw new Error 'chain() callback called twice!'
 
-# noop :: any -> any
-exports.noop = (a) -> a
+# id :: any -> any
+exports.id = (a) -> a
 
 # curry :: function -> number? -> function
 exports.curry = curry
