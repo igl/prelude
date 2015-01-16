@@ -2,7 +2,7 @@
 
 curry = require './curry'
 
-{ isType, isObject, isArray } = require './types'
+{ isType, isObject, isArray } = require './type'
 
 # native methods
 ObjHasOwnProperty = Object.prototype.hasOwnProperty
@@ -32,7 +32,7 @@ exports.values = (obj) ->
 
 # clone :: object -> object
 exports.clone = (obj) ->
-    exports.deepMixin null, obj
+    exports.deepMixin void, obj
 
 # each :: function -> object -> object
 exports.each = curry (f, obj) ->
@@ -129,7 +129,7 @@ exports.deepFreeze = (obj) ->
     obj
 
 # toString :: object -> string
-exports.toString = (obj) -> JSON.stringify obj, null, 2
+exports.toString = (obj) -> JSON.stringify obj, void, 2
 
 # fromString :: string -> object
 exports.fromString = (obj) -> JSON.parse obj

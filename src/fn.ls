@@ -2,24 +2,6 @@
 
 curry = require './curry'
 
-# native methods
-ObjHasOwnProperty = Object.prototype.hasOwnProperty
-
-# chicken and egg helper
-function reverseArray (xs)
-    result = []
-    i = 0
-    len = xs.length
-    until len is 0
-        result[--len] = xs[i++]
-    result
-
-function mixin (dest = {}, ...sources)
-    for src in sources then
-        for key, val of src then
-            dest[key] = val
-    dest
-
 function doubleCallback
     throw new Error 'chain() callback called twice!'
 
@@ -84,7 +66,12 @@ exports.applyNew = curry (F, xs) ->
 
 # flip :: function -> ...any -> any
 exports.flip = curry 1 (f, ...xs) ->
-    -> apply f, (reverseArray xs)
+    i = 0
+    len = xs.length
+    result = Array len
+    until len is 0
+        result[--len] = xs[i++]
+    -> apply f, result
 
 # delay :: number -> function -> object
 exports.delay = curry (msec, fn) ->
@@ -122,32 +109,3 @@ exports.tryCatch = (fn, cb) ->
         cb err, res
 
     err or res
-
-# Crockfordic backbonian object inheritance
-# Empty Base Class to extend from
-!function Class
-    this.initialize.apply this, arguments
-
-Class.prototype = { initialize: !-> }
-
-# Class.extend :: object -> object? -> function
-Class.extend = (proto, props) ->
-    parent = this
-
-    # get child from proto or create a new constructor which calls parent constructor
-    child =
-        if proto and ObjHasOwnProperty.call proto, 'constructor'
-        then proto.constructor
-        else !-> applyTo this, parent, &
-
-    mixin child, parent, props
-
-    Surrogate = !-> this.constructor = child
-    Surrogate.prototype = parent.prototype
-    child.prototype = new Surrogate
-
-    if proto then mixin child.prototype, proto
-
-    return child
-
-exports.Class = Class

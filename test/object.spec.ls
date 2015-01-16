@@ -7,7 +7,7 @@
     keyOf, keysOf, findKey, findKeys, fromPairs, toPairs, fill,
     deepFill, mixin, deepMixin, freeze, deepFreeze, toString, fromString,
     definePublic, definePrivate, defineStatic, defineMeta
-} = prelude.objects
+} = prelude.object
 
 suite 'empty()' !->
     test 'returns correctly with valid inputs' !->

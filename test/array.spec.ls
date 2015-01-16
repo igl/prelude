@@ -7,7 +7,7 @@
     concat, flatten, each, map, filter, shuffle, reverse, zip, zipWith,
     partition, unique, uniqueBy, difference, intersection, union, sortBy,
     countBy, groupBy, splitAt, index, indices, findIndex, findIndices
-} = prelude.arrays
+} = prelude.array
 
 suite 'empty()' !->
     test 'returns correctly with valid inputs' !->
@@ -261,3 +261,114 @@ suite 'union()' !->
         deepEqual do
             union [1 2], [1 3 4], [1 5]
             [1 2 3 4 5]
+
+suite 'sortBy()' !->
+    test 'curries' !->
+        deepEqual do
+            isFunction sortBy (% 2)
+
+    test 'sort with func' !->
+        deepEqual do
+            sortBy (% 2), [1 2 3 4 5 6]
+            [2,4,6,1,3,5]
+
+suite 'countBy()' !->
+    test 'curries' !->
+        deepEqual do
+            isFunction countBy (.length)
+
+    test 'sort with func' !->
+        deepEqual do
+            countBy (.length), <[ one two three ]>
+            { 3:2, 5:1 }
+
+suite 'groupBy()' !->
+    test 'curries' !->
+        isFunction groupBy (.length)
+
+        deepEqual do
+            <[ one two three ]> |> groupBy (.length)
+            { 3:['one', 'two'], 5:['three'] }
+
+    test 'sort with func' !->
+        deepEqual do
+            groupBy (.length), <[ one two three ]>
+            { 3:['one', 'two'], 5:['three'] }
+
+suite 'splitAt()' !->
+    test 'curries' !->
+        isFunction (splitAt 2)
+
+        deepEqual do
+            [ 1 to 5 ] |> splitAt 2
+            [ [1, 2], [3, 4, 5] ]
+
+    test 'sort with func' !->
+        deepEqual do
+            splitAt 2, [ 1 to 5 ]
+            [ [1, 2], [3, 4, 5] ]
+
+suite 'index()' !->
+    test 'curries' !->
+        isFunction (index 2)
+
+        strictEqual do
+            [1 2 3] |> index 2
+            1
+
+    test 'returns the index of element in array' !->
+        strictEqual do
+            [1 2 3] |> index 2
+            1
+
+    test 'returns undefined of element is not found in array' !->
+        strictEqual do
+            [1 2 3] |> index 5
+            void
+
+suite 'indices()' !->
+    test 'curries' !->
+        isFunction (indices 2)
+
+        deepEqual do
+            [1 2 3] |> indices 2
+            [1]
+
+    test 'returns single index of element in array' !->
+        deepEqual do
+            [1 2 3] |> indices 2
+            [1]
+
+    test 'returns multible indices of element in array' !->
+        deepEqual do
+            [1 2 3 4 2 5 6] |> indices 2
+            [1 4]
+
+
+    test 'returns empty array if nothing is found in array' !->
+        deepEqual do
+            [1 2 3 4] |> indices 5
+            []
+
+suite 'findIndex()' !->
+    test 'curries' !->
+        isFunction findIndex (is 2)
+
+    test 'returns single index of element in array' !->
+        strictEqual do
+            [1 2 3] |> findIndex (is 2)
+            1
+
+suite 'findIndices()' !->
+    test 'curries' !->
+        isFunction findIndices (is 2)
+
+    test 'returns single index of element in array' !->
+        deepEqual do
+            [1 2 3] |> findIndices (is 2)
+            [1]
+
+    test 'returns multible indices of element in array' !->
+        deepEqual do
+            [1 2 3 2 1] |> findIndices (is 2)
+            [1 3]

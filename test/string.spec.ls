@@ -3,9 +3,9 @@
 <-! suite 'prelude.string'
 
 {
-    empty, contains, repeat, reverse, capitalize, capitalizeSentence,
-    decapitalize, decapitalizeSentence, camelize, dasherize
-} = prelude.strings
+    empty, contains, trim, trimLeft, trimRight, repeat, reverse, capitalize,
+    capitalizeSentence, decapitalize, decapitalizeSentence, camelize, dasherize
+} = prelude.string
 
 suite 'empty()' !->
     test 'is empty' !->
@@ -16,6 +16,22 @@ suite 'contains()' !->
     test 'contains character' !->
         ok (contains 'b', 'foobar')
         ok (not contains 'x', 'foobar')
+
+suite 'trim()' !->
+    test 'trim left side' !->
+        ok (trim '  foo  ', 'foo')
+        ok (trim '\t \n foo \n ', 'foo')
+        ok (trim '\t \n f o o \n \t\t', 'f o o')
+
+suite 'trimLeft()' !->
+    test 'trim left side' !->
+        ok (trimLeft '  foo  ', 'foo  ')
+        ok (trimLeft ' \t f o o \n\t ', 'f o o \n\t ')
+
+suite 'trimRight()' !->
+    test 'trim left side' !->
+        ok (trimRight '  foo  ', '  foo')
+        ok (trimRight ' \t f o o \n ', ' \t f o o')
 
 suite 'repeat()' !->
     test 'repeat string x times' !->
