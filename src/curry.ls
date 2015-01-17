@@ -9,12 +9,12 @@ module.exports = (n, fn) ->
         n += 1
 
     function curry (args)
-        unless n > 1
-        then fn
-        else ->
+        ->
             params = args.slice!
             if (params.push.apply params, &) < n
             then curry params
             else fn.apply void, params
 
-    curry []
+    if n > 0
+    then curry []
+    else fn
