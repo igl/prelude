@@ -26,6 +26,6 @@ HEAD = '''
 console.log HEAD
 
 for key of prelude
-    console.log "\n**#{ prelude.strings.capitalize key }** `prelude.#key.<method>`\n"
+    console.log "\n**#{ prelude.string.capitalize key }** `prelude.#key.<method>`\n"
     for fn of prelude[key]
         console.log "- #fn"
