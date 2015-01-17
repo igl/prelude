@@ -16,7 +16,7 @@ All functions with 2 or more arguments are curried.
 
 ### Method Index:
 
-**Arrays** `prelude.arrays.<method>`
+**Array** `prelude.array.<method>`
 
 - empty
 - has
@@ -52,7 +52,7 @@ All functions with 2 or more arguments are curried.
 - findIndex
 - findIndices
 
-**Objects** `prelude.objects.<method>`
+**Object** `prelude.object.<method>`
 
 - empty
 - has
@@ -76,17 +76,20 @@ All functions with 2 or more arguments are curried.
 - deepMixin
 - freeze
 - deepFreeze
-- toString
-- fromString
+- toJSON
+- fromJSON
 - definePublic
 - definePrivate
 - defineStatic
 - defineMeta
 
-**Strings** `prelude.strings.<method>`
+**String** `prelude.string.<method>`
 
 - empty
 - contains
+- trim
+- trimLeft
+- trimRight
 - repeat
 - reverse
 - capitalize
@@ -96,7 +99,7 @@ All functions with 2 or more arguments are curried.
 - camelize
 - dasherize
 
-**Numbers** `prelude.numbers.<method>`
+**Number** `prelude.number.<method>`
 
 - even
 - odd
@@ -105,24 +108,21 @@ All functions with 2 or more arguments are curried.
 - gcd
 - lcm
 
-**Funcs** `prelude.funcs.<method>`
+**Fn** `prelude.fn.<method>`
 
-- noop
+- id
 - curry
 - compose
 - apply
 - applyTo
 - applyNew
 - flip
-- chain
-- concurrent
 - delay
 - interval
 - immediate
 - tryCatch
-- Class
 
-**Types** `prelude.types.<method>`
+**Type** `prelude.type.<method>`
 
 - getType
 - isNumber
@@ -130,9 +130,17 @@ All functions with 2 or more arguments are curried.
 - isBoolean
 - isFunction
 - isArray
+- isSet
 - isObject
+- isMap
 - isArguments
 - isDate
 - isError
 - isRegExp
+- isSymbol
 - isJSON
+- isInteger
+- inRange
+
+**ImportAll** `prelude.importAll.<method>`
+
