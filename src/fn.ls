@@ -74,9 +74,7 @@ exports.flip = (f) -> return (...xs) ->
 # delay :: number -> function -> object
 exports.delay = curry (msec, fn) ->
     i = 0
-    iv = setInterval do
-        !-> (clearInterval iv) if (fn i++) isnt false
-        msec
+    setTimeout fn, msec
 
 # interval :: number -> function -> object
 exports.interval = curry (msec, fn) ->
