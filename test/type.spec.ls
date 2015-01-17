@@ -71,6 +71,19 @@ suite 'isObject' !->
         strictEqual (isObject []), false
         strictEqual (isObject 10), false
 
+# cannot produce a Map for a valid test in node, skip this.
+if Map? and isFunction Map
+    suite 'isMap' !->
+        test 'truthy' !->
+            strictEqual (isMap new Map!), true
+
+        test 'falsy' !->
+            strictEqual (isMap ''), false
+            strictEqual (isMap []), false
+            strictEqual (isMap null), false
+            strictEqual (isMap {}), false
+            strictEqual (isMap ->), false
+
 suite 'isArguments' !->
     test 'truthy' !->
         strictEqual (isArguments &), true

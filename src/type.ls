@@ -31,6 +31,9 @@ exports.isArray = ->
 exports.isObject = ->
     (ObjToString.call it) is '[object Object]'
 
+exports.isMap = ->
+    (ObjToString.call it) is '[object Map]'
+
 exports.isArguments = ->
     (ObjToString.call it) is '[object Arguments]'
 
