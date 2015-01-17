@@ -140,7 +140,7 @@ exports.intersection = curry 1 (xs, ...yss) ->
     result = []
     :outer for x in xs
         for ys in yss when not (x in ys)
-            continue outer unless x in ys
+            continue outer
         result.push x
     result
 
