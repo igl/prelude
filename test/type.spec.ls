@@ -4,7 +4,7 @@
 
 {
     getType, isNumber, isString, isBoolean, isFunction, isObject, isArray,
-    isDate, isRegExp, isArguments, isError, isJSON, isInteger, inRange
+    isDate, isRegExp, isSymbol, isArguments, isError, isJSON, isInteger, inRange
 } = prelude.type
 
 suite 'getType' !->
@@ -104,6 +104,20 @@ suite 'isRegExp' !->
     test 'falsy' !->
         strictEqual (isRegExp ''), false
         strictEqual (isRegExp []), false
+
+# cannot produce a Symbol for a valid test in node, skip this.
+if Symbol? and isFunction Symbol
+    suite 'isSymbol' !->
+        test 'truthy' !->
+            strictEqual (isSymbol Symbol!), true
+            strictEqual (isSymbol Symbol 'foo'), true
+
+        test 'falsy' !->
+            strictEqual (isSymbol ''), false
+            strictEqual (isSymbol []), false
+            strictEqual (isSymbol null), false
+            strictEqual (isSymbol {}), false
+            strictEqual (isSymbol ->), false
 
 suite 'isJSON' !->
     test 'truthy' !->

@@ -26,22 +26,25 @@ exports.isFunction = ->
     typeof it is 'function'
 
 exports.isArray = ->
-    (ObjToString.call it .slice 8, -1) is 'Array'
+    (ObjToString.call it) is '[object Array]'
 
 exports.isObject = ->
-    (ObjToString.call it .slice 8, -1) is 'Object'
+    (ObjToString.call it) is '[object Object]'
 
 exports.isArguments = ->
-    (ObjToString.call it .slice 8, -1) is 'Arguments'
+    (ObjToString.call it) is '[object Arguments]'
 
 exports.isDate = ->
-    (ObjToString.call it .slice 8, -1) is 'Date'
+    (ObjToString.call it) is '[object Date]'
 
 exports.isError = ->
-    (ObjToString.call it .slice 8, -1) is 'Error'
+    (ObjToString.call it) is '[object Error]'
 
 exports.isRegExp = ->
-    (ObjToString.call it .slice 8, -1) is 'RegExp'
+    (ObjToString.call it) is '[object RegExp]'
+
+exports.isSymbol = ->
+    (ObjToString.call it) is '[object Symbol]'
 
 # advanced value type checks
 exports.isJSON = ->
