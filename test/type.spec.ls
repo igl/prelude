@@ -63,6 +63,19 @@ suite 'isArray' !->
         strictEqual (isArray ''), false
         strictEqual (isArray {}), false
 
+if Set? and isFunction Set
+    suite 'isSet' !->
+        test 'truthy' !->
+            strictEqual (isSet new Set!), true
+
+        test 'falsy' !->
+            strictEqual (isSet ''), false
+            strictEqual (isSet []), false
+            strictEqual (isSet null), false
+            strictEqual (isSet {}), false
+            strictEqual (isSet ->), false
+
+
 suite 'isObject' !->
     test 'truthy' !->
         strictEqual (isObject {}), true

@@ -28,6 +28,9 @@ exports.isFunction = ->
 exports.isArray = ->
     (ObjToString.call it) is '[object Array]'
 
+exports.isSet = ->
+    (ObjToString.call it) is '[object Set]'
+
 exports.isObject = ->
     (ObjToString.call it) is '[object Object]'
 
