@@ -72,13 +72,32 @@ suite 'decapitalizeSentence()' !->
 
 
 suite 'camelize()' !->
-    test 'camelize a string' !->
+    test 'camelize a short string' !->
         strictEqual do
             camelize 'hello-World'
             'helloWorld'
 
+    test 'camelize with trailing dashes' !->
+        strictEqual do
+            camelize 'Hello-World-'
+            'HelloWorld'
+
+        strictEqual do
+            camelize '-Hello-World'
+            'HelloWorld'
+
 suite 'dasherize()' !->
-    test 'dasherize a string' !->
+    test 'dasherize a short string' !->
         strictEqual do
             dasherize 'helloWorld'
             'hello-world'
+
+    test 'dasherize a capitalized string' !->
+        strictEqual do
+            dasherize 'FooBar'
+            'foo-bar'
+
+    test 'dasherize a string with a uppercase block' !->
+        strictEqual do
+            dasherize 'XYZitem'
+            'XYZ-item'

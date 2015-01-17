@@ -3,8 +3,9 @@
 <-! suite 'prelude.type'
 
 {
-    getType, isNumber, isString, isBoolean, isFunction, isObject, isArray,
-    isDate, isRegExp, isSymbol, isArguments, isError, isJSON, isInteger, inRange
+    getType, isNumber, isString, isBoolean, isFunction, isObject, isMap,
+    isArray, isSet, isDate, isRegExp, isSymbol, isArguments, isError, isJSON,
+    isInteger, inRange
 } = prelude.type
 
 suite 'getType' !->
@@ -63,17 +64,17 @@ suite 'isArray' !->
         strictEqual (isArray ''), false
         strictEqual (isArray {}), false
 
-if Set? and isFunction Set
-    suite 'isSet' !->
-        test 'truthy' !->
+suite 'isSet' !->
+    test 'truthy' !->
+        if Set? and isFunction Set
             strictEqual (isSet new Set!), true
 
-        test 'falsy' !->
-            strictEqual (isSet ''), false
-            strictEqual (isSet []), false
-            strictEqual (isSet null), false
-            strictEqual (isSet {}), false
-            strictEqual (isSet ->), false
+    test 'falsy' !->
+        strictEqual (isSet ''), false
+        strictEqual (isSet []), false
+        strictEqual (isSet null), false
+        strictEqual (isSet {}), false
+        strictEqual (isSet ->), false
 
 
 suite 'isObject' !->
@@ -85,17 +86,17 @@ suite 'isObject' !->
         strictEqual (isObject 10), false
 
 # cannot produce a Map for a valid test in node, skip this.
-if Map? and isFunction Map
-    suite 'isMap' !->
-        test 'truthy' !->
+suite 'isMap' !->
+    test 'truthy' !->
+        if Map? and isFunction Map
             strictEqual (isMap new Map!), true
 
-        test 'falsy' !->
-            strictEqual (isMap ''), false
-            strictEqual (isMap []), false
-            strictEqual (isMap null), false
-            strictEqual (isMap {}), false
-            strictEqual (isMap ->), false
+    test 'falsy' !->
+        strictEqual (isMap ''), false
+        strictEqual (isMap []), false
+        strictEqual (isMap null), false
+        strictEqual (isMap {}), false
+        strictEqual (isMap ->), false
 
 suite 'isArguments' !->
     test 'truthy' !->
@@ -132,18 +133,18 @@ suite 'isRegExp' !->
         strictEqual (isRegExp []), false
 
 # cannot produce a Symbol for a valid test in node, skip this.
-if Symbol? and isFunction Symbol
-    suite 'isSymbol' !->
-        test 'truthy' !->
+suite 'isSymbol' !->
+    test 'truthy' !->
+        if Symbol? and isFunction Symbol
             strictEqual (isSymbol Symbol!), true
             strictEqual (isSymbol Symbol 'foo'), true
 
-        test 'falsy' !->
-            strictEqual (isSymbol ''), false
-            strictEqual (isSymbol []), false
-            strictEqual (isSymbol null), false
-            strictEqual (isSymbol {}), false
-            strictEqual (isSymbol ->), false
+    test 'falsy' !->
+        strictEqual (isSymbol ''), false
+        strictEqual (isSymbol []), false
+        strictEqual (isSymbol null), false
+        strictEqual (isSymbol {}), false
+        strictEqual (isSymbol ->), false
 
 suite 'isJSON' !->
     test 'truthy' !->
