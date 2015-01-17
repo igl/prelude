@@ -128,11 +128,11 @@ exports.deepFreeze = (obj) ->
         exports.deepFreeze value
     obj
 
-# toString :: object -> string
-exports.toString = (obj) -> JSON.stringify obj, void, 2
+# toJSON :: object -> string
+exports.toJSON = (obj) -> JSON.stringify obj, void, 2
 
-# fromString :: string -> object
-exports.fromString = (obj) -> JSON.parse obj
+# fromJSON :: string -> object
+exports.fromJSON = (obj) -> JSON.parse obj
 
 # definePublic :: object -> string|object -> maybe any -> object
 exports.definePublic = curry (obj, key, value) ->

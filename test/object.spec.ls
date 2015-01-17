@@ -5,7 +5,7 @@
 {
     empty, has, contains, keys, values, clone, each, map, filter, partition,
     keyOf, keysOf, findKey, findKeys, fromPairs, toPairs, fill,
-    deepFill, mixin, deepMixin, freeze, deepFreeze, toString, fromString,
+    deepFill, mixin, deepMixin, freeze, deepFreeze, toJSON, fromJSON,
     definePublic, definePrivate, defineStatic, defineMeta
 } = prelude.object
 
@@ -258,10 +258,10 @@ suite 'deepFreeze()' !->
     test 'freeze child objects' !->
         throws (-> obj.b.c = 10), (-> true)
 
-suite 'toString()' !->
+suite 'toJSON()' !->
     test 'convert object to string' !->
         strictEqual do
-            toString { a:1, b:{ c:2 }}
+            toJSON { a:1, b:{ c:2 }}
             '''{
               "a": 1,
               "b": {
@@ -269,10 +269,10 @@ suite 'toString()' !->
               }
             }'''
 
-suite 'fromString()' !->
+suite 'fromJSON()' !->
     test 'convert string to object' !->
         deepEqual do
-            fromString '{"a":1,"b":{"c":2}}'
+            fromJSON '{"a":1,"b":{"c":2}}'
             { a:1, b:{ c:2 }}
 
 suite 'definePublic()' !->
