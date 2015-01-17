@@ -2,9 +2,6 @@
 
 curry = require './curry'
 
-function doubleCallback
-    throw new Error 'chain() callback called twice!'
-
 # id :: any -> any
 exports.id = (a) -> a
 
@@ -64,14 +61,15 @@ exports.applyNew = curry (F, xs) ->
         Surrogate.prototype = F.prototype
         return new Surrogate
 
-# flip :: function -> ...any -> any
-exports.flip = curry 1 (f, ...xs) ->
+# flip :: function -> function
+exports.flip = (f) -> return (...xs) ->
     i = 0
     len = xs.length
-    result = Array len
+    args = new Array len
     until len is 0
-        result[--len] = xs[i++]
-    -> apply f, result
+        args[--len] = xs[i++]
+    args
+    apply f, args
 
 # delay :: number -> function -> object
 exports.delay = curry (msec, fn) ->
