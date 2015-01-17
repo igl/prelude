@@ -61,6 +61,9 @@ suite 'last()' !->
         strictEqual (last [1 2 3]), 3
 
 suite 'initial()' !->
+    test 'returns undefined given an empty array' !->
+        deepEqual (initial []), void
+
     test 'return all elements but the last' !->
         deepEqual (initial [1 2 3 4]), [1 2 3]
 
@@ -269,15 +272,15 @@ suite 'sortBy()' !->
 
     test 'sort with func' !->
         deepEqual do
-            sortBy (% 2), [1 2 3 4 5 6]
-            [2,4,6,1,3,5]
+            sortBy (% 2), [6 5 1 2 3 4]
+            [6 2 4 5 1 3]
 
 suite 'countBy()' !->
     test 'curries' !->
         deepEqual do
             isFunction countBy (.length)
 
-    test 'sort with func' !->
+    test 'count by' !->
         deepEqual do
             countBy (.length), <[ one two three ]>
             { 3:2, 5:1 }
@@ -290,7 +293,7 @@ suite 'groupBy()' !->
             <[ one two three ]> |> groupBy (.length)
             { 3:['one', 'two'], 5:['three'] }
 
-    test 'sort with func' !->
+    test 'group by' !->
         deepEqual do
             groupBy (.length), <[ one two three ]>
             { 3:['one', 'two'], 5:['three'] }
@@ -303,10 +306,15 @@ suite 'splitAt()' !->
             [ 1 to 5 ] |> splitAt 2
             [ [1, 2], [3, 4, 5] ]
 
-    test 'sort with func' !->
+    test 'split array at position 2' !->
         deepEqual do
             splitAt 2, [ 1 to 5 ]
             [ [1, 2], [3, 4, 5] ]
+
+    test 'split negative index at 0' !->
+        deepEqual do
+            splitAt -1, [ 1 to 5 ]
+            [ [], [1, 2, 3, 4, 5] ]
 
 suite 'index()' !->
     test 'curries' !->
