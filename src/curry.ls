@@ -13,7 +13,7 @@ module.exports = (n, fn) ->
         then fn
         else ->
             params = args.slice!
-            if (params.push.apply params, &) < n and &.length
+            if (params.push.apply params, &) < n
             then curry params
             else fn.apply void, params
 
