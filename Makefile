@@ -20,24 +20,26 @@ DIST   = $(SRC:src/%.ls=dist/%.js) browser/prelude.js browser/prelude.min.js
 build: mkdir $(DIST)
 
 mkdir:
-	$(MKDIRP) dist browser
-
-install:
-	@npm install .
+	@$(MKDIRP) dist browser
 
 test: build
 	@$(MOCHA) $(MOCHAF)
 
 cov: build
 	@$(ISTNBL) cover $(_MOCHA) -- $(MOCHAF)
-	chromium-browser coverage/lcov-report/index.html
 
 clean:
 	@rm -rf dist
 	@rm -rf browser
 	@sleep .1 # wait for editor to refresh the file tree.......
 
-.PHONY: build install test cov clean
+install:
+	@npm install .
+
+report: cov
+	@chromium-browser coverage/lcov-report/index.html
+
+.PHONY: build mkdir test cov clean install report
 
 dist/%.js: src/%.ls
 	$(LSC) --bare -o "$(shell dirname $@)" -c "$<"
