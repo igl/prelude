@@ -79,6 +79,18 @@ exports.shuffle = (xs) ->
         result[r] = xs[i]
     result
 
+# every :: function -> array -> array
+exports.every = curry (f, xs) ->
+    for x, i in xs when (f x, i) is false
+        return false
+    true
+
+# some :: function -> array -> array
+exports.some = curry (f, xs) ->
+    for x, i in xs when (f x, i) is true
+        return true
+    false
+
 # reverse :: array -> array
 exports.reverse = (xs) ->
     i = 0

@@ -4,9 +4,9 @@
 
 {
     empty, has, contains, clone, head, first, tail, last, initial, slice,
-    concat, flatten, each, map, filter, shuffle, reverse, zip, zipWith,
-    partition, unique, uniqueBy, difference, intersection, union, sortBy,
-    countBy, groupBy, splitAt, index, indices, findIndex, findIndices
+    concat, flatten, each, map, filter, shuffle, every, some, reverse,
+    zip, zipWith, partition, unique, uniqueBy, difference, intersection, union,
+    sortBy, countBy, groupBy, splitAt, index, indices, findIndex, findIndices
 } = prelude.array
 
 suite 'empty()' !->
@@ -162,6 +162,36 @@ suite 'shuffle()' !->
             throws do
                 -> deepEqual (shuffle [1 2 3 4 5 6 7 8 9]), [1 2 3 4 5 6 7 8 9]
                 -> true
+
+suite 'every()' !->
+    test 'iterates over all items' !->
+        count = 0
+        strictEqual do
+            [1 2 3] |> every -> ++count; true
+            true
+        strictEqual count, 3, 'did not iterate over full array'
+
+    test 'iterates until miss' !->
+        count = 0
+        strictEqual do
+            [1 2 3 4 5] |> every -> ++count; it < 3
+            false
+        strictEqual count, 3, "iterator was called too often (#count)"
+
+suite 'some()' !->
+    test 'iterates over all items' !->
+        count = 0
+        deepEqual do
+            [1 2 3] |> some -> count++; false
+            false
+        strictEqual count, 3, 'did not iterate over full array'
+
+    test 'iterates until found' !->
+        count = 0
+        strictEqual do
+            [1 2 3 4 5] |> some -> ++count; it > 2
+            true
+        strictEqual count, 3, "iterator was called too often (#count)"
 
 suite 'reverse()' !->
     test 'reverses array' !->
