@@ -47,6 +47,18 @@ exports.map = curry (f, obj) ->
 exports.filter = curry (f, obj) ->
     {[k, v] for k, v of obj when (f v, k)}
 
+# every :: function -> object -> object
+exports.every = curry (f, obj) ->
+    for k, v of obj when (f v, k) is false
+        return false
+    true
+
+# some :: function -> object -> object
+exports.some = curry (f, obj) ->
+    for k, v of obj when (f v, k) is true
+        return true
+    false
+
 # partition :: function -> object -> [object]
 exports.partition = curry (f, obj) ->
     passed = {}

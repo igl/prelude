@@ -3,8 +3,8 @@
 <-! suite 'prelude.object'
 
 {
-    empty, has, contains, keys, values, clone, each, map, filter, partition,
-    keyOf, keysOf, findKey, findKeys, fromPairs, toPairs, fill,
+    empty, has, contains, keys, values, clone, each, map, filter, every, some,
+    partition, keyOf, keysOf, findKey, findKeys, fromPairs, toPairs, fill,
     deepFill, mixin, deepMixin, freeze, deepFreeze, toJSON, fromJSON,
     definePublic, definePrivate, defineStatic, defineMeta
 } = prelude.object
@@ -125,6 +125,35 @@ suite 'filter()' !->
         deepEqual do
             filter (-> typeof it isnt 'string'), { a:0, b:'foo', c:2 }
             { a:0, c:2 }
+
+suite 'every()' !->
+    test 'iterates over all keys' !->
+        count = 0
+        strictEqual do
+            { a:1, b:2, c:3 } |> every -> ++count; true
+            true
+        strictEqual count, 3, 'did not iterate over all keys'
+
+    test 'iterates until miss' !->
+        count = 0
+        strictEqual do
+            { a:1, b:2, c:3, d:4, e:5 } |> every -> ++count; it < 3
+            false
+        strictEqual count, 3, "iterator was called too often (#count)"
+
+suite 'some()' !->
+    test 'iterates over all keys' !->
+        count = 0
+        deepEqual do
+            { a:1, b:2, c:3 } |> some -> count++; false
+            false
+
+    test 'iterates until found' !->
+        count = 0
+        strictEqual do
+            { a:1, b:2, c:3, d:4, e:5 } |> some -> ++count; it > 2
+            true
+        strictEqual count, 3, "iterator was called too often (#count)"
 
 suite 'partition()' !->
     test 'curries' !->
