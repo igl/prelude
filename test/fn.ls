@@ -1,6 +1,6 @@
 'use strict'
 
-<-! suite 'prelude.func'
+<-! suite 'fn'
 
 {
     id, curry, compose, apply, applyTo, applyNew, flip,

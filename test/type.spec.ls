@@ -1,6 +1,6 @@
 'use strict'
 
-<-! suite 'prelude.type'
+<-! suite 'type'
 
 {
     getType, isNumber, isString, isBoolean, isFunction, isObject, isMap,
@@ -8,7 +8,7 @@
     isInteger, inRange
 } = prelude.type
 
-suite 'getType' !->
+suite 'getType()' !->
     test 'get types' !->
         strictEqual (getType 100       ), 'Number'
         strictEqual (getType ''        ), 'String'
@@ -20,7 +20,7 @@ suite 'getType' !->
         strictEqual (getType new Error ), 'Error'
         strictEqual (getType /foo/     ), 'RegExp'
 
-suite 'isNumber' !->
+suite 'isNumber()' !->
     test 'truthy' !->
         strictEqual (isNumber 10), true
 
@@ -30,7 +30,7 @@ suite 'isNumber' !->
         strictEqual (isNumber 9e999), false
         strictEqual (isNumber 0 / 0), false
 
-suite 'isString' !->
+suite 'isString()' !->
     test 'truthy' !->
         strictEqual (isString ''), true
 
@@ -38,7 +38,7 @@ suite 'isString' !->
         strictEqual (isString []), false
         strictEqual (isString 10), false
 
-suite 'isBoolean' !->
+suite 'isBoolean()' !->
     test 'truthy' !->
         strictEqual (isBoolean true), true
         strictEqual (isBoolean false), true
@@ -48,7 +48,7 @@ suite 'isBoolean' !->
         strictEqual (isBoolean 0), false
         strictEqual (isBoolean "true"), false
 
-suite 'isFunction' !->
+suite 'isFunction()' !->
     test 'truthy' !->
         strictEqual (isFunction ->), true
 
@@ -56,7 +56,7 @@ suite 'isFunction' !->
         strictEqual (isFunction {}), false
         strictEqual (isFunction /x/), false
 
-suite 'isArray' !->
+suite 'isArray()' !->
     test 'truthy' !->
         strictEqual (isArray []), true
 
@@ -64,7 +64,7 @@ suite 'isArray' !->
         strictEqual (isArray ''), false
         strictEqual (isArray {}), false
 
-suite 'isSet' !->
+suite 'isSet()' !->
     test 'truthy' !->
         if Set? and isFunction Set
             strictEqual (isSet new Set!), true
@@ -77,7 +77,7 @@ suite 'isSet' !->
         strictEqual (isSet ->), false
 
 
-suite 'isObject' !->
+suite 'isObject()' !->
     test 'truthy' !->
         strictEqual (isObject {}), true
 
@@ -86,7 +86,7 @@ suite 'isObject' !->
         strictEqual (isObject 10), false
 
 # cannot produce a Map for a valid test in node, skip this.
-suite 'isMap' !->
+suite 'isMap()' !->
     test 'truthy' !->
         if Map? and isFunction Map
             strictEqual (isMap new Map!), true
@@ -98,7 +98,7 @@ suite 'isMap' !->
         strictEqual (isMap {}), false
         strictEqual (isMap ->), false
 
-suite 'isArguments' !->
+suite 'isArguments()' !->
     test 'truthy' !->
         strictEqual (isArguments &), true
 
@@ -107,7 +107,7 @@ suite 'isArguments' !->
         strictEqual (isArguments {}), false
         strictEqual (isArguments new Date), false
 
-suite 'isDate' !->
+suite 'isDate()' !->
     test 'truthy' !->
         strictEqual (isDate new Date), true
 
@@ -115,7 +115,7 @@ suite 'isDate' !->
         strictEqual (isDate {}), false
         strictEqual (isDate []), false
 
-suite 'isError' !->
+suite 'isError()' !->
     test 'truthy' !->
         strictEqual (isError new Error 'fail'), true
 
@@ -123,7 +123,7 @@ suite 'isError' !->
         strictEqual (isError {}), false
         strictEqual (isError {}), false
 
-suite 'isRegExp' !->
+suite 'isRegExp()' !->
     test 'truthy' !->
         strictEqual (isRegExp /foo/), true
         strictEqual (isRegExp new RegExp 'foo'), true
@@ -133,7 +133,7 @@ suite 'isRegExp' !->
         strictEqual (isRegExp []), false
 
 # cannot produce a Symbol for a valid test in node, skip this.
-suite 'isSymbol' !->
+suite 'isSymbol()' !->
     test 'truthy' !->
         if Symbol? and isFunction Symbol
             strictEqual (isSymbol Symbol!), true
@@ -146,7 +146,7 @@ suite 'isSymbol' !->
         strictEqual (isSymbol {}), false
         strictEqual (isSymbol ->), false
 
-suite 'isJSON' !->
+suite 'isJSON()' !->
     test 'truthy' !->
         deepEqual (isJSON '{ "a":1 }'), true
         deepEqual (isJSON '[{ "b":2 }]'), true
@@ -162,7 +162,7 @@ suite 'isJSON' !->
         strictEqual (isJSON '"a":1'), false
         strictEqual (isJSON '{ "a":1, b:2 }'), false
 
-suite 'isInteger' !->
+suite 'isInteger()' !->
     test 'truthy' !->
         strictEqual (isInteger 1), true
         strictEqual (isInteger 1.0), true
@@ -172,7 +172,7 @@ suite 'isInteger' !->
         strictEqual (isInteger 1.1), false
         strictEqual (isInteger 99.937892), false
 
-suite 'inRange' !->
+suite 'inRange()' !->
     test 'curries' !->
         isFunction (inRange 0, 5)
         strictEqual do

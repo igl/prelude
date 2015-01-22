@@ -1,6 +1,6 @@
 'use strict'
 
-<-! suite 'prelude.array'
+<-! suite 'array'
 
 {
     empty, has, contains, clone, head, first, tail, last, initial, slice,

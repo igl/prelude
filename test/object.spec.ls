@@ -1,6 +1,6 @@
 'use strict'
 
-<-! suite 'prelude.object'
+<-! suite 'object'
 
 {
     empty, has, contains, keys, values, clone, each, map, filter, every, some,

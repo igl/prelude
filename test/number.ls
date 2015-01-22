@@ -1,6 +1,6 @@
 'use strict'
 
-<-! suite 'prelude.numbers'
+<-! suite 'number'
 
 { even, odd, random, range, gcd, lcm } = prelude.number
 

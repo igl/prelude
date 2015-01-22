@@ -2,7 +2,6 @@
 
 <-! suite 'prelude'
 
-
 prelude = require '../'
 
 suite 'modules' !->

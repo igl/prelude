@@ -1,6 +1,6 @@
 'use strict'
 
-<-! suite 'prelude.string'
+<-! suite 'string'
 
 {
     empty, contains, trim, trimLeft, trimRight, repeat, reverse, capitalize,

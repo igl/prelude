@@ -17,8 +17,8 @@ exports.has = curry (key, obj) ->
     ObjHasOwnProperty.call obj, key
 
 # contains :: string -> object -> boolean
-exports.contains = curry (value, obj) ->
-    for , v of obj when v is value
+exports.contains = curry (elem, obj) ->
+    for , v of obj when v is elem
         return true
     false
 
