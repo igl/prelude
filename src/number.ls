@@ -9,17 +9,11 @@ exports.even = (x) -> x % 2 == 0
 exports.odd = (x) -> x % 2 != 0
 
 # random :: number -> number -> number
-exports.random = (min, max) ->
-    if max ~= void
-        max = min
-        min = 0
+exports.random = curry (min, max) ->
     min + Math.floor (Math.random! * (max - min + 1))
 
 # range :: number -> number -> number? -> array
 exports.range = curry 1 (a, b, inc = 1) ->
-    if &.length is 1
-        b = a or 0
-        a = 0
     [x for x from a til (b + 1) by inc]
 
 exports.gcd = (x, y) -->

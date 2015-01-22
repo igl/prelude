@@ -26,14 +26,6 @@ suite 'random()' !->
         for i in [5 til 11]
             ok (i in res2)
 
-    test 'one argument used as max' !->
-        res1 = [(random 5) for i til 100]
-        res2 = [(random 10) for i til 100]
-        for i in [0 til 6]
-            ok (i in res1)
-        for i in [0 til 11]
-            ok (i in res2)
-
 suite 'range()' !->
     test 'creates an array' !->
         isArray (range 0, 5)
