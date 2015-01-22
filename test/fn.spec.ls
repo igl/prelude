@@ -49,12 +49,17 @@ suite 'compose()' !->
         strictEqual (addMul 2, 2), 8
 
 suite 'apply()' !->
-    fn1 = (a) !->
+    fn0 = !-> ok true
+    fn1 = (a) !-> strictEqual a, 0
+    fn2 = (a, b) !->
         strictEqual a, 0
-    fn3 = (a, b, c) !->
+        strictEqual b, 1
+    fn5 = (a, b, c, d, e) !->
         strictEqual a, 0
         strictEqual b, 1
         strictEqual c, 2
+        strictEqual d, 3
+        strictEqual e, 4
     fn10 = (a, b, c, d, e, f, g, h, i, j) !->
         strictEqual a, 0
         strictEqual b, 1
@@ -68,45 +73,78 @@ suite 'apply()' !->
         strictEqual j, 9
 
     test 'curries' !->
-        [0 1 2] |> apply fn3
+        [0 1 2 3 4] |> apply fn5
 
-    test 'apply array as arguments (1)' !->
+    test 'apply with 0 arguments' !->
+        apply fn0, []
+
+    test 'apply with 1 argument' !->
         apply fn1, [0]
 
-    test 'apply array as arguments (3)' !->
-        apply fn3, [0 1 2]
+    test 'apply with 2 argument' !->
+        apply fn2, [0 1]
 
-    test 'apply array as arguments (10)' !->
+    test 'apply with 5 arguments' !->
+        apply fn5, [0 1 2 3 4]
+
+    test 'apply with 10 arguments' !->
         apply fn10, [0 1 2 3 4 5 6 7 8 9]
 
 suite 'applyTo()' !->
+    fn0 = !->
     fn1 = (@a) !->
-    fn3 = (@a, @b, @c) !->
+    fn2 = (@a, @b) !->
+    fn5 = (@a, @b, @c, @d, @e) !->
     fn10 = (@a, @b, @c, @d, @e, @f, @g, @h, @i, @j) !->
 
-    test 'apply array as arguments with context 1' !->
+    test 'applyTo with 0 arguments' !->
+        ctx = {}
+        applyTo ctx, fn0, []
+        deepEqual ctx, {}
+
+    test 'applyTo with 1 argument' !->
         ctx = {}
         applyTo ctx, fn1, [0]
         deepEqual ctx, { a:0 }
 
-    test 'apply array as arguments with context 2' !->
+    test 'applyTo with 2 argument' !->
         ctx = {}
-        applyTo ctx, fn3, [0 1 2]
-        deepEqual ctx, { a:0, b:1, c:2 }
+        applyTo ctx, fn2, [0 1]
+        deepEqual ctx, { a:0, b:1 }
 
-    test 'apply array as arguments with context 3' !->
+    test 'applyTo with 5 arguments' !->
+        ctx = {}
+        applyTo ctx, fn5, [0 1 2 3 4]
+        deepEqual ctx, { a:0, b:1, c:2, d:3, e:4 }
+
+    test 'applyTo with 10 arguments' !->
         ctx = {}
         applyTo ctx, fn10, [0 1 2 3 4 5 6 7 8 9]
         deepEqual ctx, { a:0, b:1, c:2, d:3, e:4, f:5, g:6, h:7, i:8, j:9 }
 
 suite 'applyNew()' !->
-    test 'apply array as arguments to constructor' !->
-        Ctor = (name, age) !->
-            this.name = name
-            this.age  = age
+    fn0 = !->
+    fn1 = (@a) !->
+    fn2 = (@a, @b) !->
+    fn5 = (@a, @b, @c, @d, @e) !->
+    fn10 = (@a, @b, @c, @d, @e, @f, @g, @h, @i, @j) !->
+
+    test 'applyNew with 0 arguments' !->
+        deepEqual (applyNew fn0, []), {}
+
+    test 'applyNew with 1 argument' !->
+        deepEqual (applyNew fn1, [0]), { a:0 }
+
+    test 'applyNew with 2 argument' !->
+        deepEqual (applyNew fn2, [0 1]), { a:0, b:1 }
+
+    test 'applyNew with 5 arguments' !->
+        deepEqual (applyNew fn5, [0 1 2 3 4]), { a:0, b:1, c:2, d:3, e:4 }
+
+    test 'applyNew with 10 arguments' !->
         deepEqual do
-            applyNew Ctor, ['hans' 24]
-            { name:'hans', age:24 }
+            (applyNew fn10, [0 1 2 3 4 5 6 7 8 9])
+            { a:0, b:1, c:2, d:3, e:4, f:5, g:6, h:7, i:8, j:9 }
 
 suite 'flip()' !->
     test 'flip arguments' !->
@@ -150,8 +188,15 @@ suite 'immediate()' !->
 
 suite 'tryCatch()' !->
     e = new Error 'Error!'
-    test 'catch and return error' !->
+
+    test 'return caught error' !->
         deepEqual (tryCatch !-> throw e), e
+
+    test 'return value' !->
+        strictEqual (tryCatch -> 10), 10
+
+    test 'catch non-errors and always create errors' !->
+        isError (tryCatch !-> throw "foo")
 
     test 'catch error in callback' (done) !->
         tryCatch do
