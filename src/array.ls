@@ -14,8 +14,10 @@ exports.has = curry (i, xs) ->
     (i >= 0) and (i <= (xs.length - 1))
 
 # contains :: array -> boolean
-exports.contains = curry (x, xs) ->
-    (xs.indexOf x) isnt -1
+exports.contains = curry (y, xs) ->
+    for x in xs when x is y
+        return true
+    false
 
 # clone :: array -> array
 exports.clone = (xs) ->
