@@ -37,7 +37,7 @@ install:
 	@npm install .
 
 report: cov
-	@chromium-browser coverage/lcov-report/index.html
+	@chromium-browser coverage/lcov-report/index.html > /dev/null 2>&1
 
 .PHONY: build mkdir test cov clean install report
 
