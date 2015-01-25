@@ -5,8 +5,23 @@
 {
     getType, isNumber, isString, isBoolean, isFunction, isObject, isMap,
     isArray, isSet, isDate, isRegExp, isSymbol, isArguments, isError, isJSON,
-    isInteger, inRange
+    isUUID, isInteger, inRange
 } = prelude.type
+
+FIXTURE_UUIDS = <[
+    720ef950-a4b4-11e4-bf83-ada77868e109
+    d9203b21-58c6-40f1-ae18-8a7f67a59f1f
+    4fd5d137-9a26-4961-a309-c0a8b08b154f
+    b0d85195-fcae-4fa0-bd5b-170e155db2d2
+    1fcd79fa-1e62-4de5-8352-e4d0ae6e23b3
+    d63bd12b-1b05-4d46-aecd-5c6c99bd777e
+    eb878c3b-3d36-480a-bc93-2fe0a964061a
+    4f645712-15a9-419e-98be-85341eb33f31
+    a3e64ad7-0092-4c54-8c37-9e8bd32cbc56
+    1e96ccb8-e677-4443-90d9-ea0ff299ad71
+    06dbd5e3-3328-4f90-83e0-f311772e536c
+    025179ed-2258-46d6-a433-8bd01584cc6c
+]>
 
 suite 'getType()' !->
     test 'get types' !->
@@ -148,10 +163,10 @@ suite 'isSymbol()' !->
 
 suite 'isJSON()' !->
     test 'truthy' !->
-        deepEqual (isJSON '{ "a":1 }'), true
-        deepEqual (isJSON '[{ "b":2 }]'), true
-        deepEqual (isJSON '[1,2,3]'), true
-        deepEqual (isJSON JSON.stringify process.env), true
+        strictEqual (isJSON '{ "a":1 }'), true
+        strictEqual (isJSON '[{ "b":2 }]'), true
+        strictEqual (isJSON '[1,2,3]'), true
+        strictEqual (isJSON JSON.stringify process.env), true
 
     test 'falsy' !->
         strictEqual (isJSON null), false
@@ -161,6 +176,20 @@ suite 'isJSON()' !->
         strictEqual (isJSON 'foo'), false
         strictEqual (isJSON '"a":1'), false
         strictEqual (isJSON '{ "a":1, b:2 }'), false
+
+suite 'isUUID()' !->
+    test 'validate all uuids from fixtures' !->
+        for uuid in FIXTURE_UUIDS
+            strictEqual (isUUID uuid), true
+
+    test 'fail on invalid input' !->
+        strictEqual (isUUID 36), false
+        strictEqual (isUUID {}), false
+        strictEqual (isUUID 'foo'), false
+        strictEqual (isUUID 'foobarfoobarfoobarfoobarfoobarfoobar'), false
+        strictEqual (isUUID '06dbd5e3-3328-4f90-83e0-f311772e536'), false
+        strictEqual (isUUID '06dbd5e3-3328-4f90-83e0-f311772e536cg'), false
+        strictEqual (isUUID '06dbd5e3-3328-4z90-83e0-f311772e536c'), false
 
 suite 'isInteger()' !->
     test 'truthy' !->

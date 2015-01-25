@@ -7,6 +7,7 @@ ObjToString = Object.prototype.toString
 
 # match valid JSON-string
 RX_ISJSON = /^[ ]*[\[\{].*[\]\}][ ]*$/
+RX_ISUUID = /^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$/i
 
 # getType :: any -> string
 exports.getType = ->
@@ -64,6 +65,9 @@ exports.isJSON = ->
     catch
         return false
     true
+
+exports.isUUID = ->
+    (typeof it is 'string') and (RX_ISUUID.test it)
 
 exports.isInteger = ->
     (not isNaN it) and (it % 1 is 0)
