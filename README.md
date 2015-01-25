@@ -1,20 +1,30 @@
 #Prelude
 
-Utility set for ECMAScript.
-Includes a lot of common helpers for primitive transformation, control flow and inheritance.
-All functions with 2 or more arguments are curried.
+Utility set for JS.
 
-- Written in <a href="http://www.livescript.net">LiveScript</a>, because Javascript.
+- Written in <a href="http://www.livescript.net">LiveScript</a>.
 - Inspired by
 <a href="http://www.preludels.com/">prelude-ls</a>,
 <a href="http://underscorejs.org/">underscore</a> and
 <a href="https://github.com/codemix/fast.js">fast.js</a>.
+- See method index below
+- Github pages with more detailed examples are coming soon...
 
-### Install:
+## Example
+
+    var sortPostsByName = prelude.array.sortBy(function (post) { return post.name; });
+    var sorted_posts = sortPostsByName posts
+
+### Installation
 
     npm install prelude
 
-### Method Index:
+### Methods
+
+All functions with 2 or more arguments are curried and generally return
+copies of their inputs, thus treating them as immutable (with the exception
+of `object.mixin` where this behavior is not always wanted).
+
 
 **Array** `prelude.array.<method>`
 
@@ -34,6 +44,8 @@ All functions with 2 or more arguments are curried.
 - map
 - filter
 - shuffle
+- every
+- some
 - reverse
 - zip
 - zipWith
@@ -63,6 +75,8 @@ All functions with 2 or more arguments are curried.
 - each
 - map
 - filter
+- every
+- some
 - partition
 - keyOf
 - keysOf
@@ -139,6 +153,7 @@ All functions with 2 or more arguments are curried.
 - isRegExp
 - isSymbol
 - isJSON
+- isUUID
 - isInteger
 - inRange
 
