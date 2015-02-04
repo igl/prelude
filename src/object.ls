@@ -2,7 +2,7 @@
 
 curry = require './curry'
 
-{ isType, isObject, isArray } = require './type'
+{ isString, isObject, isArray } = require './type'
 
 # native methods
 ObjHasOwnProperty = Object.prototype.hasOwnProperty
@@ -33,6 +33,30 @@ exports.values = (obj) ->
 # clone :: object -> object
 exports.clone = (obj) ->
     exports.deepMixin void, obj
+
+# flatten :: string? -> object -> object
+exports.flatten = curry (delimiter, item) ->
+    result = {}
+
+    if isObject delimiter
+        item      := delimiter
+        delimiter := '.'
+    else if not(isString delimiter) or not(isObject item)
+        throw new Error 'Invalid arguments'
+
+    item |> !function parse (root, parent = '')
+        for childName, child of root
+            current =
+                if parent then
+                    "#parent#delimiter#childName"
+                else
+                    childName
+
+            if isObject child and (Object.keys child .length > 0)
+                parse child, current
+            else
+                result[current] := child
+    result
 
 # each :: function -> object -> object
 exports.each = curry (f, obj) ->
