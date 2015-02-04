@@ -81,6 +81,7 @@ suite 'isArray()' !->
 
 suite 'isSet()' !->
     test 'truthy' !->
+        # es6 only
         if Set? and isFunction Set
             strictEqual (isSet new Set!), true
 
@@ -91,7 +92,6 @@ suite 'isSet()' !->
         strictEqual (isSet {}), false
         strictEqual (isSet ->), false
 
-
 suite 'isObject()' !->
     test 'truthy' !->
         strictEqual (isObject {}), true
@@ -99,10 +99,16 @@ suite 'isObject()' !->
     test 'falsy' !->
         strictEqual (isObject []), false
         strictEqual (isObject 10), false
+        strictEqual (isObject null), false
+        # es6 only
+        if Set? and isFunction Set?
+            strictEqual (isObject new Set!), false
+        if Map? and isFunction Map?
+            strictEqual (isObject new Map!), false
 
-# cannot produce a Map for a valid test in node, skip this.
 suite 'isMap()' !->
     test 'truthy' !->
+        # es6 only
         if Map? and isFunction Map
             strictEqual (isMap new Map!), true
 
