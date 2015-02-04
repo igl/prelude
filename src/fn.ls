@@ -72,9 +72,7 @@ exports.flip = (f) -> return (...xs) ->
     apply f, args
 
 # delay :: number -> function -> object
-exports.delay = curry (msec, fn) ->
-    i = 0
-    setTimeout fn, msec
+exports.delay = curry (msec, fn) -> setTimeout fn, msec
 
 # interval :: number -> function -> object
 exports.interval = curry (msec, fn) ->
