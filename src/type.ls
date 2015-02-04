@@ -9,11 +9,15 @@ ObjToString = Object.prototype.toString
 RX_ISJSON = /^[ ]*[\[\{].*[\]\}][ ]*$/
 RX_ISUUID = /^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$/i
 
+ALL_TYPE_CHECKS = <[ Number String Boolean Function Array Set Object Map Arguments Date Error RegExp Symbol ]>
+
 # getType :: any -> string
 exports.getType = ->
-    ObjToString.call it .slice 8, -1
+    for type in ALL_TYPE_CHECKS when exports["is#type"] it
+        return type
+    void
 
-# basic Types
+# primitive JS Types
 exports.isNumber = isNumber = ->
     (typeof it is 'number') and (not isNaN it) and (isFinite it)
 
@@ -53,7 +57,7 @@ exports.isRegExp = ->
 exports.isSymbol = ->
     (ObjToString.call it) is '[object Symbol]'
 
-# advanced value type checks
+# advanced value-type checks
 exports.isJSON = ->
     if typeof it isnt 'string'
         return false

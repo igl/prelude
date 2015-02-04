@@ -25,15 +25,27 @@ FIXTURE_UUIDS = <[
 
 suite 'getType()' !->
     test 'get types' !->
-        strictEqual (getType 100       ), 'Number'
-        strictEqual (getType ''        ), 'String'
-        strictEqual (getType ->        ), 'Function'
-        strictEqual (getType []        ), 'Array'
-        strictEqual (getType {}        ), 'Object'
-        strictEqual (getType &         ), 'Arguments'
-        strictEqual (getType new Date  ), 'Date'
-        strictEqual (getType new Error ), 'Error'
-        strictEqual (getType /foo/     ), 'RegExp'
+        strictEqual (getType 100), 'Number'
+        strictEqual (getType ''), 'String'
+        strictEqual (getType true), 'Boolean'
+        strictEqual (getType false), 'Boolean'
+        strictEqual (getType ->), 'Function'
+        strictEqual (getType []), 'Array'
+        strictEqual (getType {}), 'Object'
+        strictEqual (getType &), 'Arguments'
+        strictEqual (getType new Date), 'Date'
+        strictEqual (getType new Error), 'Error'
+        strictEqual (getType /foo/), 'RegExp'
+        # es6 only
+        if Set? and isFunction Set
+            strictEqual (getType new Set), 'Set'
+
+        if Map? and isFunction Map
+            strictEqual (getType new Map), 'Map'
+
+        if Symbol? and isFunction Symbol
+            strictEqual (getType new Symbol), 'Symbol'
+
 
 suite 'isNumber()' !->
     test 'truthy' !->
@@ -83,7 +95,7 @@ suite 'isSet()' !->
     test 'truthy' !->
         # es6 only
         if Set? and isFunction Set
-            strictEqual (isSet new Set!), true
+            strictEqual (isSet new Set), true
 
     test 'falsy' !->
         strictEqual (isSet ''), false
@@ -102,15 +114,15 @@ suite 'isObject()' !->
         strictEqual (isObject null), false
         # es6 only
         if Set? and isFunction Set?
-            strictEqual (isObject new Set!), false
+            strictEqual (isObject new Set), false
         if Map? and isFunction Map?
-            strictEqual (isObject new Map!), false
+            strictEqual (isObject new Map), false
 
 suite 'isMap()' !->
     test 'truthy' !->
         # es6 only
         if Map? and isFunction Map
-            strictEqual (isMap new Map!), true
+            strictEqual (isMap new Map), true
 
     test 'falsy' !->
         strictEqual (isMap ''), false
