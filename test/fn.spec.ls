@@ -161,7 +161,7 @@ suite 'delay()' !->
         s = Date.now!
         delay 50, !->
             time = Date.now! - s
-            ok (time >= 50 and time <= 52), 'is between 50 - 52ms'
+            ok (time >= 50 and time <= 55), 'is between 50 - 55ms'
             done!
 
 suite 'interval()' !->
@@ -170,9 +170,10 @@ suite 'interval()' !->
         s = Date.now!
         interval 10, ->
             time = Date.now! - s
-            s := Date.now!
-            ok (time >= 10 and time <= 12), 'is between 10 - 12ms'
+            ok (time >= 10 and time <= 15), 'is between 10 - 15ms'
 
+            # reset time for next interval
+            s := Date.now!
             if --retry is 0
                 done!
                 false
