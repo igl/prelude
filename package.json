@@ -9,6 +9,9 @@
     "type": "git",
     "url": "git://github.com/igl/prelude.js.git"
   },
+  "scripts": {
+    "test": "make test"
+  },
   "devDependencies": {
     "LiveScript": "1.3.0",
     "browserify": "^8.1.3",
