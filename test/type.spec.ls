@@ -44,7 +44,7 @@ suite 'getType()' !->
             strictEqual (getType new Map), 'Map'
 
         if Symbol? and isFunction Symbol
-            strictEqual (getType new Symbol), 'Symbol'
+            strictEqual (getType Symbol!), 'Symbol'
 
 
 suite 'isNumber()' !->
