@@ -40,14 +40,12 @@ exports.flatten = curry (delimiter, item) ->
 
     if isObject delimiter
         item      := delimiter
-        delimiter := '.'
-    else if not(isString delimiter) or not(isObject item)
-        throw new Error 'Invalid arguments'
+        delimiter := void
 
     item |> !function parse (root, parent = '')
         for childName, child of root
             current =
-                if parent then
+                if parent and delimiter
                     "#parent#delimiter#childName"
                 else
                     childName
