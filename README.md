@@ -1,6 +1,5 @@
 #Prelude [![Build Status](https://travis-ci.org/igl/prelude.js.png?branch=master)](https://travis-ci.org/igl/prelude.js)
 
-
 Utility set for JS.
 
 - Written in <a href="http://www.livescript.net">LiveScript</a>.
@@ -73,6 +72,7 @@ of `object.mixin` where this behavior is not always wanted).
 - keys
 - values
 - clone
+- flatten
 - each
 - map
 - filter

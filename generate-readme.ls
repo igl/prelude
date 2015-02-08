@@ -4,7 +4,7 @@
 prelude = require './'
 
 HEAD = '''
-    #Prelude
+    #Prelude [![Build Status](https://travis-ci.org/igl/prelude.js.png?branch=master)](https://travis-ci.org/igl/prelude.js)
 
     Utility set for JS.
 
