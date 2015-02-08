@@ -3,10 +3,10 @@
 <-! suite 'object'
 
 {
-    empty, has, contains, keys, values, clone, each, map, filter, every, some,
-    partition, keyOf, keysOf, findKey, findKeys, fromPairs, toPairs, fill,
-    deepFill, mixin, deepMixin, freeze, deepFreeze, toJSON, fromJSON,
-    definePublic, definePrivate, defineStatic, defineMeta
+    empty, has, contains, keys, values, clone, flatten, each, map, filter,
+    every, some, partition, keyOf, keysOf, findKey, findKeys, fromPairs,
+    toPairs, fill, deepFill, mixin, deepMixin, freeze, deepFreeze, toJSON,
+    fromJSON, definePublic, definePrivate, defineStatic, defineMeta
 } = prelude.object
 
 suite 'empty()' !->
@@ -61,6 +61,72 @@ suite 'clone()' !->
 
         strictEqual original.a, 0
         strictEqual copy.a, 'foo'
+
+suite 'flatten()' !->
+    test 'returns the same as input' !->
+        deepEqual do
+            flatten null, { a: 10 }
+            { a: 10 }
+
+    test 'flatten with empty delimiter string' !->
+        deepEqual do
+            flatten '', { a: 10, b: { c: 20 } }
+            { a: 10, bc: 20 }
+
+    test 'flatten without delimiter' !->
+        deepEqual do
+            flatten null, { a: 10, b: { c: 20 } }
+            { a: 10, c: 20 }
+
+    test 'flatten without delimiter 3D' !->
+        deepEqual do
+            flatten null, {
+                a: 10
+                b:
+                    c: 20
+                    d: 30
+                    e:
+                        f: 40
+                        g: 50
+                        h: {
+                            i: 60
+                            j: 70
+                        }
+            }
+            {
+                a: 10
+                c: 20
+                d: 30
+                f: 40
+                g: 50
+                i: 60
+                j: 70
+            }
+
+    test 'flatten with delimiter 3D' !->
+        deepEqual do
+            flatten '_', {
+                a: 10
+                b:
+                    c: 20
+                    d: 30
+                    e:
+                        f: 40
+                        g: 50
+                        h: {
+                            i: 60
+                            j: 70
+                        }
+            }
+            {
+                a: 10
+                b_c: 20
+                b_d: 30
+                b_e_f: 40
+                b_e_g: 50
+                b_e_h_i: 60
+                b_e_h_j: 70
+            }
 
 suite 'each()' !->
     test 'curries' !->

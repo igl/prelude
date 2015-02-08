@@ -35,25 +35,18 @@ exports.clone = (obj) ->
     exports.deepMixin void, obj
 
 # flatten :: string? -> object -> object
-exports.flatten = curry (delimiter, item) ->
+exports.flatten = curry (delimiter, obj) ->
     result = {}
 
-    if isObject delimiter
-        item      := delimiter
-        delimiter := void
-
-    item |> !function parse (root, parent = '')
-        for childName, child of root
-            current =
-                if parent and delimiter
-                    "#parent#delimiter#childName"
-                else
-                    childName
+    obj |> !function parse (obj, parentKey = '')
+        for key, child of obj
+            if parentKey and isString delimiter
+                key := "#parentKey#delimiter#key"
 
             if isObject child and (Object.keys child .length > 0)
-                parse child, current
+                parse child, key
             else
-                result[current] := child
+                result[key] := child
     result
 
 # each :: function -> object -> object
