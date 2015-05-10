@@ -3,7 +3,7 @@
   "version": "0.1.8",
   "description": "Utility set for Javascript",
   "author": "Richard Keil",
-  "main": "prelude.js",
+  "main": "dist/prelude.js",
   "license": "MIT",
   "repository": {
     "type": "git",

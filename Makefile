@@ -17,15 +17,12 @@ MOCHAF = -u tdd -R min -t 5000 --compilers ls:$(LS) -r "./test-runner.ls" -c -S 
 SRC    = $(shell find src -maxdepth 1 -name "*.ls" -type f | sort)
 DIST   = $(SRC:src/%.ls=dist/%.js) browser/prelude.js browser/prelude.min.js
 
-build: mkdir $(DIST)
+build: prepare $(DIST)
 
-mkdir:
+prepare:
 	@$(MKDIRP) dist browser
 
 test: build
-	@$(MOCHA) $(MOCHAF)
-
-cov: build
 	@$(ISTNBL) cover $(_MOCHA) -- $(MOCHAF)
 
 clean:
@@ -36,10 +33,10 @@ clean:
 install:
 	@npm install .
 
-report: cov
+report: test
 	@chromium-browser coverage/lcov-report/index.html > /dev/null 2>&1
 
-.PHONY: build mkdir test cov clean install report
+.PHONY: build prepare test clean install report
 
 dist/%.js: src/%.ls
 	$(LSC) --bare -o "$(shell dirname $@)" -c "$<"
