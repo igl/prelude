@@ -40,13 +40,13 @@ of `object.mixin` where this behavior is not always wanted).
 - slice
 - concat
 - flatten
+- reverse
 - each
 - map
 - filter
 - shuffle
 - every
 - some
-- reverse
 - zip
 - zipWith
 - partition
@@ -153,10 +153,9 @@ of `object.mixin` where this behavior is not always wanted).
 - isError
 - isRegExp
 - isSymbol
-- isJSON
+- isDefined
+- isNull
+- isUndefined
 - isUUID
 - isInteger
 - inRange
-
-**ImportAll** `prelude.importAll.<method>`
-
