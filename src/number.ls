@@ -16,7 +16,7 @@ exports.random = curry (min, max) ->
 exports.range = curry 1 (a, b, inc = 1) ->
     [x for x from a til (b + 1) by inc]
 
-exports.gcd = (x, y) -->
+exports.gcd = curry (x, y) ->
     x = Math.abs x
     y = Math.abs y
     until y is 0
@@ -25,5 +25,5 @@ exports.gcd = (x, y) -->
         y = z
     x
 
-exports.lcm = (x, y) -->
+exports.lcm = curry (x, y) ->
     Math.abs Math.floor (x / (exports.gcd x, y) * y)
