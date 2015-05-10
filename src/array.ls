@@ -59,6 +59,15 @@ exports.flatten = :flatten (xs) ->
         else result.push x
     result
 
+# reverse :: array -> array
+exports.reverse = (xs) ->
+    i = 0
+    len = xs.length
+    result = new Array len
+    until len is 0
+        result[--len] = xs[i++]
+    result
+
 # each :: function -> array -> array
 exports.each = curry (f, xs) ->
     for x, i in xs then (f x, i)
@@ -92,15 +101,6 @@ exports.some = curry (f, xs) ->
     for x, i in xs when (f x, i) is true
         return true
     false
-
-# reverse :: array -> array
-exports.reverse = (xs) ->
-    i = 0
-    len = xs.length
-    result = new Array len
-    until len is 0
-        result[--len] = xs[i++]
-    result
 
 # zip :: array -> ...array -> array
 exports.zip = curry 1 (...args) ->
