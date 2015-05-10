@@ -6,10 +6,9 @@ curry = require './curry'
 ObjToString = Object.prototype.toString
 
 # match valid JSON-string
-RX_ISJSON = /^[ ]*[\[\{].*[\]\}][ ]*$/
 RX_ISUUID = /^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$/i
 
-ALL_TYPE_CHECKS = <[ Number String Boolean Function Array Set Object Map Arguments Date Error RegExp Symbol ]>
+ALL_TYPE_CHECKS = <[ Number String Boolean Function Array Set Map Arguments Date Error RegExp Symbol Null Undefined Object ]>
 
 # getType :: any -> string
 exports.getType = ->
@@ -31,44 +30,40 @@ exports.isFunction = ->
     typeof it is 'function'
 
 exports.isArray = ->
-    (ObjToString.call it) is '[object Array]'
+    it instanceof Array
 
 exports.isSet = ->
-    (ObjToString.call it) is '[object Set]'
+    it instanceof Set
 
 exports.isObject = ->
-    (ObjToString.call it) is '[object Object]'
+    (it instanceof Object) and (it isnt null)
 
 exports.isMap = ->
-    (ObjToString.call it) is '[object Map]'
+    it instanceof Map
 
 exports.isArguments = ->
     (ObjToString.call it) is '[object Arguments]'
 
 exports.isDate = ->
-    (ObjToString.call it) is '[object Date]'
+    it instanceof Date
 
 exports.isError = ->
-    (ObjToString.call it) is '[object Error]'
+    it instanceof Error
 
 exports.isRegExp = ->
-    (ObjToString.call it) is '[object RegExp]'
+    it instanceof RegExp
 
 exports.isSymbol = ->
-    (ObjToString.call it) is '[object Symbol]'
+    typeof it is 'symbol'
 
-# advanced value-type checks
-exports.isJSON = ->
-    if typeof it isnt 'string'
-        return false
+exports.isDefined = ->
+    (typeof it isnt 'undefined') and (it isnt null)
 
-    if not RX_ISJSON.test it
-        return false
+exports.isNull = ->
+    it is null
 
-    try JSON.parse it
-    catch
-        return false
-    true
+exports.isUndefined = ->
+    (typeof it is 'undefined')
 
 exports.isUUID = ->
     (typeof it is 'string') and (RX_ISUUID.test it)

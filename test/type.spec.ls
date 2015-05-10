@@ -4,8 +4,8 @@
 
 {
     getType, isNumber, isString, isBoolean, isFunction, isObject, isMap,
-    isArray, isSet, isDate, isRegExp, isSymbol, isArguments, isError, isJSON,
-    isUUID, isInteger, inRange
+    isArray, isSet, isDate, isRegExp, isSymbol, isArguments, isError,
+    isDefined, isNull, isUndefined, isUUID, isInteger, inRange
 } = prelude.type
 
 FIXTURE_UUIDS = <[
@@ -93,9 +93,7 @@ suite 'isArray()' !->
 
 suite 'isSet()' !->
     test 'truthy' !->
-        # es6 only
-        if Set? and isFunction Set
-            strictEqual (isSet new Set), true
+        strictEqual (isSet new Set), true
 
     test 'falsy' !->
         strictEqual (isSet ''), false
@@ -107,22 +105,15 @@ suite 'isSet()' !->
 suite 'isObject()' !->
     test 'truthy' !->
         strictEqual (isObject {}), true
+        strictEqual (isObject []), true
 
     test 'falsy' !->
-        strictEqual (isObject []), false
         strictEqual (isObject 10), false
         strictEqual (isObject null), false
-        # es6 only
-        if Set? and isFunction Set?
-            strictEqual (isObject new Set), false
-        if Map? and isFunction Map?
-            strictEqual (isObject new Map), false
 
 suite 'isMap()' !->
     test 'truthy' !->
-        # es6 only
-        if Map? and isFunction Map
-            strictEqual (isMap new Map), true
+        strictEqual (isMap new Map), true
 
     test 'falsy' !->
         strictEqual (isMap ''), false
@@ -165,35 +156,50 @@ suite 'isRegExp()' !->
         strictEqual (isRegExp ''), false
         strictEqual (isRegExp []), false
 
-# cannot produce a Symbol for a valid test in node, skip this.
 suite 'isSymbol()' !->
     test 'truthy' !->
-        if Symbol? and isFunction Symbol
-            strictEqual (isSymbol Symbol!), true
-            strictEqual (isSymbol Symbol 'foo'), true
+        strictEqual (isSymbol Symbol!), true
+        strictEqual (isSymbol Symbol 'foo'), true
 
     test 'falsy' !->
         strictEqual (isSymbol ''), false
         strictEqual (isSymbol []), false
         strictEqual (isSymbol null), false
         strictEqual (isSymbol {}), false
-        strictEqual (isSymbol ->), false
 
-suite 'isJSON()' !->
+suite 'isDefined()' !->
     test 'truthy' !->
-        strictEqual (isJSON '{ "a":1 }'), true
-        strictEqual (isJSON '[{ "b":2 }]'), true
-        strictEqual (isJSON '[1,2,3]'), true
-        strictEqual (isJSON JSON.stringify process.env), true
+        strictEqual (isDefined 0), true
+        strictEqual (isDefined ''), true
+        strictEqual (isDefined []), true
+        strictEqual (isDefined {}), true
+        strictEqual (isDefined ->), true
 
     test 'falsy' !->
-        strictEqual (isJSON null), false
-        strictEqual (isJSON 0), false
-        strictEqual (isJSON /foo/), false
-        strictEqual (isJSON {}), false
-        strictEqual (isJSON 'foo'), false
-        strictEqual (isJSON '"a":1'), false
-        strictEqual (isJSON '{ "a":1, b:2 }'), false
+        strictEqual (isDefined null), false
+        strictEqual (isDefined undefined), false
+
+suite 'isNull()' !->
+    test 'truthy' !->
+        strictEqual (isNull null), true
+
+    test 'falsy' !->
+        strictEqual (isNull undefined), false
+        strictEqual (isNull ''), false
+        strictEqual (isNull []), false
+        strictEqual (isNull {}), false
+        strictEqual (isNull ->), false
+
+suite 'isUndefined()' !->
+    test 'truthy' !->
+        strictEqual (isUndefined undefined), true
+
+    test 'falsy' !->
+        strictEqual (isUndefined null), false
+        strictEqual (isUndefined ''), false
+        strictEqual (isUndefined []), false
+        strictEqual (isUndefined {}), false
+        strictEqual (isUndefined ->), false
 
 suite 'isUUID()' !->
     test 'validate all uuids from fixtures' !->
