@@ -1,9 +1,11 @@
 'use strict'
 
-curry = require './curry'
-{ isArray } = require './type'
+curry  = require './curry'
+number = require './number'
+object = require './object'
+
+{ isArray, isObject } = require './type'
 { apply } = require './fn'
-{ random } = require './number'
 
 # empty :: array -> boolean
 exports.empty = (xs) ->
@@ -21,7 +23,18 @@ exports.contains = curry (y, xs) ->
 
 # clone :: array -> array
 exports.clone = (xs) ->
-    [x for x in xs]
+    copy = []
+    for value, i in xs
+        if isObject value
+            copy[i] = object.deepMixin {}, value
+
+        else if isArray value
+            copy[i] = exports.clone value
+
+        else
+            copy[i] = value
+    copy
+
 
 # head :: array -> any
 exports.first = exports.head = (xs) -> xs.0
@@ -85,7 +98,7 @@ exports.filter = curry (f, xs) ->
 exports.shuffle = (xs) ->
     result = new Array xs.length
     for x, i in xs
-        r = random i
+        r = number.random i
         result[i] = result[r] if r isnt i
         result[r] = xs[i]
     result
