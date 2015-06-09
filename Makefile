@@ -14,10 +14,12 @@ MKDIRP = node_modules/".bin"/mkdirp
 ISTNBL = node_modules/".bin"/istanbul
 MOCHAF = -u tdd -R min -t 5000 --compilers ls:$(LS) -r "./test-runner.ls" -c -S -b --recursive --inline-diffs
 
-SRC    = $(shell find src -maxdepth 1 -name "*.ls" -type f | sort)
-DIST   = $(SRC:src/%.ls=dist/%.js) browser/prelude.js browser/prelude.min.js
+LS_SRC  = $(shell find src -maxdepth 1 -name "*.ls" -type f | sort)
 
-build: prepare $(DIST)
+LS_DIST = $(LS_SRC:src/%.ls=dist/%.js)
+BR_DIST = browser/prelude.js browser/prelude.min.js
+
+build: prepare $(LS_DIST) $(BR_DIST)
 
 prepare:
 	@$(MKDIRP) dist browser
@@ -39,7 +41,7 @@ report: test
 .PHONY: build prepare test clean install report
 
 dist/%.js: src/%.ls
-	$(LSC) --bare -o "$(shell dirname $@)" -c "$<"
+	$(LSC) --map embedded --bare -o "$(shell dirname $@)" -c "$<"
 
 browser/%.js: dist/%.js
 	$(BRSIFY) -r "./$<:prelude" > "$@"
