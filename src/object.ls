@@ -1,6 +1,7 @@
 'use strict'
 
 curry = require './curry'
+array = require './array'
 
 { isString, isObject, isArray } = require './type'
 
@@ -120,9 +121,9 @@ exports.fill = curry 1 (dest, ...sources) ->
 # deepFill :: object -> ...object -> object
 exports.deepFill = curry 1 (dest, ...sources) ->
     for src in sources then
-        for key, value of dest when value?
-            if (isObject src[key], value)
-                dest[key] = exports.deepFill value, src[key]
+        for key of dest when dest[key]?
+            if isObject src[key] and isObject dest[key]
+                dest[key] = exports.deepFill dest[key], src[key]
             else
                 dest[key] = src[key]
     dest
@@ -136,11 +137,15 @@ exports.mixin = curry 1 (dest = {}, ...sources) ->
 
 # deepMixin :: object -> ...object -> object
 exports.deepMixin = curry 1 (dest = {}, ...sources) ->
-    for src in sources then
-        for k, v of src then
-            if (isObject dest[k]) and (isObject v)
-            then dest[k] = exports.deepMixin dest[k], v
-            else dest[k] = v
+    for src in sources then for key, value of src
+        if isObject value and isObject dest[key]
+            dest[key] = exports.deepMixin {}, dest[key], value
+
+        else if isArray value
+            dest[key] = array.clone value
+
+        else
+            dest[key] = value
     dest
 
 # freeze :: object -> object
