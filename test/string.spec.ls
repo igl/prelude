@@ -16,7 +16,7 @@ suite 'empty()' !->
 suite 'contains()' !->
     test 'contains character' !->
         ok (contains 'o', 'foobar')
-        ok (contains 'b', 'foobar')
+        ok (contains 'ba', 'foobar')
         ok (not contains 'x', 'foobar')
 
 suite 'startsWith()' !->

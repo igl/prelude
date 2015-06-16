@@ -12,10 +12,8 @@ exports.empty = (str) ->
     str.length is 0
 
 # contains :: string -> boolean
-exports.contains = (char, str) ->
-    for c in str when char is c
-        return true
-    false
+exports.contains = exports.includes = (part, str) ->
+    (str.indexOf part) isnt -1
 
 exports.startsWith = curry 1 (search, str) ->
     search is (str.slice 0, search.length)
