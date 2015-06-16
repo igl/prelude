@@ -3,8 +3,9 @@
 <-! suite 'string'
 
 {
-    empty, contains, trim, trimLeft, trimRight, repeat, reverse, capitalize,
-    capitalizeSentence, decapitalize, decapitalizeSentence, camelize, dasherize
+    empty, startsWith, endsWith, contains, trim, trimLeft, trimRight, repeat,
+    reverse, capitalize, capitalizeSentence, decapitalize, decapitalizeSentence,
+    camelize, dasherize
 } = prelude.string
 
 suite 'empty()' !->
@@ -14,8 +15,21 @@ suite 'empty()' !->
 
 suite 'contains()' !->
     test 'contains character' !->
+        ok (contains 'o', 'foobar')
         ok (contains 'b', 'foobar')
         ok (not contains 'x', 'foobar')
+
+suite 'startsWith()' !->
+    test 'starts with characters' !->
+        ok (startsWith 'f', 'foobar')
+        ok (startsWith 'foo', 'foobar')
+        ok (not startsWith 'x', 'foobar')
+
+suite 'endsWith()' !->
+    test 'ends with characters' !->
+        ok (endsWith 'r', 'foobar')
+        ok (endsWith 'bar', 'foobar')
+        ok (not endsWith 'x', 'foobar')
 
 suite 'trim()' !->
     test 'trim left side' !->
@@ -69,7 +83,6 @@ suite 'decapitalizeSentence()' !->
         strictEqual do
             decapitalizeSentence 'Hello World'
             'hello world'
-
 
 suite 'camelize()' !->
     test 'camelize a short string' !->

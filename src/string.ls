@@ -3,7 +3,6 @@
 curry = require './curry'
 array = require './array'
 
-
 TRIM_LEFT  = new RegExp '^[\s\uFEFF\xA0]+'
 TRIM_RIGHT = new RegExp '[\s\uFEFF\xA0]+$'
 TRIM_BOTH  = new RegExp '^[\s\uFEFF\xA0]+|[\s\uFEFF\xA0]+$', 'g'
@@ -17,6 +16,12 @@ exports.contains = (char, str) ->
     for c in str when char is c
         return true
     false
+
+exports.startsWith = curry 1 (search, str) ->
+    search is (str.slice 0, search.length)
+
+exports.endsWith = curry 1 (search, str) ->
+    search is (str.slice str.length - search.length)
 
 # trim :: string -> string
 exports.trim = (str) ->
