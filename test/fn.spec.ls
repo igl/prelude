@@ -4,7 +4,7 @@
 
 {
     id, curry, compose, apply, applyTo, applyNew, flip,
-    delay, interval, immediate, tryCatch
+    delay, interval, immediate, tryCatch, chain
 } = prelude.fn
 
 suite 'id()' !->
@@ -161,7 +161,7 @@ suite 'delay()' !->
         s = Date.now!
         delay 50, !->
             time = Date.now! - s
-            ok (time >= 50 and time <= 55), 'is between 50 - 55ms'
+            ok (time >= 50 and time <= 60), 'is between 50 - 60ms'
             done!
 
 suite 'interval()' !->
@@ -170,7 +170,7 @@ suite 'interval()' !->
         s = Date.now!
         interval 10, ->
             time = Date.now! - s
-            ok (time >= 10 and time <= 15), 'is between 10 - 15ms'
+            ok (time >= 10 and time <= 20), "#time is not between 10 - 20ms"
 
             # reset time for next interval
             s := Date.now!
@@ -188,10 +188,10 @@ suite 'immediate()' !->
             done!
 
 suite 'tryCatch()' !->
-    e = new Error 'Error!'
+    err = new Error 'Error!'
 
     test 'return caught error' !->
-        deepEqual (tryCatch !-> throw e), e
+        deepEqual (tryCatch !-> throw err), err
 
     test 'return value' !->
         strictEqual (tryCatch -> 10), 10
@@ -201,7 +201,48 @@ suite 'tryCatch()' !->
 
     test 'catch error in callback' (done) !->
         tryCatch do
-            !-> throw e
+            !-> throw err
             (err) !->
                 isError err
                 done!
+
+suite 'chain()' !->
+    test 'chains thru all supplied functions' (done) !->
+        chain do
+            (next) -> (ok true); next!
+            (next) -> (ok true); next!
+            (next) -> (ok true); next!
+            (err)  -> (ok true); done!
+
+    test 'catches thrown errors' (done) !->
+        chain do
+            (next) -> next!
+            (next) -> throw new Error 'thrown'
+            (next) -> throw new Error 'This should not be called!'
+            (err) ->
+                strictEqual err.message, 'thrown'
+                done!
+
+    test 'do not pass arguments if next function does not define them' (done) !->
+        chain do
+            (next) ->
+                next void, 1, 2, 3
+
+            (a, b, c, next) ->
+                strictEqual a, 1
+                strictEqual b, 2
+                strictEqual c, 3
+                next void, a, b, c
+
+            (a, b, next) ->
+                strictEqual a, 1
+                strictEqual b, 2
+                next void, a, b, 3
+
+            (a, next) ->
+                strictEqual a, 1
+                next void, a, 2, 3
+
+            (err, a)  ->
+                strictEqual a, 1
+                done err

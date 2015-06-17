@@ -82,7 +82,7 @@ exports.interval = curry (msec, fn) ->
         msec
 
 # immediate :: function -> function
-exports.immediate = (fn) ->
+immediate = exports.immediate = (fn) ->
     if (typeof setImmediate is 'function')
         setImmediate fn
     else if process?.nextTick
@@ -103,3 +103,29 @@ exports.tryCatch = (fn, cb) ->
         cb err, res
 
     err or res
+
+# chain :: ...function, function -> void
+exports.chain = (...funcs, cb) !->
+    i = 0
+
+    # leave stack of try-catch and prevent 'double-callback'
+    callback = (args) ->
+        callback := ->
+        immediate -> apply cb, args
+
+    # call next or finish
+    link = (err, ...args) !->
+        if err or (++i is funcs.length)
+            return callback &
+
+        next   = funcs[i]
+        argLen = next.length
+
+        try apply next, (args.slice 0, argLen - 1) ++ link
+        catch err
+            callback [ err ]
+
+    # initialize
+    try funcs[i] link
+    catch err
+        callback [ err ]
