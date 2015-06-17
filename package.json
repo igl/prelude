@@ -1,13 +1,16 @@
 {
   "name": "prelude",
   "version": "0.1.9",
-  "description": "Utility set for Javascript",
+  "description": "Utility library for Javascript",
   "author": "Richard Keil",
   "main": "dist/prelude.js",
   "license": "MIT",
   "repository": {
     "type": "git",
     "url": "git://github.com/igl/prelude.js.git"
+  },
+  "bugs": {
+    "url": "https://github.com/igl/prelude.js/issues"
   },
   "scripts": {
     "test": "make test"
