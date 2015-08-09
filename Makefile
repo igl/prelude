@@ -4,7 +4,7 @@ ifeq ($(OS), Windows_NT)
 	SHELL = C:\Windows\SysWOW64\cmd.exe
 endif
 
-LS     = node_modules/LiveScript
+LS     = node_modules/livescript
 LSC    = node_modules/".bin"/lsc
 MOCHA  = node_modules/".bin"/mocha
 _MOCHA = node_modules/".bin"/_mocha
