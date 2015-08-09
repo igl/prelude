@@ -9,13 +9,12 @@ LSC    = node_modules/".bin"/lsc
 MOCHA  = node_modules/".bin"/mocha
 _MOCHA = node_modules/".bin"/_mocha
 BRSIFY = node_modules/".bin"/browserify
-UGLIFY = node_modules/'.bin'/uglifyjs
+UGLIFY = node_modules/".bin"/uglifyjs
 MKDIRP = node_modules/".bin"/mkdirp
 ISTNBL = node_modules/".bin"/istanbul
 MOCHAF = -u tdd -R min -t 5000 --compilers ls:$(LS) -r "./test-runner.ls" -c -S -b --recursive --inline-diffs
 
 LS_SRC  = $(shell find src -maxdepth 1 -name "*.ls" -type f | sort)
-
 LS_DIST = $(LS_SRC:src/%.ls=dist/%.js)
 BR_DIST = browser/prelude.js browser/prelude.min.js
 
