@@ -1,9 +1,9 @@
 'use strict'
 
 # export all
-exports.array  = require './array'
-exports.object = require './object'
-exports.string = require './string'
-exports.number = require './number'
-exports.func   = require './func'
-exports.type   = require './type'
+exports.A = exports.array  = require './array'
+exports.O = exports.object = require './object'
+exports.S = exports.string = require './string'
+exports.N = exports.number = require './number'
+exports.F = exports.func   = require './func'
+exports.T = exports.type   = require './type'
