@@ -2,6 +2,7 @@ node_modules/
 coverage/
 browser/
 dist/
+psd/
 
 .DS_Store*
 .idea
