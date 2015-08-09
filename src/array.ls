@@ -5,7 +5,7 @@ number = require './number'
 object = require './object'
 
 { isArray, isObject } = require './type'
-{ apply } = require './fn'
+{ apply } = require './func'
 
 # empty :: array -> boolean
 exports.empty = (xs) ->

@@ -1,11 +1,11 @@
 'use strict'
 
-<-! suite 'fn'
+<-! suite 'func'
 
 {
     id, curry, compose, apply, applyTo, applyNew, flip,
     delay, interval, immediate, tryCatch, chain
-} = prelude.fn
+} = prelude.func
 
 suite 'id()' !->
     test 'returns input argument' !->
