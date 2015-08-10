@@ -101,7 +101,10 @@ of `object.mixin` where this behavior is not always wanted).
 **String** `prelude.string.<method>`
 
 - empty
+- includes
 - contains
+- startsWith
+- endsWith
 - trim
 - trimLeft
 - trimRight
@@ -123,7 +126,7 @@ of `object.mixin` where this behavior is not always wanted).
 - gcd
 - lcm
 
-**Fn** `prelude.fn.<method>`
+**Func** `prelude.func.<method>`
 
 - id
 - curry
@@ -136,6 +139,7 @@ of `object.mixin` where this behavior is not always wanted).
 - interval
 - immediate
 - tryCatch
+- chain
 
 **Type** `prelude.type.<method>`
 
