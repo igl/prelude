@@ -108,24 +108,29 @@ exports.tryCatch = (fn, cb) ->
 exports.chain = (...funcs, cb) !->
     i = 0
 
-    # leave stack of try-catch and prevent 'double-callback'
-    callback = (args) ->
-        callback := ->
-        immediate -> apply cb, args
+    # leave stack of try-catch to prevent 'double-callback'
+    callback = (args) -> immediate -> apply cb, args
 
     # call next or finish
-    link = (err, ...args) !->
-        if err or (++i is funcs.length)
-            return callback &
+    link = (pos) -> (err, ...args) !->
+        if pos isnt i
+            return callback [
+                new Error "callback[#{pos + 1}] is called twice!"
+            ]
 
-        next   = funcs[i]
-        argLen = next.length
+        i += 1
 
-        try apply next, (args.slice 0, argLen - 1) ++ link
-        catch err
-            callback [ err ]
+        immediate ->
+            if args[0] or (i is funcs.length)
+                return callback [ void, ...args ]
+
+            next   = funcs[i]
+            argLen = next.length
+
+            try apply next, (args.slice 0, argLen - 1) ++ (link i)
+            catch err then callback [ err ]
 
     # initialize
-    try funcs[i] link
+    try funcs[i] (link i)
     catch err
         callback [ err ]

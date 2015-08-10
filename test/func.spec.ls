@@ -223,6 +223,32 @@ suite 'chain()' !->
                 strictEqual err.message, 'thrown'
                 done!
 
+    test '1st double called back returns an error' (done) !->
+        chain do
+            (next) -> next!; next!
+            (next) -> next!
+            (next) -> next!
+            (err) ->
+                strictEqual err.message, 'callback[1] is called twice!'
+                done!
+
+    test '2nd double called back returns an error' (done) !->
+        chain do
+            (next) -> next!
+            (next) -> next!; next!
+            (next) -> next!
+            (err) ->
+                strictEqual err.message, 'callback[2] is called twice!'
+                done!
+    test '3rd double called back returns an error' (done) !->
+        chain do
+            (next) -> next!
+            (next) -> next!
+            (next) -> next!; next!
+            (err) ->
+                strictEqual err.message, 'callback[3] is called twice!'
+                done!
+
     test 'do not pass arguments if next function does not define them' (done) !->
         chain do
             (next) ->
