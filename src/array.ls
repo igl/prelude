@@ -26,7 +26,7 @@ exports.clone = (xs) ->
     copy = []
     for value, i in xs
         if isObject value
-            copy[i] = object.deepMixin {}, value
+            copy[i] = object.deepAssign {}, value
 
         else if isArray value
             copy[i] = exports.clone value

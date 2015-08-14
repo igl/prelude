@@ -3,9 +3,9 @@
 <-! suite 'object'
 
 {
-    empty, has, contains, keys, values, clone, flatten, each, map, filter,
+    empty, has, includes, keys, values, clone, flatten, each, map, filter,
     every, some, partition, keyOf, keysOf, findKey, findKeys, fromPairs,
-    toPairs, fill, deepFill, mixin, deepMixin, freeze, deepFreeze, toJSON,
+    toPairs, fill, deepFill, assign, deepAssign, freeze, deepFreeze, toJSON,
     fromJSON, definePublic, definePrivate, defineStatic, defineMeta
 } = prelude.object
 
@@ -25,15 +25,15 @@ suite 'has()' !->
             has 'd', { a:1, b:2, c:3 }
             false
 
-suite 'contains()' !->
+suite 'includes()' !->
     test 'does contain a value' !->
         strictEqual do
-            contains 2, { a:1, b:2, c:3 }
+            includes 2, { a:1, b:2, c:3 }
             true
 
     test 'does not contain a value' !->
         strictEqual do
-            contains 'foo', { a:1, b:2, c:3 }
+            includes 'foo', { a:1, b:2, c:3 }
             false
 
 suite 'keys()' !->
@@ -304,36 +304,36 @@ suite 'deepFill()' !->
             deepFill { a:1, b:{ c:2 }}, { a:10, b:{ c:20, d:30 }}
             { a:10, b:{ c:20, }}
 
-suite 'mixin()' !->
+suite 'assign()' !->
     test 'curries' !->
         deepEqual do
-            { b:2 } |> mixin { a:1 }
+            { b:2 } |> assign { a:1 }
             { a:1, b:2 }
 
     test 'add to object' !->
         deepEqual do
-            mixin { a:1 }, { b:2 }
+            assign { a:1 }, { b:2 }
             { a:1, b:2 }
 
     test 'add to new object' !->
         deepEqual do
-            mixin null, { a:1 }, { b:2 }
+            assign null, { a:1 }, { b:2 }
             { a:1, b:2 }
 
-suite 'deepMixin()' !->
+suite 'deepAssign()' !->
     test 'curries' !->
         deepEqual do
-            { b:{ d:3 }} |> deepMixin { a:1, b:{ c:2 }}
+            { b:{ d:3 }} |> deepAssign { a:1, b:{ c:2 }}
             { a:1, b:{ c:2, d:3 }}
 
     test 'add to object' !->
         deepEqual do
-            deepMixin { a:1, b:{ c:2 }}, { b:{ d:3 }}
+            deepAssign { a:1, b:{ c:2 }}, { b:{ d:3 }}
             { a:1 b:{ c:2, d:3 }}
 
     test 'add to new object' !->
         deepEqual do
-            deepMixin null, { a:1, b:{ c:2 }}, { b:{ d:3 }}
+            deepAssign null, { a:1, b:{ c:2 }}, { b:{ d:3 }}
             { a:1 b:{ c:2, d:3 }}
 
 suite 'freeze()' !->

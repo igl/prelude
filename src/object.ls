@@ -17,8 +17,8 @@ exports.empty = (obj) ->
 exports.has = curry (key, obj) ->
     ObjHasOwnProperty.call obj, key
 
-# contains :: string -> object -> boolean
-exports.contains = curry (elem, obj) ->
+# includes :: string -> object -> boolean
+exports.includes = curry (elem, obj) ->
     for , v of obj when v is elem
         return true
     false
@@ -33,7 +33,7 @@ exports.values = (obj) ->
 
 # clone :: object -> object
 exports.clone = (obj) ->
-    exports.deepMixin void, obj
+    exports.deepAssign {}, obj
 
 # flatten :: string? -> object -> object
 exports.flatten = curry (delimiter, obj) ->
@@ -112,34 +112,36 @@ exports.toPairs = (obj) ->
     [[key, value] for key, value of obj]
 
 # fill :: object -> ...object -> object
-exports.fill = curry 1 (dest, ...sources) ->
+exports.fill = curry 1 (init, ...sources) ->
+    res = {}
     for src in sources
-        for k of dest when src[k]?
-            dest[k] = src[k]
-    dest
+        for k of init when src[k]?
+            res[k] = src[k]
+    res
 
 # deepFill :: object -> ...object -> object
-exports.deepFill = curry 1 (dest, ...sources) ->
-    for src in sources then
-        for key of dest when dest[key]?
-            if isObject src[key] and isObject dest[key]
-                dest[key] = exports.deepFill dest[key], src[key]
+exports.deepFill = curry 1 (init, ...sources) ->
+    res = {}
+    for src in sources
+        for own key of init when src[key]?
+            if isObject src[key] and isObject init[key]
+                res[key] = exports.deepFill init[key], src[key]
             else
-                dest[key] = src[key]
-    dest
+                res[key] = src[key]
+    res
 
-# mixin :: object -> ...object -> object
-exports.mixin = curry 1 (dest = {}, ...sources) ->
-    for src in sources then
-        for key, val of src then
+# assign :: object -> ...object -> object
+exports.assign = curry 1 (dest = {}, ...sources) ->
+    for src in sources
+        for own key, val of src
             dest[key] = val
     dest
 
-# deepMixin :: object -> ...object -> object
-exports.deepMixin = curry 1 (dest = {}, ...sources) ->
+# deepAssign :: object -> ...object -> object
+exports.deepAssign = curry 1 (dest = {}, ...sources) ->
     for src in sources then for key, value of src
         if isObject value and isObject dest[key]
-            dest[key] = exports.deepMixin {}, dest[key], value
+            dest[key] = exports.deepAssign {}, dest[key], value
 
         else if isArray value
             dest[key] = array.clone value
@@ -147,6 +149,12 @@ exports.deepMixin = curry 1 (dest = {}, ...sources) ->
         else
             dest[key] = value
     dest
+
+# merge :: object -> ...object -> object
+exports.merge = curry 1 (exports.assign {})
+
+# deepMerge :: object -> ...object -> object
+exports.deepMerge = curry 1 (exports.deepAssign {})
 
 # freeze :: object -> object
 exports.freeze = (obj) ->
@@ -161,7 +169,10 @@ exports.deepFreeze = (obj) ->
     obj
 
 # toJSON :: object -> string
-exports.toJSON = (obj) -> JSON.stringify obj, void, 2
+exports.toJSON = (obj, minify) ->
+    if minify
+    then JSON.stringify obj
+    else JSON.stringify obj, void, 2
 
 # fromJSON :: string -> object
 exports.fromJSON = (obj) -> JSON.parse obj

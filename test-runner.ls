@@ -5,7 +5,7 @@ require! {
     './'   : prelude
 }
 
-{ mixin } = prelude.object
+{ assign } = prelude.object
 
 function assertType (expected)
     (actual, message) ->
@@ -19,7 +19,7 @@ function assertType (expected)
         }
 
 # set global assert funcs
-mixin global, {
+assign global, {
     prelude     : prelude
     ok          : assert.ok
     throws      : assert.throws
