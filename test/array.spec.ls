@@ -3,7 +3,7 @@
 <-! suite 'array'
 
 {
-    empty, has, contains, clone, head, first, tail, last, initial, slice,
+    empty, has, includes, clone, head, first, tail, last, initial, slice,
     concat, flatten, each, map, filter, shuffle, every, some, reverse,
     zip, zipWith, partition, unique, uniqueBy, difference, intersection, union,
     sortBy, countBy, groupBy, splitAt, index, indices, findIndex, findIndices
@@ -21,14 +21,14 @@ suite 'has()' !->
         strictEqual ( has 2 [1 2] ), false
         strictEqual ( has 0 []    ), false
 
-suite 'contains()' !->
+suite 'includes()' !->
     test 'returns correctly with valid inputs' !->
-        strictEqual (contains 1 [1 2 3]), true
-        strictEqual (contains 2 [1 2 3]), true
-        strictEqual (contains 3 [1 2 3]), true
-        strictEqual (contains 4 [1 2 3]), false
-        strictEqual (contains 0 [1 2 3]), false
-        strictEqual (contains '1' [1 2 3]), false
+        strictEqual (includes 1 [1 2 3]), true
+        strictEqual (includes 2 [1 2 3]), true
+        strictEqual (includes 3 [1 2 3]), true
+        strictEqual (includes 4 [1 2 3]), false
+        strictEqual (includes 0 [1 2 3]), false
+        strictEqual (includes '1' [1 2 3]), false
 
 suite 'clone()' !->
     test 'returns the same as input' !->
@@ -61,8 +61,8 @@ suite 'last()' !->
         strictEqual (last [1 2 3]), 3
 
 suite 'initial()' !->
-    test 'returns undefined given an empty array' !->
-        deepEqual (initial []), void
+    test 'returns empty array when given an empty array' !->
+        deepEqual (initial []), []
 
     test 'return all elements but the last' !->
         deepEqual (initial [1 2 3 4]), [1 2 3]

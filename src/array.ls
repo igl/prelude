@@ -15,8 +15,8 @@ exports.empty = (xs) ->
 exports.has = curry (i, xs) ->
     (i >= 0) and (i <= (xs.length - 1))
 
-# contains :: array -> boolean
-exports.contains = curry (y, xs) ->
+# includes :: array -> boolean
+exports.includes = curry (y, xs) ->
     for x in xs when x is y
         return true
     false
@@ -48,7 +48,7 @@ exports.last = (xs) -> xs[*-1]
 
 # initial :: array -> array
 exports.initial = (xs) ->
-    return unless (init = xs.length)
+    return [] unless (init = xs.length)
     --init
     [x for x, i in xs when i < init]
 
@@ -68,7 +68,7 @@ exports.flatten = :flatten (xs) ->
     result = []
     for x in xs
         if isArray x
-        then result.push.apply result, (flatten x)
+        then result.push ...(flatten x)
         else result.push x
     result
 
