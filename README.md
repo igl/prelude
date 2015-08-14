@@ -23,14 +23,17 @@ Utility set for JS.
 
 All functions with 2 or more arguments are curried and generally return
 copies of their inputs, thus treating them as immutable (with the exception
-of `object.mixin` where this behavior is not always wanted).
+of `object.assign` and `.deepAssign` where this behavior is not always wanted).
+
+Function collection are also exported by their uppercased initial letter.
+(prelude.S === prelude.string, prelude.A === prelude.array...)
 
 
 **Array** `prelude.array.<method>`
 
 - empty
 - has
-- contains
+- includes
 - clone
 - head
 - first
@@ -68,7 +71,7 @@ of `object.mixin` where this behavior is not always wanted).
 
 - empty
 - has
-- contains
+- includes
 - keys
 - values
 - clone
@@ -87,8 +90,10 @@ of `object.mixin` where this behavior is not always wanted).
 - toPairs
 - fill
 - deepFill
-- mixin
-- deepMixin
+- assign
+- deepAssign
+- merge
+- deepMerge
 - freeze
 - deepFreeze
 - toJSON
@@ -163,3 +168,9 @@ of `object.mixin` where this behavior is not always wanted).
 - isUUID
 - isInteger
 - inRange
+
+# Kudos
+
+Thanks to George Zahariev for LiveScript and `prelude-ls` which made an
+awesome base for this lib.
+
