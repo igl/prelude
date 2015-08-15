@@ -36,7 +36,7 @@ exports.isSet = ->
     it instanceof Set
 
 exports.isObject = ->
-    (it instanceof Object) and (it isnt null)
+    (it instanceof Object) and (ObjToString.call it) is '[object Object]'
 
 exports.isMap = ->
     it instanceof Map
