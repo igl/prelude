@@ -5,8 +5,9 @@
 {
     empty, has, includes, keys, values, clone, flatten, each, map, filter,
     every, some, partition, keyOf, keysOf, findKey, findKeys, fromPairs,
-    toPairs, fill, deepFill, assign, deepAssign, freeze, deepFreeze, toJSON,
-    fromJSON, definePublic, definePrivate, defineStatic, defineMeta
+    toPairs, fill, deepFill, assign, deepAssign, merge, deepMerge,
+    freeze, deepFreeze, toJSON, fromJSON,
+    definePublic, definePrivate, defineStatic, defineMeta
 } = prelude.object
 
 suite 'empty()' !->
@@ -326,15 +327,66 @@ suite 'deepAssign()' !->
             { b:{ d:3 }} |> deepAssign { a:1, b:{ c:2 }}
             { a:1, b:{ c:2, d:3 }}
 
-    test 'add to object' !->
+    test 'adds to object' !->
         deepEqual do
             deepAssign { a:1, b:{ c:2 }}, { b:{ d:3 }}
             { a:1 b:{ c:2, d:3 }}
 
-    test 'add to new object' !->
+    test 'adds to new object' !->
         deepEqual do
             deepAssign null, { a:1, b:{ c:2 }}, { b:{ d:3 }}
             { a:1 b:{ c:2, d:3 }}
+
+suite 'merge()' !->
+    test 'curries' !->
+        deepEqual do
+            { b:2 } |> merge { a:1 }
+            { a:1, b:2 }
+
+    test 'adds to object' !->
+        deepEqual do
+            merge { a:1 }, { b:2 }
+            { a:1, b:2 }
+
+    test 'returns a new object' !->
+        original = { a:1, b:2 }
+        result   = merge original, { c:3 }
+
+        deepEqual result, { a:1, b:2, c:3 }
+        result.d = 4
+        deepEqual result, { a:1, b:2, c:3, d:4 }
+        deepEqual original, { a:1, b:2 }
+
+suite 'deepMerge()' !->
+    test 'curries' !->
+        deepEqual do
+            { b:2 } |> deepMerge { a:1 }
+            { a:1, b:2 }
+
+    test 'adds to object' !->
+        deepEqual do
+            deepMerge { a:1 c:{ x:3 }}, { b:2 }, { c: { y:4 }}
+            { a:1, b:2, c:{ x:3, y:4 }}
+
+    test 'makes a deep copy' !->
+        original = { a:1, b:2, c:{ x:3, y:4 }}
+        result   = deepMerge original, { c:x:0 }
+
+        deepEqual result, { a:1, b:2, c:{ x:0, y:4 }}
+        result.c.y = 0
+        deepEqual result, { a:1, b:2, c:{ x:0, y:0 }}
+        deepEqual original, { a:1, b:2, c:{ x:3, y:4 }}
+
+    test 'makes a deep copy even within arrays' !->
+        original = { a:1, b:2, c:[{ d:3 }]}
+        result   = deepMerge original, { e:4 }
+
+        deepEqual result, { a:1, b:2, c:[{ d:3 }], e:4}
+        result.c.push 11
+        result.c.0.d += 1
+
+        deepEqual result.c, [{ d:4 }, 11]
+        deepEqual original.c, [{ d:3 }]
 
 suite 'freeze()' !->
     obj = freeze { a:1, b:{ c:2 }}

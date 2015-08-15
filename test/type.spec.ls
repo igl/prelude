@@ -105,9 +105,11 @@ suite 'isSet()' !->
 suite 'isObject()' !->
     test 'truthy' !->
         strictEqual (isObject {}), true
-        strictEqual (isObject []), true
 
     test 'falsy' !->
+        strictEqual (isObject new Map), false
+        strictEqual (isObject /x/), false
+        strictEqual (isObject []), false
         strictEqual (isObject 10), false
         strictEqual (isObject null), false
 

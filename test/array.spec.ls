@@ -44,6 +44,17 @@ suite 'clone()' !->
         strictEqual original.2, 3
         strictEqual copy.2, 'foo'
 
+    test 'returns a deep copy' !->
+        original = [1 2 [3 4] { a:'a' b:'b' }]
+        expected = [1 2 [3 4] { a:'a' b:'b' }]
+
+        copy     = clone original
+        copy.2.0 = 'foo'
+        copy.3.a = 'foo'
+
+        deepEqual original, expected
+        deepEqual copy, [1 2 ['foo' 4] { a:'foo' b:'b' }]
+
 suite 'head()' !->
     test 'return first element' !->
         strictEqual (head [1 2 3]), 1
