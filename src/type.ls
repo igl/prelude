@@ -36,7 +36,7 @@ exports.isSet = ->
     it instanceof Set
 
 exports.isObject = ->
-    (it instanceof Object) and (ObjToString.call it) is '[object Object]'
+    (it instanceof Object) and (Object.getPrototypeOf it) === (Object.getPrototypeOf {})
 
 exports.isMap = ->
     it instanceof Map
