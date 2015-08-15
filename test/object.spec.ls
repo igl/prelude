@@ -64,10 +64,12 @@ suite 'clone()' !->
         strictEqual copy.a, 'foo'
 
 suite 'flatten()' !->
-    test 'returns the same as input' !->
+    test 'returns a copy of input' !->
+        arg = { a: 10 }
         deepEqual do
-            flatten null, { a: 10 }
-            { a: 10 }
+            flatten null, arg
+            arg
+        ok (flatten null, arg) isnt arg
 
     test 'flatten with empty delimiter string' !->
         deepEqual do
