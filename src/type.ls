@@ -30,7 +30,7 @@ exports.isFunction = ->
     typeof it is 'function'
 
 exports.isArray = ->
-    it instanceof Array
+    Array.isArray it
 
 exports.isSet = ->
     it instanceof Set
