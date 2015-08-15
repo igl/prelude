@@ -50,6 +50,24 @@ exports.flatten = curry (delimiter, obj) ->
                 result[key] := child
     result
 
+exports.explode = curry (delimiter, obj) ->
+    result = {}
+
+    obj |> !function parse (obj, parentKey = '')
+        for flatKey, value of obj
+
+            ref  = result
+            keys = flatKey.split delimiter
+            len  = keys.length - 1
+
+            for k, i in keys
+                if i < len
+                    ref[k] = {} unless isObject ref[k]
+                    ref := ref[k]
+                    continue
+                ref[k] = value
+    result
+
 # each :: function -> object -> object
 exports.each = curry (f, obj) ->
     for k, v of obj then (f v, k)

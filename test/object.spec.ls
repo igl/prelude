@@ -3,9 +3,10 @@
 <-! suite 'object'
 
 {
-    empty, has, includes, keys, values, clone, flatten, each, map, filter,
-    every, some, partition, keyOf, keysOf, findKey, findKeys, fromPairs,
-    toPairs, fill, deepFill, assign, deepAssign, merge, deepMerge,
+    empty, has, includes, keys, values, clone, flatten, explode,
+    each, map, filter, every, some, partition, keyOf, keysOf,
+    findKey, findKeys, fromPairs, toPairs,
+    fill, deepFill, assign, deepAssign, merge, deepMerge,
     freeze, deepFreeze, toJSON, fromJSON,
     definePublic, definePrivate, defineStatic, defineMeta
 } = prelude.object
@@ -130,6 +131,20 @@ suite 'flatten()' !->
                 b_e_h_i: 60
                 b_e_h_j: 70
             }
+
+suite 'explode()' !->
+    test 'returns a copy of input' !->
+        arg = { a: 10 }
+        deepEqual do
+            explode null, arg
+            arg
+        ok (explode null, arg) isnt arg
+
+    test 'explode with delimiter' !->
+        deepEqual do
+            explode '_', { a: 10, b_c: 20 }
+            { a: 10, b:c: 20 }
+
 
 suite 'each()' !->
     test 'curries' !->
