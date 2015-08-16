@@ -2,7 +2,16 @@
 # set default shell to cmd.exe, fixing git-shell issues with gnu-make.
 ifeq ($(OS), Windows_NT)
 	SHELL = C:\Windows\SysWOW64\cmd.exe
+else
+	UNAME_S := $(shell uname -s)
+	ifeq ($(UNAME_S),Linux)
+	    OPEN_BROWSER := chromium-browser
+	endif
+	ifeq ($(UNAME_S),Darwin)
+	    OPEN_BROWSER += open
+	endif
 endif
+
 
 LS     = node_modules/livescript
 LSC    = node_modules/".bin"/lsc
@@ -35,7 +44,7 @@ install:
 	@npm install .
 
 report: test
-	@chromium-browser coverage/lcov-report/index.html > /dev/null 2>&1
+	@$(OPEN_BROWSER) coverage/lcov-report/index.html > /dev/null 2>&1
 
 .PHONY: build prepare test clean install report
 
