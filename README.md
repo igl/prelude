@@ -76,6 +76,7 @@ Function collection are also exported by their uppercased initial letter.
 - values
 - clone
 - flatten
+- explode
 - each
 - map
 - filter
@@ -168,6 +169,24 @@ Function collection are also exported by their uppercased initial letter.
 - isUUID
 - isInteger
 - inRange
+- isNumberArray
+- isStringArray
+- isBooleanArray
+- isFunctionArray
+- isArrayArray
+- isSetArray
+- isMapArray
+- isArgumentsArray
+- isObjectArray
+- isDateArray
+- isErrorArray
+- isRegExpArray
+- isSymbolArray
+- isNullArray
+- isUndefinedArray
+- isUUIDArray
+- isIntegerArray
+- isDefinedArray
 
 # Kudos
 

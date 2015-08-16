@@ -50,6 +50,7 @@ suite 'getType()' !->
 suite 'isNumber()' !->
     test 'truthy' !->
         strictEqual (isNumber 10), true
+        strictEqual (isNumber 1.0), true
 
     test 'falsy' !->
         strictEqual (isNumber ''), false
@@ -60,6 +61,7 @@ suite 'isNumber()' !->
 suite 'isString()' !->
     test 'truthy' !->
         strictEqual (isString ''), true
+        strictEqual (isString 'foo'), true
 
     test 'falsy' !->
         strictEqual (isString []), false
@@ -204,7 +206,7 @@ suite 'isUndefined()' !->
         strictEqual (isUndefined ->), false
 
 suite 'isUUID()' !->
-    test 'validate all uuids from fixtures' !->
+    test 'validate all UUIDs from fixtures' !->
         for uuid in FIXTURE_UUIDS
             strictEqual (isUUID uuid), true
 

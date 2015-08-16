@@ -8,16 +8,20 @@ ObjToString = Object.prototype.toString
 # match valid JSON-string
 RX_ISUUID = /^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$/i
 
-ALL_TYPE_CHECKS = <[ Number String Boolean Function Array Set Map Arguments Date Error RegExp Symbol Null Undefined Object ]>
+PRIMITIVE_TYPES = <[ Number String Boolean Function Array Set Map Arguments Object Date Error RegExp Symbol Null Undefined ]>
+EXTENDED_TYPES  = <[ UUID Integer ]>
+NONE_TYPES      = <[ Defined ]>
+
+ALL_TYPE_CHECKS = PRIMITIVE_TYPES ++ EXTENDED_TYPES ++ NONE_TYPES
 
 # getType :: any -> string
 exports.getType = ->
-    for type in ALL_TYPE_CHECKS when exports["is#type"] it
+    for type in PRIMITIVE_TYPES when exports["is#type"] it
         return type
     void
 
 # primitive JS Types
-exports.isNumber = isNumber = ->
+exports.isNumber = ->
     (typeof it is 'number') and (not isNaN it) and (isFinite it)
 
 exports.isString = ->
@@ -72,4 +76,8 @@ exports.isInteger = ->
     (not isNaN it) and (it % 1 is 0)
 
 exports.inRange = curry (from, to, it) ->
-    (isNumber it) and (from <= it) and (to >= it)
+    (exports.isNumber it) and (from <= it) and (to >= it)
+
+ALL_TYPE_CHECKS.forEach (type) ->
+    exports["is#{type}Array"] = ->
+        (Array.isArray it) and (it.length > 0) and (it.every exports["is#{type}"])
