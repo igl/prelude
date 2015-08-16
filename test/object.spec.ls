@@ -423,14 +423,29 @@ suite 'deepFreeze()' !->
         throws (-> obj.b.c = 10), (-> true)
 
 suite 'toJSON()' !->
-    test 'convert object to string' !->
+    test 'convert object to string without indentBy' !->
         strictEqual do
-            toJSON { a:1, b:{ c:2 }}
+            toJSON { a:1, b:c:2 }
+            '''{"a":1,"b":{"c":2}}'''
+
+    test 'convert object to string with indentBy set to 2' !->
+        strictEqual do
+            toJSON { a:1, b:c:2 }, 2
             '''{
               "a": 1,
               "b": {
                 "c": 2
               }
+            }'''
+
+    test 'convert object to string with indentBy set to 4' !->
+        strictEqual do
+            toJSON { a:1, b:c:2 }, 4
+            '''{
+                "a": 1,
+                "b": {
+                    "c": 2
+                }
             }'''
 
 suite 'fromJSON()' !->

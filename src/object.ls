@@ -189,10 +189,8 @@ exports.deepFreeze = (obj) ->
     obj
 
 # toJSON :: object -> string
-exports.toJSON = (obj, minify) ->
-    if minify
-    then JSON.stringify obj
-    else JSON.stringify obj, void, 2
+exports.toJSON = (obj, indentBy = 0) ->
+    JSON.stringify obj, void, indentBy
 
 # fromJSON :: string -> object
 exports.fromJSON = (obj) -> JSON.parse obj
