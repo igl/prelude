@@ -455,29 +455,96 @@ suite 'fromJSON()' !->
             { a:1, b:{ c:2 }}
 
 suite 'definePublic()' !->
+    test 'curries' !->
+        init = { a:1 }
+        deepEqual do
+            (definePublic init) 'b', 2
+            { a:1 b:2 }
+
     test 'define enumerable property' !->
         deepEqual do
-            definePublic {}, 'foo', 'bar'
-            { foo: 'bar' }
+            definePublic {}, 'a', 1
+            { a:1 }
+
+    test 'define multiple enumerable properties' !->
+        deepEqual do
+            definePublic {}, { a:1, b:2 }
+            { a:1, b:2 }
 
 suite 'definePrivate()' !->
+    test 'curries' !->
+        init = { a:1 }
+        res  = (definePrivate init) 'b', 2
+
+        deepEqual res, { a:1 }
+        strictEqual res.b, 2
+
     test 'define hidden property' !->
-        res = definePrivate {}, 'foo', 'bar'
+        res = definePrivate {}, 'a', 1
         deepEqual res, {}
-        strictEqual res.foo, 'bar'
+        strictEqual res.a, 1
+
+    test 'define multiple hidden properties' !->
+        res = definePrivate {}, { a:1 b:2 }
+        deepEqual res, {}
+        strictEqual res.a, 1
+        strictEqual res.b, 2
 
 suite 'defineStatic()' !->
-    test 'define enumerable and frozen property' !->
-        res = defineStatic {}, 'foo', 'bar'
-        deepEqual res, { foo: 'bar' }
+    test 'curries' !->
+        init = { a:1 }
+        res  = (defineStatic init) 'b', 2
+
+        deepEqual res, { a:1 b:2 }
         throws do
-            -> res.foo = 'meh'
+            -> res.b = 3
+            -> true
+
+    test 'define enumerable and frozen property' !->
+        res = defineStatic {}, 'a', 1
+
+        deepEqual res, { a:1 }
+        throws do
+            -> res.a = 2
+            -> true
+
+    test 'define multiple enumerable and frozen properties' !->
+        res = defineStatic {}, { a:1 b:2 }
+
+        deepEqual res, { a:1 b:2 }
+        throws do
+            -> res.a = 3
+            -> true
+        throws do
+            -> res.b = 3
             -> true
 
 suite 'defineMeta()' !->
+    test 'curries' !->
+        init = { a:1 }
+        res  = (defineMeta init) 'b', 2
+
+        deepEqual res, { a:1 }
+        strictEqual res.b, 2
+        throws do
+            -> res.b = 3
+            -> true
+
     test 'define hidden and frozen property' !->
-        res = defineMeta {}, 'foo', 'bar'
+        res = defineMeta {}, 'a', 1
+
         deepEqual res, {}
         throws do
-            -> res.foo = 'meh'
+            -> res.a = 2
+            -> true
+
+    test 'define multiple hidden and frozen properties' !->
+        res = defineMeta {}, { a:1 b:2 }
+
+        deepEqual res, {}
+        throws do
+            -> res.a = 3
+            -> true
+        throws do
+            -> res.b = 3
             -> true

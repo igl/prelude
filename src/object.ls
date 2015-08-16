@@ -196,7 +196,7 @@ exports.toJSON = (obj, indentBy = 0) ->
 exports.fromJSON = (obj) -> JSON.parse obj
 
 # definePublic :: object -> string|object -> maybe any -> object
-exports.definePublic = curry (obj, key, value) ->
+exports.definePublic = curry 1 (obj, key, value) ->
     if isObject key
         for k, v of key => exports.definePublic obj, k, v
         obj
@@ -206,7 +206,7 @@ exports.definePublic = curry (obj, key, value) ->
         }
 
 # definePrivate :: object -> string|object -> maybe any -> object
-exports.definePrivate = curry (obj, key, value) ->
+exports.definePrivate = curry 1 (obj, key, value) ->
     if isObject key
         for k, v of key => exports.definePrivate obj, k, v
         obj
@@ -216,7 +216,7 @@ exports.definePrivate = curry (obj, key, value) ->
         }
 
 # defineStatic :: object -> string|object -> maybe any -> object
-exports.defineStatic = curry (obj, key, value) ->
+exports.defineStatic = curry 1 (obj, key, value) ->
     if isObject key
         for k, v of key => exports.defineStatic obj, k, v
         obj
@@ -226,7 +226,7 @@ exports.defineStatic = curry (obj, key, value) ->
         }
 
 # defineMeta :: object -> string|object -> maybe any -> object
-exports.defineMeta = curry (obj, key, value) ->
+exports.defineMeta = curry 1 (obj, key, value) ->
     if isObject key
         for k, v of key => exports.defineMeta obj, k, v
         obj
