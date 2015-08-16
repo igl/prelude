@@ -21,6 +21,8 @@ exports.includes = curry (y, xs) ->
         return true
     false
 
+exports.contains = exports.includes
+
 # clone :: array -> array
 exports.clone = (xs) ->
     copy = []

@@ -23,6 +23,8 @@ exports.includes = curry (elem, obj) ->
         return true
     false
 
+exports.contains = exports.includes
+
 # keys :: object -> [string]
 exports.keys = (obj) ->
     [k for k of obj]

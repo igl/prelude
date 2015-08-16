@@ -30,6 +30,8 @@ exports.isString = ->
 exports.isBoolean = ->
     typeof it is 'boolean'
 
+exports.isBool = exports.isBoolean
+
 exports.isFunction = ->
     typeof it is 'function'
 
@@ -75,9 +77,16 @@ exports.isUUID = ->
 exports.isInteger = ->
     (not isNaN it) and (it % 1 is 0)
 
+exports.isInt = exports.isInteger
+
 exports.inRange = curry (from, to, it) ->
     (exports.isNumber it) and (from <= it) and (to >= it)
 
+# generate is<type>Array functions
 ALL_TYPE_CHECKS.forEach (type) ->
     exports["is#{type}Array"] = ->
         (Array.isArray it) and (it.length > 0) and (it.every exports["is#{type}"])
+
+exports.isBoolArray = exports.isBooleanArray
+
+exports.isIntArray  = exports.isIntegerArray
