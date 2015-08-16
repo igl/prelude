@@ -42,7 +42,7 @@ exports.isSet = ->
     it instanceof Set
 
 exports.isObject = ->
-    (it instanceof Object) and (Object.getPrototypeOf it) === (Object.getPrototypeOf {})
+    (it instanceof Object) and (Object.getPrototypeOf it) is (Object.getPrototypeOf {})
 
 exports.isMap = ->
     it instanceof Map
