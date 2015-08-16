@@ -23,6 +23,18 @@ suite 'curry()' !->
         fn = curry (a) -> a + 2
         strictEqual (fn 2), 4
 
+    test 'don\'t curry functions with 0 arguments' !->
+        orignalFunc = -> 1 + 1
+        fn = curry orignalFunc
+        strictEqual fn, orignalFunc
+        strictEqual fn!, 2
+
+    test 'don\'t curry functions with 1 argument' !->
+        orignalFunc = (a) -> a + 1
+        fn = curry orignalFunc
+        strictEqual fn, orignalFunc
+        strictEqual (fn 1), 2
+
     test 'get argument length automatically (short)' !->
         fn = curry (a, b) -> a + b
         isFunction fn!

@@ -15,6 +15,6 @@ module.exports = (n, fn) ->
             then curry params
             else fn.apply void, params
 
-    if n > 0
+    if n > 1
     then curry []
     else fn
