@@ -15,19 +15,19 @@ ISTNBL = node_modules/".bin"/istanbul
 MOCHAF = -u tdd -R min -t 5000 --compilers ls:$(LS) -r "./test-runner.ls" -c -S -b --recursive --inline-diffs
 
 LS_SRC  = $(shell find src -maxdepth 1 -name "*.ls" -type f | sort)
-LS_DIST = $(LS_SRC:src/%.ls=dist/%.js)
+LS_DIST = $(LS_SRC:src/%.ls=lib/%.js)
 BR_DIST = browser/prelude.js browser/prelude.min.js
 
 build: prepare $(LS_DIST) $(BR_DIST)
 
 prepare:
-	@$(MKDIRP) dist browser
+	@$(MKDIRP) lib browser
 
 test: build
 	@$(ISTNBL) cover $(_MOCHA) -- $(MOCHAF)
 
 clean:
-	@rm -rf dist
+	@rm -rf lib
 	@rm -rf browser
 	@sleep .1 # wait for editor to refresh the file tree.......
 
@@ -39,10 +39,10 @@ report: test
 
 .PHONY: build prepare test clean install report
 
-dist/%.js: src/%.ls
+lib/%.js: src/%.ls
 	$(LSC) --map embedded --bare -o "$(shell dirname $@)" -c "$<"
 
-browser/%.js: dist/%.js
+browser/%.js: lib/%.js
 	$(BRSIFY) -r "./$<:prelude" > "$@"
 
 browser/%.min.js: browser/%.js
