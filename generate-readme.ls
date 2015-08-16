@@ -1,10 +1,13 @@
 # generate function index for README
 
+util    = require('util')
 prelude = require './'
 
-{ S } = prelude
+{ A, S } = prelude
 
-console.log '''
+print = -> process.stdout.write (util.format ...&)
+
+print '''
     #Prelude [![Build Status](https://travis-ci.org/igl/prelude.js.png?branch=master)](https://travis-ci.org/igl/prelude.js)
 
     Utility set for JS.
@@ -35,18 +38,27 @@ console.log '''
     Function collection are also exported by their uppercased initial letter.
     (prelude.S === prelude.string, prelude.A === prelude.array...)
 
+
     '''
 
+consumed = []
 for key of prelude when key.length > 1
-    console.log "\n**#{ S.capitalize key }** `prelude.#key.<method>`\n"
-    for fn of prelude[key]
-        console.log "- #fn"
+    print "\n**#{ S.capitalize key }** `prelude.#key.<method>`\n\n"
 
-console.log '''
+    consumed = []
+    for fn1, v1 of prelude[key] when not A.includes fn1, consumed
+        print "- #fn1"
+        consumed.push fn1
+        for fn2, v2 of prelude[key] when v1 is v2 and fn1 isnt fn2
+            consumed.push fn2
+            print " / #fn2"
+        print "\n"
+
+print '''
 
     # Kudos
 
-    Thanks to George Zahariev for LiveScript and `prelude-ls` which made an
+    Thanks to George Zahariev for LiveScript and prelude-ls which made an
     awesome base for this lib.
 
     '''

@@ -33,10 +33,9 @@ Function collection are also exported by their uppercased initial letter.
 
 - empty
 - has
-- includes
+- includes / contains
 - clone
-- head
-- first
+- head / first
 - tail
 - last
 - initial
@@ -71,7 +70,7 @@ Function collection are also exported by their uppercased initial letter.
 
 - empty
 - has
-- includes
+- includes / contains
 - keys
 - values
 - clone
@@ -107,8 +106,7 @@ Function collection are also exported by their uppercased initial letter.
 **String** `prelude.string.<method>`
 
 - empty
-- includes
-- contains
+- includes / contains
 - startsWith
 - endsWith
 - trim
@@ -152,7 +150,7 @@ Function collection are also exported by their uppercased initial letter.
 - getType
 - isNumber
 - isString
-- isBoolean
+- isBoolean / isBool
 - isFunction
 - isArray
 - isSet
@@ -167,11 +165,11 @@ Function collection are also exported by their uppercased initial letter.
 - isNull
 - isUndefined
 - isUUID
-- isInteger
+- isInteger / isInt
 - inRange
 - isNumberArray
 - isStringArray
-- isBooleanArray
+- isBooleanArray / isBoolArray
 - isFunctionArray
 - isArrayArray
 - isSetArray
@@ -185,11 +183,10 @@ Function collection are also exported by their uppercased initial letter.
 - isNullArray
 - isUndefinedArray
 - isUUIDArray
-- isIntegerArray
+- isIntegerArray / isIntArray
 - isDefinedArray
 
 # Kudos
 
-Thanks to George Zahariev for LiveScript and `prelude-ls` which made an
+Thanks to George Zahariev for LiveScript and prelude-ls which made an
 awesome base for this lib.
-
