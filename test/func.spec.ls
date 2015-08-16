@@ -61,52 +61,38 @@ suite 'compose()' !->
         strictEqual (addMul 2, 2), 8
 
 suite 'apply()' !->
-    fn0 = !-> ok true
-    fn1 = (a) !-> strictEqual a, 0
-    fn2 = (a, b) !->
-        strictEqual a, 0
-        strictEqual b, 1
-    fn5 = (a, b, c, d, e) !->
-        strictEqual a, 0
-        strictEqual b, 1
-        strictEqual c, 2
-        strictEqual d, 3
-        strictEqual e, 4
-    fn10 = (a, b, c, d, e, f, g, h, i, j) !->
-        strictEqual a, 0
-        strictEqual b, 1
-        strictEqual c, 2
-        strictEqual d, 3
-        strictEqual e, 4
-        strictEqual f, 5
-        strictEqual g, 6
-        strictEqual h, 7
-        strictEqual i, 8
-        strictEqual j, 9
+    argLenAsserter = (len) -> ->
+        strictEqual &.length, len
+        for val, i in &
+            strictEqual val, i
 
     test 'curries' !->
-        [0 1 2 3 4] |> apply fn5
+        [0 1 2 3 4] |> apply argLenAsserter
 
-    test 'apply with 0 arguments' !->
-        apply fn0, []
-
-    test 'apply with 1 argument' !->
-        apply fn1, [0]
-
-    test 'apply with 2 argument' !->
-        apply fn2, [0 1]
-
-    test 'apply with 5 arguments' !->
-        apply fn5, [0 1 2 3 4]
-
-    test 'apply with 10 arguments' !->
-        apply fn10, [0 1 2 3 4 5 6 7 8 9]
+    test 'apply with 0 arguments'  !-> apply (!-> ok true), []
+    test 'apply with 1 argument'   !-> apply argLenAsserter(1), [0]
+    test 'apply with 2 argument'   !-> apply argLenAsserter(2), [0 1]
+    test 'apply with 3 argument'   !-> apply argLenAsserter(3), [0 1 2]
+    test 'apply with 4 argument'   !-> apply argLenAsserter(4), [0 1 2 3]
+    test 'apply with 5 arguments'  !-> apply argLenAsserter(5), [0 1 2 3 4]
+    test 'apply with 6 arguments'  !-> apply argLenAsserter(6), [0 1 2 3 4 5]
+    test 'apply with 7 arguments'  !-> apply argLenAsserter(7), [0 1 2 3 4 5 6]
+    test 'apply with 8 arguments'  !-> apply argLenAsserter(8), [0 1 2 3 4 5 6 7]
+    test 'apply with 9 arguments'  !-> apply argLenAsserter(9), [0 1 2 3 4 5 6 7 8]
+    test 'apply with 20 arguments' !-> apply argLenAsserter(20), [0 til 20]
+    test 'apply with 100 arguments' !-> apply argLenAsserter(100), [0 til 100]
 
 suite 'applyTo()' !->
     fn0 = !->
     fn1 = (@a) !->
     fn2 = (@a, @b) !->
+    fn3 = (@a, @b, @c) !->
+    fn4 = (@a, @b, @c, @d) !->
     fn5 = (@a, @b, @c, @d, @e) !->
+    fn6 = (@a, @b, @c, @d, @e, @f) !->
+    fn7 = (@a, @b, @c, @d, @e, @f, @g) !->
+    fn8 = (@a, @b, @c, @d, @e, @f, @g, @h) !->
+    fn9 = (@a, @b, @c, @d, @e, @f, @g, @h, @i) !->
     fn10 = (@a, @b, @c, @d, @e, @f, @g, @h, @i, @j) !->
 
     test 'applyTo with 0 arguments' !->
@@ -122,23 +108,59 @@ suite 'applyTo()' !->
     test 'applyTo with 2 argument' !->
         ctx = {}
         applyTo ctx, fn2, [0 1]
-        deepEqual ctx, { a:0, b:1 }
+        deepEqual ctx, { a:0 b:1 }
+
+    test 'applyTo with 3 argument' !->
+        ctx = {}
+        applyTo ctx, fn3, [0 1 2]
+        deepEqual ctx, { a:0 b:1 c:2 }
+
+    test 'applyTo with 4 arguments' !->
+        ctx = {}
+        applyTo ctx, fn4, [0 1 2 3]
+        deepEqual ctx, { a:0 b:1 c:2 d:3 }
 
     test 'applyTo with 5 arguments' !->
         ctx = {}
         applyTo ctx, fn5, [0 1 2 3 4]
-        deepEqual ctx, { a:0, b:1, c:2, d:3, e:4 }
+        deepEqual ctx, { a:0 b:1 c:2 d:3 e:4 }
+
+    test 'applyTo with 6 arguments' !->
+        ctx = {}
+        applyTo ctx, fn6, [0 1 2 3 4 5]
+        deepEqual ctx, { a:0 b:1 c:2 d:3 e:4 f:5 }
+
+    test 'applyTo with 7 arguments' !->
+        ctx = {}
+        applyTo ctx, fn7, [0 1 2 3 4 5 6]
+        deepEqual ctx, { a:0 b:1 c:2 d:3 e:4 f:5 g:6 }
+
+    test 'applyTo with 8 arguments' !->
+        ctx = {}
+        applyTo ctx, fn8, [0 1 2 3 4 5 6 7]
+        deepEqual ctx, { a:0 b:1 c:2 d:3 e:4 f:5 g:6 h:7 }
+
+    test 'applyTo with 9 arguments' !->
+        ctx = {}
+        applyTo ctx, fn9, [0 1 2 3 4 5 6 7 8]
+        deepEqual ctx, { a:0 b:1 c:2 d:3 e:4 f:5 g:6 h:7 i:8 }
 
     test 'applyTo with 10 arguments' !->
         ctx = {}
         applyTo ctx, fn10, [0 1 2 3 4 5 6 7 8 9]
-        deepEqual ctx, { a:0, b:1, c:2, d:3, e:4, f:5, g:6, h:7, i:8, j:9 }
+        deepEqual ctx, { a:0 b:1 c:2 d:3 e:4 f:5 g:6 h:7 i:8 j:9 }
 
 suite 'applyNew()' !->
     fn0 = !->
     fn1 = (@a) !->
     fn2 = (@a, @b) !->
+    fn3 = (@a, @b, @c) !->
+    fn4 = (@a, @b, @c, @d) !->
     fn5 = (@a, @b, @c, @d, @e) !->
+    fn6 = (@a, @b, @c, @d, @e, @f) !->
+    fn7 = (@a, @b, @c, @d, @e, @f, @g) !->
+    fn8 = (@a, @b, @c, @d, @e, @f, @g, @h) !->
+    fn9 = (@a, @b, @c, @d, @e, @f, @g, @h, @i) !->
     fn10 = (@a, @b, @c, @d, @e, @f, @g, @h, @i, @j) !->
 
     test 'applyNew with 0 arguments' !->
@@ -148,15 +170,31 @@ suite 'applyNew()' !->
         deepEqual (applyNew fn1, [0]), { a:0 }
 
     test 'applyNew with 2 argument' !->
-        deepEqual (applyNew fn2, [0 1]), { a:0, b:1 }
+        deepEqual (applyNew fn2, [0 1]), { a:0 b:1 }
+
+    test 'applyNew with 3 arguments' !->
+        deepEqual (applyNew fn3, [0 1 2]), { a:0 b:1 c:2 }
+
+    test 'applyNew with 4 arguments' !->
+        deepEqual (applyNew fn4, [0 1 2 3]), { a:0 b:1 c:2 d:3 }
 
     test 'applyNew with 5 arguments' !->
-        deepEqual (applyNew fn5, [0 1 2 3 4]), { a:0, b:1, c:2, d:3, e:4 }
+        deepEqual (applyNew fn5, [0 1 2 3 4]), { a:0 b:1 c:2 d:3 e:4 }
+
+    test 'applyNew with 6 arguments' !->
+        deepEqual (applyNew fn6, [0 1 2 3 4 5]), { a:0 b:1 c:2 d:3 e:4 f:5 }
+
+    test 'applyNew with 7 arguments' !->
+        deepEqual (applyNew fn7, [0 1 2 3 4 5 6]), { a:0 b:1 c:2 d:3 e:4 f:5 g:6 }
+
+    test 'applyNew with 8 arguments' !->
+        deepEqual (applyNew fn8, [0 1 2 3 4 5 6 7]), { a:0 b:1 c:2 d:3 e:4 f:5 g:6 h:7 }
+
+    test 'applyNew with 9 arguments' !->
+        deepEqual (applyNew fn9, [0 1 2 3 4 5 6 7 8]), { a:0 b:1 c:2 d:3 e:4 f:5 g:6 h:7 i:8 }
 
     test 'applyNew with 10 arguments' !->
-        deepEqual do
-            (applyNew fn10, [0 1 2 3 4 5 6 7 8 9])
-            { a:0, b:1, c:2, d:3, e:4, f:5, g:6, h:7, i:8, j:9 }
+        deepEqual (applyNew fn10, [0 1 2 3 4 5 6 7 8 9]), { a:0 b:1 c:2 d:3 e:4 f:5 g:6 h:7 i:8 j:9 }
 
 suite 'flip()' !->
     test 'flip arguments' !->
