@@ -170,6 +170,10 @@ exports.deepAssign = curry 1 (dest = {}, ...sources) ->
             dest[key] = value
     dest
 
+exports.mixin = exports.assign
+
+exports.deepMixin = exports.deepAssign
+
 # merge :: object -> ...object -> object
 exports.merge = curry 1 (exports.assign {})
 
