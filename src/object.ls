@@ -196,8 +196,15 @@ exports.deepFreeze = (obj) ->
 exports.toJSON = (obj, indentBy = 0) ->
     JSON.stringify obj, void, indentBy
 
-# fromJSON :: string -> object
-exports.fromJSON = (obj) -> JSON.parse obj
+# FromJSON :: object -> (error, string) -> void
+exports.fromJSON = (obj, fn) ->
+    try res = JSON.parse obj
+    catch err
+    fn err, res if typeof fn is 'function'
+    res
+
+# fromJSONUnsafe :: string -> object
+exports.fromJSONUnsafe = (obj) -> JSON.parse obj
 
 # definePublic :: object -> string|object -> maybe any -> object
 exports.definePublic = curry 1 (obj, key, value) ->
