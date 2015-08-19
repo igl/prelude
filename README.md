@@ -90,14 +90,15 @@ Function collection are also exported by their uppercased initial letter.
 - toPairs
 - fill
 - deepFill
-- assign
-- deepAssign
+- assign / mixin
+- deepAssign / deepMixin
 - merge
 - deepMerge
 - freeze
 - deepFreeze
 - toJSON
 - fromJSON
+- fromJSONUnsafe
 - definePublic
 - definePrivate
 - defineStatic
