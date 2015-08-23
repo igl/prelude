@@ -175,10 +175,10 @@ exports.mixin = exports.assign
 exports.deepMixin = exports.deepAssign
 
 # merge :: object -> ...object -> object
-exports.merge = curry 1 (exports.assign {})
+exports.merge = curry 1 (exports.assign null)
 
 # deepMerge :: object -> ...object -> object
-exports.deepMerge = curry 1 (exports.deepAssign {})
+exports.deepMerge = curry 1 (exports.deepAssign null)
 
 # freeze :: object -> object
 exports.freeze = (obj) ->
