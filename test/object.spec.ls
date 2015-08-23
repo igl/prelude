@@ -366,7 +366,7 @@ suite 'merge()' !->
             { a:1, b:2 }
 
     test 'returns a new object' !->
-        original = { a:1, b:2 }
+        original = freeze { a:1, b:2 }
         result   = merge original, { c:3 }
 
         deepEqual result, { a:1, b:2, c:3 }
@@ -386,7 +386,7 @@ suite 'deepMerge()' !->
             { a:1, b:2, c:{ x:3, y:4 }}
 
     test 'makes a deep copy' !->
-        original = { a:1, b:2, c:{ x:3, y:4 }}
+        original = deepFreeze { a:1, b:2, c:{ x:3, y:4 }}
         result   = deepMerge original, { c:x:0 }
 
         deepEqual result, { a:1, b:2, c:{ x:0, y:4 }}
