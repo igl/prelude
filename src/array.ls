@@ -37,12 +37,11 @@ exports.clone = (xs) ->
             copy[i] = value
     copy
 
-
 # head :: array -> any
 exports.first = exports.head = (xs) -> xs.0
 
 # tail :: array -> any
-exports.tail = (xs) ->
+exports.rest = exports.tail = (xs) ->
     [x for x, i in xs when i > 0]
 
 # last :: array -> any

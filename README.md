@@ -36,7 +36,7 @@ Function collection are also exported by their uppercased initial letter.
 - includes / contains
 - clone
 - head / first
-- tail
+- tail / rest
 - last
 - initial
 - slice
