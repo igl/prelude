@@ -118,17 +118,22 @@ exports.chain = (...funcs, cb) !->
                 new Error "callback[#{pos + 1}] is called twice!"
             ]
 
+        if err
+            return callback [err, ...args]
+
         i += 1
 
         immediate ->
-            if args[0] or (i is funcs.length)
-                return callback [ void, ...args ]
+            if i is funcs.length
+                return callback [void, ...args]
 
             next   = funcs[i]
             argLen = next.length
 
-            try apply next, (args.slice 0, argLen - 1) ++ (link i)
-            catch err then callback [ err ]
+            try
+                apply next, (args.slice 0, argLen - 1) ++ (link i)
+            catch err
+                callback [ err ]
 
     # initialize
     try funcs[i] (link i)

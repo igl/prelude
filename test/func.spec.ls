@@ -308,12 +308,14 @@ suite 'chain()' !->
                 strictEqual a, 1
                 strictEqual b, 2
                 strictEqual c, 3
-                next void, a, b, c
+                delay 15, ->
+                    next void, a, b, c
 
             (a, b, next) ->
                 strictEqual a, 1
                 strictEqual b, 2
-                next void, a, b, 3
+                delay 10, ->
+                    next void, a, b, 3
 
             (a, next) ->
                 strictEqual a, 1
@@ -322,3 +324,13 @@ suite 'chain()' !->
             (err, a)  ->
                 strictEqual a, 1
                 done err
+
+    test 'async calls' (done) !->
+        chain do
+            (next)       -> delay 10, -> next void, 1
+            (prev, next) -> delay 20,  -> next void, ++prev
+            (prev, next) -> delay 30, -> next void, ++prev
+            (prev, next) -> delay 15, -> next void, ++prev
+            (err, res) ->
+                strictEqual res, 4
+                done()
