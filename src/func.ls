@@ -104,6 +104,13 @@ exports.tryCatch = (fn, cb) ->
 
     err or res
 
+exports.once = (fn) ->
+    name = fn.name or 'Function'
+    return !->
+        unless fn then throw new Error "#name was already called."
+        apply fn, arguments
+        fn := void
+
 # chain :: ...function, function -> void
 exports.chain = (...funcs, cb) !->
     i = 0

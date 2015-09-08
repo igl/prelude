@@ -144,6 +144,7 @@ Function collection are also exported by their uppercased initial letter.
 - interval
 - immediate
 - tryCatch
+- once
 - chain
 
 **Type** `prelude.type.<method>`

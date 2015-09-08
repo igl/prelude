@@ -4,7 +4,7 @@
 
 {
     id, curry, compose, apply, applyTo, applyNew, flip,
-    delay, interval, immediate, tryCatch, chain
+    delay, interval, immediate, tryCatch, once, chain
 } = prelude.func
 
 suite 'id()' !->
@@ -255,6 +255,17 @@ suite 'tryCatch()' !->
             (err) !->
                 isError err
                 done!
+
+suite 'once()' !->
+    function Fun x => ok x
+    test 'passed function is called' !->
+        true |> once Fun
+
+    test 'throws when called twice' !->
+        fn = once Fun
+        throws do
+            -> fn true; fn true
+            /Fun was already called/
 
 suite 'chain()' !->
     test 'chains thru all supplied functions' (done) !->
