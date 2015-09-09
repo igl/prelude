@@ -8,7 +8,12 @@ prelude = require './'
 print = -> process.stdout.write (util.format ...&)
 
 print '''
-    #Prelude [![Build Status](https://travis-ci.org/igl/prelude.js.png?branch=master)](https://travis-ci.org/igl/prelude.js)
+    #Prelude
+
+    [![build status](https://img.shields.io/travis/igl/prelude.js.svg?style=flat-square)](https://travis-ci.org/igl/prelude.js)
+    [![npm version](https://img.shields.io/npm/v/prelude.svg?style=flat-square)](https://www.npmjs.com/package/prelude)
+    [![npm downloads](https://img.shields.io/npm/dm/prelude.svg?style=flat-square)](https://www.npmjs.com/package/prelude)
+
 
     Utility set for JS.
 
