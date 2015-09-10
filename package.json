@@ -15,6 +15,9 @@
   "scripts": {
     "test": "make test"
   },
+  "bin": {
+    "prelude-repl": "./bin/prelude-repl.js"
+  },
   "devDependencies": {
     "browserify": "^11.0.1",
     "istanbul": "^0.3.15",
