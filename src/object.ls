@@ -151,14 +151,14 @@ exports.deepFill = curry 1 (init, ...sources) ->
     res
 
 # assign :: object -> ...object -> object
-exports.assign = curry 1 (dest = {}, ...sources) ->
+exports.mixin = exports.assign = curry 1 (dest = {}, ...sources) ->
     for src in sources
         for own key, val of src
             dest[key] = val
     dest
 
 # deepAssign :: object -> ...object -> object
-exports.deepAssign = curry 1 (dest = {}, ...sources) ->
+exports.deepMixin = exports.deepAssign = curry 1 (dest = {}, ...sources) ->
     for src in sources then for key, value of src
         if isObject value and isObject dest[key]
             dest[key] = exports.deepAssign {}, dest[key], value
@@ -169,10 +169,6 @@ exports.deepAssign = curry 1 (dest = {}, ...sources) ->
         else
             dest[key] = value
     dest
-
-exports.mixin = exports.assign
-
-exports.deepMixin = exports.deepAssign
 
 # merge :: object -> ...object -> object
 exports.merge = curry 1 (exports.assign null)

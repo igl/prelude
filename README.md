@@ -4,7 +4,6 @@
 [![npm version](https://img.shields.io/npm/v/prelude.svg?style=flat-square)](https://www.npmjs.com/package/prelude)
 [![npm downloads](https://img.shields.io/npm/dm/prelude.svg?style=flat-square)](https://www.npmjs.com/package/prelude)
 
-
 Utility set for JS.
 
 - Written in <a href="http://www.livescript.net">LiveScript</a>.
@@ -12,8 +11,10 @@ Utility set for JS.
 <a href="http://www.preludels.com/">prelude-ls</a>,
 <a href="http://underscorejs.org/">underscore</a> and
 <a href="https://github.com/codemix/fast.js">fast.js</a>.
-- See method index below
-- Github pages with more detailed examples are coming soon...
+- Every functions can be partially applied and never mutate inputs.
+- 300+ Tests
+
+Github pages with more detailed examples are coming soon... (See methods listed blow)
 
 ## Example
 
@@ -26,9 +27,9 @@ Utility set for JS.
 
 ### Methods
 
-All functions with 2 or more arguments are curried and generally return
-copies of their inputs, thus treating them as immutable (with the exception
-of `object.assign` and `.deepAssign` where this behavior is not always wanted).
+All functions with 2 or more arguments can be partially applied and generally return
+copies of their inputs, thus treating them as immutable. (With the exception
+of `object.assign` where this behavior is desired. Use `.merge` for a immutable version)
 
 Function collection are also exported by their uppercased initial letter.
 (prelude.S === prelude.string, prelude.A === prelude.array...)
