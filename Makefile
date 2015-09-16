@@ -49,7 +49,7 @@ report: test
 .PHONY: build prepare test clean install report
 
 lib/%.js: src/%.ls
-	$(LSC) --map embedded --bare -o "$(shell dirname $@)" -c "$<"
+	$(LSC) --map linked --bare -o "$(shell dirname $@)" -c "$<"
 
 browser/%.js: lib/%.js
 	$(BRSIFY) -r "./$<:prelude" > "$@"
