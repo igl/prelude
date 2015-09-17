@@ -4,9 +4,10 @@
 
 {
     empty, has, includes, clone, head, first, tail, last, initial, slice,
-    concat, flatten, each, map, filter, shuffle, every, some, reverse,
-    zip, zipWith, partition, unique, uniqueBy, difference, intersection, union,
-    sortBy, countBy, groupBy, splitAt, index, indices, findIndex, findIndices
+    concat, remove, removeOne, flatten, each, map, filter, shuffle,
+    every, some, reverse, zip, zipWith, partition, unique, uniqueBy,
+    difference, intersection, union, sortBy, countBy, groupBy, splitAt,
+    index, indices, findIndex, findIndices
 } = prelude.array
 
 suite 'empty()' !->
@@ -95,6 +96,32 @@ suite 'concat()' !->
 
     test 'concat more' !->
         deepEqual (concat [1 2] [3] [4 5] [6 7 8 9]), [1 2 3 4 5 6 7 8 9]
+
+suite 'remove()' !->
+    test 'curries' !->
+        isFunction remove 1
+        isArray ([3 4] |> remove 3)
+
+    test 'remove all matches' !->
+        deepEqual (remove 1, [1 1 1 2]), [2]
+
+    test 'does not mutate input' !->
+        input = [1 2 3]
+        remove 2, input
+        deepEqual input, [1 2 3]
+
+suite 'removeOne()' !->
+    test 'curries' !->
+        isFunction removeOne [1 2]
+        isArray ([3 4] |> removeOne [3])
+
+    test 'removes the first match' !->
+        deepEqual (removeOne 1, [1 2 1 2]), [2 1 2]
+
+    test 'does not mutate input' !->
+        input = [1 2 1 2]
+        removeOne 2, input
+        deepEqual input, [1 2 1 2]
 
 suite 'flatten()' !->
     test 'flatten array' !->

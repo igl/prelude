@@ -57,11 +57,25 @@ exports.initial = (xs) ->
 exports.slice = curry (a, b, xs) ->
     xs.slice a, b
 
-# concat :: number -> number -> array -> array
+# concat :: array* -> array
 exports.concat = curry 1 (...xxs) ->
     result = []
     for xs in xxs then for x in xs
         result.push x
+    result
+
+# remove :: any -> array -> array
+exports.remove = curry 1 (y, xs) ->
+    [ x for x in xs when x isnt y ]
+
+# remove :: any -> array -> array
+exports.removeOne = curry 1 (y, xs) ->
+    result = []
+    foundOne = false
+    for x in xs
+        if x is y and not foundOne
+        then foundOne := true
+        else result.push x
     result
 
 # flatten :: array -> array
