@@ -1,6 +1,6 @@
 {
   "name": "prelude",
-  "version": "0.2.6",
+  "version": "0.2.7",
   "description": "Utility library for Javascript",
   "author": "Richard Keil",
   "main": "lib/prelude.js",
