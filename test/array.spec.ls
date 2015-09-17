@@ -86,6 +86,11 @@ suite 'slice()' !->
     test 'slice with negative index' !->
         deepEqual (slice 0, -1 [1 2 3 4]), [1 2 3]
 
+    test 'does not mutate input' !->
+        input = [1 2 3 4]
+        slice 0, 3, input
+        deepEqual input, [1 2 3 4]
+
 suite 'concat()' !->
     test 'curries' !->
         isFunction concat [1 2]
@@ -170,6 +175,11 @@ suite 'map()' !->
             [0 1 2] |> map (-> it + 1)
             [1 2 3]
 
+    test 'does not mutate input' !->
+        input = [1 2 3]
+        map (-> it * 2), input
+        deepEqual input, [1 2 3]
+
 suite 'filter()' !->
     test 'curries' !->
         isFunction filter (->)
@@ -193,13 +203,23 @@ suite 'filter()' !->
             filter (-> typeof it isnt 'string'), [1 'foo' 2]
             [1 2]
 
+    test 'does not mutate input' !->
+        input = [1 2 3]
+        filter (-> it is 2), input
+        deepEqual input, [1 2 3]
+
 suite 'shuffle()' !->
-    test 'shuffles array' !->
+    test 'returns a shuffled array' !->
         i = 100
         while --i
             throws do
                 -> deepEqual (shuffle [1 2 3 4 5 6 7 8 9]), [1 2 3 4 5 6 7 8 9]
                 -> true
+
+    test 'does not mutate input' !->
+        input = [1 2 3 4 5]
+        shuffle input
+        deepEqual input, [1 2 3 4 5]
 
 suite 'every()' !->
     test 'iterates over all items' !->
