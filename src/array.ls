@@ -106,8 +106,13 @@ exports.map = curry (f, xs) ->
     [f x, i for x, i in xs]
 
 # filter :: function -> array -> array
-exports.filter = curry (f, xs) ->
+exports.find = exports.filter = curry (f, xs) ->
     [x for x, i in xs when f x, i]
+
+# find :: elem -> array -> elem | undefined
+exports.findOne = curry (f, xs) !->
+    for x, i in xs when f x, i
+        return x
 
 # shuffle :: array -> array
 exports.shuffle = (xs) ->

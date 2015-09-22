@@ -53,7 +53,8 @@ Function collection are also exported by their uppercased initial letter.
 - reverse
 - each
 - map
-- filter
+- filter / find
+- findOne
 - shuffle
 - every
 - some

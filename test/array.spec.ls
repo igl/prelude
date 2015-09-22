@@ -4,7 +4,7 @@
 
 {
     empty, has, includes, clone, head, first, tail, last, initial, slice,
-    concat, remove, removeOne, flatten, each, map, filter, shuffle,
+    concat, remove, removeOne, flatten, each, map, find, findOne, shuffle,
     every, some, reverse, zip, zipWith, partition, unique, uniqueBy,
     difference, intersection, union, sortBy, countBy, groupBy, splitAt,
     index, indices, findIndex, findIndices
@@ -180,32 +180,65 @@ suite 'map()' !->
         map (-> it * 2), input
         deepEqual input, [1 2 3]
 
-suite 'filter()' !->
+suite 'find()' !->
     test 'curries' !->
-        isFunction filter (->)
-        isArray    filter (->), [1 2 3]
+        isFunction find (->)
+        isArray    find (->), [1 2 3]
 
     test 'iterates over the complete array' !->
         count = 0
-        filter (-> ++count), [1 2 3]
+        find (-> ++count), [1 2 3]
         strictEqual count, 3
 
     test 'iterator receives index and value' !->
-        ['foo' 'bar' 'qaz'] |> filter (value, index) ->
+        ['foo' 'bar' 'qaz'] |> find (value, index) ->
             isString value
             isNumber index
             if index is 0 then strictEqual value, 'foo'
             if index is 1 then strictEqual value, 'bar'
             if index is 2 then strictEqual value, 'qaz'
 
-    test 'filters values' !->
+    test 'finds values' !->
         deepEqual do
-            filter (-> typeof it isnt 'string'), [1 'foo' 2]
+            find (-> typeof it isnt 'string'), [1 'foo' 2]
             [1 2]
 
     test 'does not mutate input' !->
         input = [1 2 3]
-        filter (-> it is 2), input
+        find (-> it is 2), input
+        deepEqual input, [1 2 3]
+
+suite 'findOne()' !->
+    test 'curries' !->
+        isFunction findOne (->)
+        isNumber   findOne (-> it is 2), [1 2 3]
+
+    test 'iterates over the complete array' !->
+        count = 0
+        findOne (!-> ++count), [1 2 3]
+        strictEqual count, 3
+
+    test 'iterator receives index and value' !->
+        ['foo' 'bar' 'qaz'] |> findOne (value, index) ->
+            isString value
+            isNumber index
+            if index is 0 then strictEqual value, 'foo'
+            if index is 1 then strictEqual value, 'bar'
+            if index is 2 then strictEqual value, 'qaz'
+
+    test 'finds and returns the first value' !->
+        strictEqual do
+            findOne (-> typeof it is 'string'), [1 'foo' 2 'bar']
+            'foo'
+
+    test 'returns undefined when nothing is found' !->
+        strictEqual do
+            findOne (-> typeof it is 'string'), [1 2 3 4]
+            undefined
+
+    test 'does not mutate input' !->
+        input = [1 2 3]
+        findOne (-> it is 2), input
         deepEqual input, [1 2 3]
 
 suite 'shuffle()' !->
