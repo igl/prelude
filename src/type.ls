@@ -90,3 +90,8 @@ ALL_TYPE_CHECKS.forEach (type) ->
 exports.isBoolArray = exports.isBooleanArray
 
 exports.isIntArray  = exports.isIntegerArray
+
+# oneOf :: ...any -> (any -> bool)
+exports.oneOf = (...xs) -> (a) ->
+    for x in xs when x is a then return true
+    false

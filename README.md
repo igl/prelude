@@ -196,6 +196,7 @@ Function collection are also exported by their uppercased initial letter.
 - isUUIDArray
 - isIntegerArray / isIntArray
 - isDefinedArray
+- oneOf
 
 # Kudos
 

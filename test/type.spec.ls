@@ -5,7 +5,7 @@
 {
     getType, isNumber, isString, isBoolean, isFunction, isObject, isMap,
     isArray, isSet, isDate, isRegExp, isSymbol, isArguments, isError,
-    isDefined, isNull, isUndefined, isUUID, isInteger, inRange
+    isDefined, isNull, isUndefined, isUUID, isInteger, inRange, oneOf
 } = prelude.type
 
 FIXTURE_UUIDS = <[
@@ -245,3 +245,22 @@ suite 'inRange()' !->
         strictEqual (inRange 0, 5, 6), false
         strictEqual (inRange 0, 5, -1), false
         strictEqual (inRange 0, 5, null), false
+
+suite 'oneOf()' !->
+    test 'curries' !->
+        isFunction (oneOf 1, 2, 3)
+        strictEqual do
+            1 |> oneOf 1, 2, 3
+            true
+
+    test 'truthy' !->
+        strictEqual (1   |> oneOf 1, 2, 3), true
+        strictEqual (3   |> oneOf 1, 2, 3), true
+        strictEqual ('a' |> oneOf 'a', 'b', 'c'), true
+        strictEqual ('c' |> oneOf 'a', 'b', 'c'), true
+
+    test 'falsy' !->
+        strictEqual (0   |> oneOf 1, 2, 3), false
+        strictEqual (4   |> oneOf 1, 2, 3), false
+        strictEqual ('y' |> oneOf 'a', 'b', 'c'), false
+        strictEqual ('b' |> oneOf 'a', 'c', 'e'), false
