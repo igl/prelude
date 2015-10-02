@@ -11,7 +11,7 @@ Utility set for JS.
 <a href="http://www.preludels.com/">prelude-ls</a>,
 <a href="http://underscorejs.org/">underscore</a> and
 <a href="https://github.com/codemix/fast.js">fast.js</a>.
-- Every functions can be partially applied and never mutate inputs.
+- Every function can be partially applied and ***never*** mutates input.
 - 300+ Tests
 
 Github pages with more detailed examples are coming soon... (See methods listed blow)
