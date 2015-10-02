@@ -3,7 +3,7 @@
 <-! suite 'array'
 
 {
-    empty, has, includes, clone, head, first, tail, last, initial, slice,
+    empty, has, includes, clone, head, first, tail, last, initial, slice, splice,
     concat, remove, removeOne, flatten, each, map, find, findOne, shuffle,
     every, some, reverse, zip, zipWith, partition, unique, uniqueBy,
     difference, intersection, union, sortBy, countBy, groupBy, splitAt,
@@ -89,6 +89,19 @@ suite 'slice()' !->
     test 'does not mutate input' !->
         input = [1 2 3 4]
         slice 0, 3, input
+        deepEqual input, [1 2 3 4]
+
+suite 'splice()' !->
+    test 'splice array' !->
+        deepEqual (splice 0, 2 [1 2 3 4]), [3 4]
+
+    test 'splice nothing when splice-length less than 1' !->
+        deepEqual (splice 0, 0 [1 2 3 4]), [1 2 3 4]
+        deepEqual (splice 0, -1 [1 2 3 4]), [1 2 3 4]
+
+    test 'does not mutate input' !->
+        input = [1 2 3 4]
+        deepEqual (splice 0, 1, input), [2 3 4]
         deepEqual input, [1 2 3 4]
 
 suite 'concat()' !->

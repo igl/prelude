@@ -46,6 +46,7 @@ Function collection are also exported by their uppercased initial letter.
 - last
 - initial
 - slice
+- splice
 - concat
 - remove
 - removeOne

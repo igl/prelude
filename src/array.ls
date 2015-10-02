@@ -4,7 +4,7 @@ curry  = require './curry'
 number = require './number'
 object = require './object'
 
-{ isArray, isObject } = require './type'
+{ isArray, isObject, inRange } = require './type'
 { apply } = require './func'
 
 # empty :: array -> boolean
@@ -56,6 +56,10 @@ exports.initial = (xs) ->
 # slice :: number -> number -> array -> array
 exports.slice = curry (a, b, xs) ->
     xs.slice a, b
+
+# splice :: number -> number -> array -> array
+exports.splice = curry 2 (pos, len, xs) ->
+    [ x for x, i in xs when not (in-range pos, pos + len - 1, i)]
 
 # concat :: array* -> array
 exports.concat = curry 1 (...xxs) ->
