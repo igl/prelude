@@ -40,13 +40,14 @@ clean:
 	@rm -rf browser
 	@sleep .1 # wait for editor to refresh the file tree.......
 
-install:
-	@npm install .
+init:
+	@rm -rf none_modules/
+	@npm install
 
 report: test
 	@$(OPEN_BROWSER) coverage/lcov-report/index.html > /dev/null 2>&1
 
-.PHONY: build prepare test clean install report
+.PHONY: build prepare test clean init report
 
 lib/%.js: src/%.ls
 	$(LSC) --map linked --bare -o "$(shell dirname $@)" -c "$<"
