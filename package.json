@@ -1,6 +1,6 @@
 {
   "name": "prelude",
-  "version": "0.5.0",
+  "version": "0.6.0",
   "description": "Utility library for Javascript",
   "author": "Richard Keil",
   "main": "lib/prelude.js",
@@ -19,11 +19,11 @@
     "prelude-repl": "./bin/prelude-repl.js"
   },
   "devDependencies": {
-    "browserify": "^11.0.1",
-    "istanbul": "^0.3.15",
-    "livescript": "^1.4.0",
-    "mkdirp": "^0.5.1",
-    "mocha": "^2.2.5",
-    "uglify-js": "^2.4.23"
+    "browserify": "13.0.0",
+    "istanbul": "0.4.2",
+    "livescript": "1.4.0",
+    "mkdirp": "0.5.1",
+    "mocha": "2.4.5",
+    "uglify-js": "2.6.2"
   }
 }
