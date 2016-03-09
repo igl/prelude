@@ -35,6 +35,9 @@ exports.isBool = exports.isBoolean
 exports.isFunction = ->
     typeof it is 'function'
 
+exports.isPromise = ->
+    (typeof it is 'object') and (it.constructor and it.constructor.name === 'Promise')
+
 exports.isArray = ->
     Array.isArray it
 
@@ -62,14 +65,15 @@ exports.isRegExp = ->
 exports.isSymbol = ->
     typeof it is 'symbol'
 
-exports.isDefined = ->
-    (typeof it isnt 'undefined') and (it isnt null)
-
 exports.isNull = ->
     it is null
 
 exports.isUndefined = ->
     (typeof it is 'undefined')
+
+# extended types
+exports.isDefined = ->
+    (typeof it isnt 'undefined') and (it isnt null)
 
 exports.isUUID = ->
     (typeof it is 'string') and (RX_ISUUID.test it)

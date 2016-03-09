@@ -18,6 +18,11 @@ function assertType (expected)
             stackStartFunction: assertType
         }
 
+# Mock the Promise functions in old node versions
+# (required for test of isPromise())
+unless global.Promise
+    global.Promise = function Promise =>
+
 # set global assert funcs
 assign global, {
     prelude     : prelude

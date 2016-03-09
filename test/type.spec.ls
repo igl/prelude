@@ -5,7 +5,7 @@
 {
     getType, isNumber, isString, isBoolean, isFunction, isObject, isMap,
     isArray, isSet, isDate, isRegExp, isSymbol, isArguments, isError,
-    isDefined, isNull, isUndefined, isUUID, isInteger, inRange, oneOf
+    isDefined, isNull, isUndefined, isPromise, isUUID, isInteger, inRange, oneOf
 } = prelude.type
 
 FIXTURE_UUIDS = <[
@@ -204,6 +204,14 @@ suite 'isUndefined()' !->
         strictEqual (isUndefined []), false
         strictEqual (isUndefined {}), false
         strictEqual (isUndefined ->), false
+
+suite 'isPromise()' !->
+    test 'truthy' !->
+        strictEqual (isPromise (new Promise ->)), true
+
+    test 'falsy' !->
+        strictEqual (isPromise {}), false
+
 
 suite 'isUUID()' !->
     test 'validate all UUIDs from fixtures' !->
