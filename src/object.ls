@@ -35,7 +35,7 @@ exports.values = (obj) ->
 
 # clone :: object -> object
 exports.clone = (obj) ->
-    exports.deepAssign {}, obj
+    exports.deepMerge {}, obj
 
 # flatten :: string? -> object -> object
 exports.flatten = curry (delimiter, obj) ->
@@ -150,18 +150,20 @@ exports.deepFill = curry 1 (init, ...sources) ->
                 res[key] = src[key]
     res
 
-# assign :: object -> ...object -> object
-exports.mixin = exports.assign = curry 1 (dest = {}, ...sources) ->
+# merge :: object -> ...object -> object
+exports.merge = curry 1 (...sources) ->
+    dest = {}
     for src in sources
         for own key, val of src
             dest[key] = val
     dest
 
-# deepAssign :: object -> ...object -> object
-exports.deepMixin = exports.deepAssign = curry 1 (dest = {}, ...sources) ->
+# deepMerge :: object -> ...object -> object
+exports.deepMerge = curry 1 (...sources) ->
+    dest = {}
     for src in sources then for key, value of src
         if isObject value and isObject dest[key]
-            dest[key] = exports.deepAssign {}, dest[key], value
+            dest[key] = exports.deepMerge {}, dest[key], value
 
         else if isArray value
             dest[key] = array.clone value
@@ -169,12 +171,6 @@ exports.deepMixin = exports.deepAssign = curry 1 (dest = {}, ...sources) ->
         else
             dest[key] = value
     dest
-
-# merge :: object -> ...object -> object
-exports.merge = curry 1 (exports.assign null)
-
-# deepMerge :: object -> ...object -> object
-exports.deepMerge = curry 1 (exports.deepAssign null)
 
 # freeze :: object -> object
 exports.freeze = (obj) ->

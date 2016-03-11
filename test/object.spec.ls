@@ -6,7 +6,7 @@
     empty, has, includes, keys, values, clone, flatten, explode,
     each, map, filter, every, some, partition, keyOf, keysOf,
     findKey, findKeys, fromPairs, toPairs,
-    fill, deepFill, assign, deepAssign, merge, deepMerge,
+    merge, deepMerge, fill, deepFill,
     freeze, deepFreeze, toJSON, fromJSON,
     definePublic, definePrivate, defineStatic, defineMeta
 } = prelude.object
@@ -321,38 +321,6 @@ suite 'deepFill()' !->
         deepEqual do
             deepFill { a:1, b:{ c:2 }}, { a:10, b:{ c:20, d:30 }}
             { a:10, b:{ c:20, }}
-
-suite 'assign()' !->
-    test 'curries' !->
-        deepEqual do
-            { b:2 } |> assign { a:1 }
-            { a:1, b:2 }
-
-    test 'add to object' !->
-        deepEqual do
-            assign { a:1 }, { b:2 }
-            { a:1, b:2 }
-
-    test 'add to new object' !->
-        deepEqual do
-            assign null, { a:1 }, { b:2 }
-            { a:1, b:2 }
-
-suite 'deepAssign()' !->
-    test 'curries' !->
-        deepEqual do
-            { b:{ d:3 }} |> deepAssign { a:1, b:{ c:2 }}
-            { a:1, b:{ c:2, d:3 }}
-
-    test 'adds to object' !->
-        deepEqual do
-            deepAssign { a:1, b:{ c:2 }}, { b:{ d:3 }}
-            { a:1 b:{ c:2, d:3 }}
-
-    test 'adds to new object' !->
-        deepEqual do
-            deepAssign null, { a:1, b:{ c:2 }}, { b:{ d:3 }}
-            { a:1 b:{ c:2, d:3 }}
 
 suite 'merge()' !->
     test 'curries' !->

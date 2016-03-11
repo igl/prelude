@@ -1,10 +1,14 @@
-#Prelude
+# Prelude
 
 [![build status](https://img.shields.io/travis/igl/prelude.js.svg?style=flat-square)](https://travis-ci.org/igl/prelude.js)
 [![npm version](https://img.shields.io/npm/v/prelude.svg?style=flat-square)](https://www.npmjs.com/package/prelude)
 [![npm downloads](https://img.shields.io/npm/dm/prelude.svg?style=flat-square)](https://www.npmjs.com/package/prelude)
 
 Utility set for JS.
+All functions with 2 or more arguments can be partially applied and generally return
+copies of their inputs, thus treating them as immutable.
+
+Github pages with more detailed examples are coming soon... (All methods are listed below)
 
 - Written in <a href="http://www.livescript.net">LiveScript</a>.
 - Inspired by
@@ -14,26 +18,41 @@ Utility set for JS.
 - Every function can be partially applied and ***never*** mutates input.
 - 300+ Tests
 
-Github pages with more detailed examples are coming soon... (See methods listed blow)
 
-## Example
-
-    var sortPostsByName = prelude.array.sortBy(function (post) { return post.name; });
-    var sorted_posts = sortPostsByName posts
-
-### Installation
-
-    npm install prelude
-
-### Methods
-
-All functions with 2 or more arguments can be partially applied and generally return
-copies of their inputs, thus treating them as immutable. (With the exception
-of `object.assign` where this behavior is desired. Use `.merge` for a immutable version)
+## Examples
 
 Function collection are also exported by their uppercased initial letter.
 (prelude.S === prelude.string, prelude.A === prelude.array...)
 
+Get Functions:
+
+    import { array, O } from 'prelude'
+    import { isArray } from 'prelude/lib/type'
+
+Use Functions:
+
+    if (isArray(xs)) {
+        array.map(o => O.merge(o, { visited: true }))(xs)(xs)
+    }
+
+Create helper using partial application:
+
+    const sortPostsByName = prelude.array.sortBy(post => post.name)
+    const sorted_posts = sortPostsByName(posts)
+
+Handy for Promises (TODO: use rx):
+
+    getPosts('*')
+        .then(sortPostsByName)
+        .then(sorted_posts => joyful(true))
+
+
+### Installation
+
+    npm install --save prelude
+
+
+### Methods
 
 **Array** `prelude.array.<method>`
 
@@ -100,8 +119,6 @@ Function collection are also exported by their uppercased initial letter.
 - toPairs
 - fill
 - deepFill
-- assign / mixin
-- deepAssign / deepMixin
 - merge
 - deepMerge
 - freeze
@@ -164,6 +181,7 @@ Function collection are also exported by their uppercased initial letter.
 - isString
 - isBoolean / isBool
 - isFunction
+- isPromise
 - isArray
 - isSet
 - isObject
@@ -173,9 +191,9 @@ Function collection are also exported by their uppercased initial letter.
 - isError
 - isRegExp
 - isSymbol
-- isDefined
 - isNull
 - isUndefined
+- isDefined
 - isUUID
 - isInteger / isInt
 - inRange

@@ -5,8 +5,6 @@ require! {
     './'   : prelude
 }
 
-{ assign } = prelude.object
-
 function assertType (expected)
     (actual, message) ->
         return if expected is typeof! actual
@@ -24,7 +22,7 @@ unless global.Promise
     global.Promise = function Promise =>
 
 # set global assert funcs
-assign global, {
+Object.assign global, {
     prelude     : prelude
     ok          : assert.ok
     throws      : assert.throws
