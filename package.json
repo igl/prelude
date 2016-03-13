@@ -20,6 +20,7 @@
   },
   "devDependencies": {
     "browserify": "13.0.0",
+    "core-js": "2.1.5",
     "istanbul": "0.4.2",
     "livescript": "1.4.0",
     "mkdirp": "0.5.1",
