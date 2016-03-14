@@ -3,8 +3,8 @@
 <-! suite 'type'
 
 {
-    getType, isNumber, isString, isBoolean, isFunction, isObject, isMap,
-    isArray, isSet, isDate, isRegExp, isSymbol, isArguments, isError,
+    getType, isNumber, isString, isBoolean, isFunction, isObject, isPlainObject,
+    isMap, isArray, isSet, isDate, isRegExp, isSymbol, isArguments, isError,
     isDefined, isNull, isUndefined, isPromise, isUUID, isInteger, inRange, oneOf
 } = prelude.type
 
@@ -22,6 +22,8 @@ FIXTURE_UUIDS = <[
     06dbd5e3-3328-4f90-83e0-f311772e536c
     025179ed-2258-46d6-a433-8bd01584cc6c
 ]>
+
+function ClassyClass =>
 
 suite 'getType()' !->
     test 'get types' !->
@@ -107,6 +109,7 @@ suite 'isSet()' !->
 suite 'isObject()' !->
     test 'truthy' !->
         strictEqual (isObject {}), true
+        strictEqual (isObject new ClassyClass!), true
 
     test 'falsy' !->
         strictEqual (isObject new Map), false
@@ -114,6 +117,18 @@ suite 'isObject()' !->
         strictEqual (isObject []), false
         strictEqual (isObject 10), false
         strictEqual (isObject null), false
+
+suite 'isPlainObject()' !->
+    test 'truthy' !->
+        strictEqual (isPlainObject {}), true
+
+    test 'falsy' !->
+        strictEqual (isPlainObject new ClassyClass!), false
+        strictEqual (isPlainObject new Map), false
+        strictEqual (isPlainObject /x/), false
+        strictEqual (isPlainObject []), false
+        strictEqual (isPlainObject 10), false
+        strictEqual (isPlainObject null), false
 
 suite 'isMap()' !->
     test 'truthy' !->

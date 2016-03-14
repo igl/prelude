@@ -177,6 +177,7 @@ Handy for Promises (TODO: use rx):
 **Type** `prelude.type.<method>`
 
 - getType
+- getExtendedType
 - isNumber
 - isString
 - isBoolean / isBool
@@ -193,6 +194,7 @@ Handy for Promises (TODO: use rx):
 - isSymbol
 - isNull
 - isUndefined
+- isPlainObject
 - isDefined
 - isUUID
 - isInteger / isInt
@@ -201,6 +203,7 @@ Handy for Promises (TODO: use rx):
 - isStringArray
 - isBooleanArray / isBoolArray
 - isFunctionArray
+- isPromiseArray
 - isArrayArray
 - isSetArray
 - isMapArray
@@ -212,6 +215,7 @@ Handy for Promises (TODO: use rx):
 - isSymbolArray
 - isNullArray
 - isUndefinedArray
+- isPlainObjectArray
 - isUUIDArray
 - isIntegerArray / isIntArray
 - isDefinedArray
