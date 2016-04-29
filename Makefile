@@ -50,7 +50,7 @@ report: test
 .PHONY: build prepare test clean init report
 
 lib/%.js: src/%.ls
-	$(LSC) --map linked --bare -o "$(shell dirname $@)" -c "$<"
+	$(LSC)$(if $(RELEASE),, --map linked) --bare -o "$(shell dirname $@)" -c "$<"
 
 browser/%.js: lib/%.js
 	$(BRSIFY) -r "./$<:prelude" > "$@"
