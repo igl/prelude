@@ -1,10 +1,9 @@
 {
   "name": "prelude",
-  "version": "0.8.1",
+  "version": "0.8.2",
   "description": "Utility library for Javascript",
   "author": "Richard Keil",
   "main": "lib/prelude.js",
-  "browser": "browser/prelude.js",
   "license": "MIT",
   "repository": {
     "type": "git",
